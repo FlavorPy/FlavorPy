@@ -50,6 +50,3 @@ class Field:
                 if not group.is_desired(self.charges[group], desired_field.charges[group]):
                     print('The charge/irreps of your field under the group '+group.name+' is not the desired one')
         return result
-
-
-
