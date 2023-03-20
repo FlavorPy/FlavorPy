@@ -1,0 +1,587 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>constructterms package &#8212; FlavorPy 1.0.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'constructterms';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="modelfitting package" href="modelfitting.html" />
+    <link rel="prev" title="src" href="modules.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">FlavorPy 1.0.0 documentation</p>
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="modules.html">
+                        src
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="modules.html">
+                        src
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">constructterms package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modelfitting.html">modelfitting package</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="modules.html" class="nav-link">src</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">constructterms package</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="constructterms-package">
+<h1>constructterms package<a class="headerlink" href="#constructterms-package" title="Permalink to this heading">#</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="module-constructterms.calculations">
+<span id="constructterms-calculations-module"></span><h2>constructterms.calculations module<a class="headerlink" href="#module-constructterms.calculations" title="Permalink to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="constructterms.calculations.list_allowed_terms">
+<span class="sig-prename descclassname"><span class="pre">constructterms.calculations.</span></span><span class="sig-name descname"><span class="pre">list_allowed_terms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">all_fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allowed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="reference internal" href="_modules/constructterms/calculations.html#list_allowed_terms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#constructterms.calculations.list_allowed_terms" title="Permalink to this definition">#</a></dt>
+<dd><section id="make-a-list-of-all-combinations-of-fields-that-contain-the-charges-of-the-field-allowed">
+<h3>Make a list of all combinations of fields, that contain the charges of the field ‘allowed’.<a class="headerlink" href="#make-a-list-of-all-combinations-of-fields-that-contain-the-charges-of-the-field-allowed" title="Permalink to this heading">#</a></h3>
+<dl class="field-list simple">
+<dt class="field-odd">param all_fields<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list
+A list that contains all fields. Fields have to be an object of the ‘Field’-class.</p>
+</dd>
+<dt class="field-even">param allowed<span class="colon">:</span></dt>
+<dd class="field-even"><p>‘Field’-class object
+All returned terms have to contain the representations/charges of this field.
+Has to be an object of the ‘Field’-class.</p>
+</dd>
+<dt class="field-odd">param order<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int
+The order up to which terms are considered, i.e. how many fields are multiplied to yield a term.</p>
+</dd>
+<dt class="field-even">return<span class="colon">:</span></dt>
+<dd class="field-even"><p>list
+A list, whose elements are the terms whose charges coincide with ‘allowed’. Elements are object of ‘Field’-class</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</section>
+<section id="module-constructterms.field">
+<span id="constructterms-field-module"></span><h2>constructterms.field module<a class="headerlink" href="#module-constructterms.field" title="Permalink to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="constructterms.field.Field">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">constructterms.field.</span></span><span class="sig-name descname"><span class="pre">Field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charges</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/constructterms/field.html#Field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#constructterms.field.Field" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A field or representation that has a name und is charged under some symmetry-groups.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="constructterms.field.Field.is_desired">
+<span class="sig-name descname"><span class="pre">is_desired</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">desired_field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_cause</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/constructterms/field.html#Field.is_desired"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#constructterms.field.Field.is_desired" title="Permalink to this definition">#</a></dt>
+<dd><p>Check if ‘self’ is charged in the same way as ‘desired_field’ under all symmetries. For non-abelian symmetries
+it checks, if ‘self’ contains at least one of the irreps of ‘desired_field’. Use this for example to check if
+a lagrangian-term is invariant.
+:param desired_field: Compare the charges of ‘self’ to this field. Has to be of ‘Field’-class!
+:param print_cause: bool, optional</p>
+<blockquote>
+<div><p>If ‘True’ it prints which symmetry is causing the end-result to be ‘False’</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="constructterms.field.Field.times">
+<span class="sig-name descname"><span class="pre">times</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other_field</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/constructterms/field.html#Field.times"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#constructterms.field.Field.times" title="Permalink to this definition">#</a></dt>
+<dd><section id="calculates-the-tensor-product-of-self-and-other-field">
+<h3>Calculates the tensor product of ‘self’ and ‘other_field’.<a class="headerlink" href="#calculates-the-tensor-product-of-self-and-other-field" title="Permalink to this heading">#</a></h3>
+<dl class="field-list simple">
+<dt class="field-odd">param other_field<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The field that you want to multiply ‘self’ with. Has to be of ‘Field’-class!</p>
+</dd>
+<dt class="field-even">return<span class="colon">:</span></dt>
+<dd class="field-even"><p>An object of the ‘Field’-class that represents the tenosr product of ‘self’ and ‘other_field’.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-constructterms.group">
+<span id="constructterms-group-module"></span><h2>constructterms.group module<a class="headerlink" href="#module-constructterms.group" title="Permalink to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="constructterms.group.AbelianGroup">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">constructterms.group.</span></span><span class="sig-name descname"><span class="pre">AbelianGroup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/constructterms/group.html#AbelianGroup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#constructterms.group.AbelianGroup" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#constructterms.group.Group" title="constructterms.group.Group"><code class="xref py py-class docutils literal notranslate"><span class="pre">Group</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="constructterms.group.AbelianGroup.is_desired">
+<span class="sig-name descname"><span class="pre">is_desired</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">charge_field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charge_desired</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/constructterms/group.html#AbelianGroup.is_desired"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#constructterms.group.AbelianGroup.is_desired" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="constructterms.group.AbelianGroup.make_product">
+<span class="sig-name descname"><span class="pre">make_product</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chargeA</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chargeB</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/constructterms/group.html#AbelianGroup.make_product"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#constructterms.group.AbelianGroup.make_product" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="constructterms.group.Group">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">constructterms.group.</span></span><span class="sig-name descname"><span class="pre">Group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/constructterms/group.html#Group"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#constructterms.group.Group" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="constructterms.group.NonAbelianGroup">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">constructterms.group.</span></span><span class="sig-name descname"><span class="pre">NonAbelianGroup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gapid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">representations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tensor_products</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[[[]]]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clebsches</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/constructterms/group.html#NonAbelianGroup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#constructterms.group.NonAbelianGroup" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#constructterms.group.Group" title="constructterms.group.Group"><code class="xref py py-class docutils literal notranslate"><span class="pre">Group</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="constructterms.group.NonAbelianGroup.is_desired">
+<span class="sig-name descname"><span class="pre">is_desired</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rep_field</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rep_desired</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/constructterms/group.html#NonAbelianGroup.is_desired"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#constructterms.group.NonAbelianGroup.is_desired" title="Permalink to this definition">#</a></dt>
+<dd><p>Note that this function does not check if repA and repB are the same, but rather if any of the reps in
+‘rep_desired’ is contained in ‘rep_field’ !!</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="constructterms.group.NonAbelianGroup.make_product">
+<span class="sig-name descname"><span class="pre">make_product</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">repA</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repB</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="reference internal" href="_modules/constructterms/group.html#NonAbelianGroup.make_product"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#constructterms.group.NonAbelianGroup.make_product" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="constructterms.group.U1Group">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">constructterms.group.</span></span><span class="sig-name descname"><span class="pre">U1Group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/constructterms/group.html#U1Group"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#constructterms.group.U1Group" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#constructterms.group.Group" title="constructterms.group.Group"><code class="xref py py-class docutils literal notranslate"><span class="pre">Group</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="constructterms.group.U1Group.is_desired">
+<span class="sig-name descname"><span class="pre">is_desired</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">charge_field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charge_desired</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/constructterms/group.html#U1Group.is_desired"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#constructterms.group.U1Group.is_desired" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="constructterms.group.U1Group.make_product">
+<span class="sig-name descname"><span class="pre">make_product</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chargeA</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chargeB</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/constructterms/group.html#U1Group.make_product"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#constructterms.group.U1Group.make_product" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-constructterms">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-constructterms" title="Permalink to this heading">#</a></h2>
+<p>ConstructTerms</p>
+<p>ConstructTerms allows you to make tensor products of fields charged under several symmetries.
+It can be used for example to find all invariant terms of a Lagrangian/Superpotential</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="modules.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">src</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="modelfitting.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">modelfitting package</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-constructterms.calculations">constructterms.calculations module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#constructterms.calculations.list_allowed_terms"><code class="docutils literal notranslate"><span class="pre">list_allowed_terms()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-constructterms.field">constructterms.field module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#constructterms.field.Field"><code class="docutils literal notranslate"><span class="pre">Field</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#constructterms.field.Field.is_desired"><code class="docutils literal notranslate"><span class="pre">Field.is_desired()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#constructterms.field.Field.times"><code class="docutils literal notranslate"><span class="pre">Field.times()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-constructterms.group">constructterms.group module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#constructterms.group.AbelianGroup"><code class="docutils literal notranslate"><span class="pre">AbelianGroup</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#constructterms.group.AbelianGroup.is_desired"><code class="docutils literal notranslate"><span class="pre">AbelianGroup.is_desired()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#constructterms.group.AbelianGroup.make_product"><code class="docutils literal notranslate"><span class="pre">AbelianGroup.make_product()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#constructterms.group.Group"><code class="docutils literal notranslate"><span class="pre">Group</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#constructterms.group.NonAbelianGroup"><code class="docutils literal notranslate"><span class="pre">NonAbelianGroup</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#constructterms.group.NonAbelianGroup.is_desired"><code class="docutils literal notranslate"><span class="pre">NonAbelianGroup.is_desired()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#constructterms.group.NonAbelianGroup.make_product"><code class="docutils literal notranslate"><span class="pre">NonAbelianGroup.make_product()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#constructterms.group.U1Group"><code class="docutils literal notranslate"><span class="pre">U1Group</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#constructterms.group.U1Group.is_desired"><code class="docutils literal notranslate"><span class="pre">U1Group.is_desired()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#constructterms.group.U1Group.make_product"><code class="docutils literal notranslate"><span class="pre">U1Group.make_product()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-constructterms">Module contents</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="_sources/constructterms.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            <div class="bd-footer-content__inner"></div>
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2023, Alexander Baur.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://sphinx-doc.org/">Sphinx</a> 6.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

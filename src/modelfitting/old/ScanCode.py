@@ -2083,7 +2083,64 @@ JuneAntusch1 = {'sector':'both', 'chimax':5000,
                 'modform':'q-exp', 'error_type':'realistic',
                 'max_time':70, 'retry_time':20, 'nr_methods':4,
                 'SetValue':{'Imtau':3.195, 'Retau':0.02279, 's1d':-0.00004069, 's2d':0.05833, 's1n':0.001224, 's2n':-0.9857},
-                'Fixate':['Imtau', 'Retau', 's1d', 's2d', 's1n', 's2n']}                     
-         
-         
-                
+                'Fixate':['Imtau', 'Retau', 's1d', 's2d', 's1n', 's2n']}
+
+
+
+
+
+
+# Wolfram language
+from wolframclient.evaluation import WolframLanguageSession
+
+
+session = WolframLanguageSession()
+
+
+class F_term_equation:
+    def __init__(self, parameters, equation):
+        self.parameters = parameters
+        self.equation = equation
+
+
+def solve_Fterms(params, sols, equation_list, **kwargs):
+    wolfram_code = 'TimeConstrained['
+    if all([equation.parameters == equation_list[1].parameters for equation in equation_list]):
+        wolfram_code = wolfram_code + 'thePoint={'
+        for parameter in equation_list[1].parameters:
+            wolfram_code = wolfram_code + str(parameter) + '->' + ("%.18f" % params[str(parameter)].real) + '+I*' + (
+                        "%.18f" % params[str(parameter)].imag) + ','
+        wolfram_code = wolfram_code[:-1] + '}; '
+    else:
+        raise TypeError('''Not all F-term equations have the same parameters. Please list all parameters for every
+                           F-term equation, even though this specific equation depends only on a subset.''')
+
+    wolfram_code = wolfram_code + 'solution = NSolve['
+    for equation in equation_list:
+        wolfram_code = wolfram_code + '((' + equation.equation + ')/.thePoint)&&'
+    wolfram_code = wolfram_code[:-2]
+    wolfram_code = wolfram_code + ',{'
+    for sol in sols:
+        wolfram_code = wolfram_code + str(sol) + ','
+
+    wolfram_code = wolfram_code[:-1] + '}]; '
+
+    wolfram_code = wolfram_code + 'result = {'
+    for sol in sols:
+        wolfram_code = wolfram_code + 'Re[' + str(sol) + '],'
+        wolfram_code = wolfram_code + 'Im[' + str(sol) + '],'
+
+    wolfram_code = wolfram_code[:-1] + '}/.solution[[Mod[' + str(
+        int(params['select_f_solution'] + 1)) + ',Length[solution]]]]'
+
+    wolfram_code = wolfram_code + ',0.9]'
+
+    wolfram_result = session.evaluate(wolfram_code)
+
+    if str(wolfram_result) == '$Aborted':
+        result = {sols[i]: 0.0 for i in range(len(sols))}
+    else:
+        result = {sols[i]: float(wolfram_result[2 * i]) + 1j * float(wolfram_result[2 * i + 1]) for i in
+                  range(len(sols))}
+
+    return result
