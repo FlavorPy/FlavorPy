@@ -14,6 +14,10 @@ class LeptonModel:
         self.name = name
         self.comments = comments
 
+    def get_residual(self, ...):
+        # returns [chi(obs1), chi(obs2), ...] just like the lmfit.minimize needs it
+        # have an argument like 'as dictionary' that returns the same result as a dictionary, so you can understand the output
+
 
 class QuarkModel:
     def __int__(self, parameters={}, mass_matrix_u=np.identity(3), mass_matrix_d=np.identity(3),

@@ -31,12 +31,14 @@ class Field:
                      charges={group: group.make_product(self.charges[group], other_field.charges[group])
                               for group in self.charges})
 
-    def is_desired(self, desired_field, print_cause=False) -> bool:
+    def is_desired(self, desired_field, print_cause=False, ignore=[]) -> bool:
         """
         Check if 'self' is charged in the same way as 'desired_field' under all symmetries. For non-abelian symmetries
         it checks, if 'self' contains at least one of the irreps of 'desired_field'. Use this for example to check if
         a lagrangian-term is invariant.
         :param desired_field: Compare the charges of 'self' to this field. Has to be of 'Field'-class!
+        :param ignore: list, optional
+            List here any symmetry that you do not want to compare to the desired field.
         :param print_cause: bool, optional
             If 'True' it prints which symmetry is causing the end-result to be 'False'
         :return: bool
@@ -44,9 +46,11 @@ class Field:
         if self.charges.keys() != desired_field.charges.keys():
             raise KeyError('''The Field that you are comparing with is not charged under the same symmetries! Make sure
                            that both fields have the same symmetries in the 'charges'-dictionary!''')
-        result = all([group.is_desired(self.charges[group], desired_field.charges[group]) for group in self.charges])
+        result = all([group.is_desired(self.charges[group], desired_field.charges[group])
+                      for group in self.charges if group not in ignore])
         if print_cause is True and result is False:
             for group in self.charges:
-                if not group.is_desired(self.charges[group], desired_field.charges[group]):
-                    print('The charge/irreps of your field under the group '+group.name+' is not the desired one')
+                if group not in ignore:
+                    if not group.is_desired(self.charges[group], desired_field.charges[group]):
+                        print('The charge/irreps of your field under the group '+group.name+' is not the desired one')
         return result
