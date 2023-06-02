@@ -6,3 +6,4 @@ It can be used for example to find all invariant terms of a Lagrangian/Superpote
 """
 from .field import Field
 from .group import Group, NonAbelianGroup, AbelianGroup, U1Group
+from .groups import groups

@@ -2,7 +2,7 @@ class Field:
     """
     A field or representation that has a name und is charged under some symmetry-groups.
     """
-    def __init__(self, name, charges={}):
+    def __init__(self, name, charges={}, components={}):
         """
         Field
         ----------
@@ -12,24 +12,40 @@ class Field:
             The charges / irreps under the Groups. Has the form {Group1: charge1, Group2: charge2}, where 'Group1' and
             'Group2' have to be an Object of the 'Group' class. Note that abelian groups have integer charges,
             U(1) groups have integer or float charges and non-abelian groups have a list of one or more irreps, e.g.
-            {Non_Abelian_Group: ['3_1','3_2']}.
+            {Abelian_Group: 2, U1_Group: 0.5, Non_Abelian_Group: ['3_1','3_2']}.
+        :param name: components: dict, optional
+            The single components of a field. E.g. if the field is a '3' representation under A4, it would be
+            '{A4:{'3':[['x1', 'x2', 'x3']]}}'.
         """
         self.name = name
         self.charges = charges
+        self.components = components
+
+    def __repr__(self):
+        return self.name
 
     def times(self, other_field):
         """
         Calculates the tensor product of 'self' and 'other_field'.
         ----------
         :param other_field: The field that you want to multiply 'self' with. Has to be of 'Field'-class!
-        :return: An object of the 'Field'-class that represents the tenosr product of 'self' and 'other_field'.
+        :return: An object of the 'Field'-class that represents the tensor product of 'self' and 'other_field'.
         """
+        # Do tensor products
         if self.charges.keys() != other_field.charges.keys():
-            raise KeyError('''The Field that you are multiplying with is not charged under the same symmetries! Make sure
-                           that both fields have the same symmetries in the 'charges'-dictionary!''')
-        return Field(self.name+' '+other_field.name,
-                     charges={group: group.make_product(self.charges[group], other_field.charges[group])
-                              for group in self.charges})
+            raise KeyError('''The Field that you are multiplying with is not charged under the same symmetries! 
+                           Make sure that both fields have the same symmetries in the 'charges'-dictionary!''')
+        new_charges = {group: group.make_product(self.charges[group], other_field.charges[group])
+                       for group in self.charges}
+        # Calculate components with Clebsch-Gordans
+        if self.components.keys() != other_field.components.keys():
+            raise KeyError('''The Field that you are multiplying with does not have components under the same 
+                           symmetries! Make sure that both fields have the same symmetries in the 'charges'-dictionary!
+                           ''')
+        new_components = {group: group.make_product_components(self.components[group], other_field.components[group])
+                          for group in self.components}
+        # Return result
+        return Field(self.name + ' ' + other_field.name, charges=new_charges, components=new_components)
 
     def is_desired(self, desired_field, print_cause=False, ignore=[]) -> bool:
         """
