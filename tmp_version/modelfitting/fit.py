@@ -4,7 +4,10 @@ import time
 import numpy as np
 
 
-class MinimizeStopper(object):  # This object is able to stop a minimization procedure after max_sec seconds is elapsed.
+class MinimizeStopper(object):
+    """
+    This object is able to stop a minimization procedure after max_sec seconds is elapsed.
+    """
     def __init__(self, max_sec=60):
         self.max_sec = max_sec
         self.start = time.time()
@@ -22,28 +25,31 @@ class Fit:
                  dig_deeper=False, dig_deeper_threshold=1000):
         """
         This Class is supposed to represent the fitting of a single random point.
-        ----------
-        :param model: Model object of flavorpy
-        :param params: Parameters object of lmfit
-        :param methods: list, optional
-            A list of all methods that should be used for fitting. Note that only \'nr_methods\' of these are actually
-            used. Either the first ones or random ones, depending on \'shuffle_methods\'.
+        -------------------------------------------------------------------------
+        :param model: The Model whose parameters you want to fit
+        :type model: py:meth:`~modelfitting.model.LeptonModel`
+        :param params: The parameters you want to fit
+        :type params: A lmfit.Parameters object.
+        :param methods: A list of all methods that should be used for fitting. Note that only \'nr_methods\' of
+            these are actually used. Either the first ones or random ones, depending on \'shuffle_methods\'.
             Default is a mixture of \'least_square\', \'nelder\', and further more advanced algorithms.
-        :param nr_methods: int, optional
-            Default is 4
-        :param shuffle_methods: bool, optional
-            Default is True
-        :param max_time: int, optional
-            The amount of time in seconds, that the minimizer-algorithm is allowed to run. After this time is elapsed
-            the algorithm is aborted.
-        :param retry_time: int, optional
-            If the minimization-algorithm is aborted for any reason, as a replacement \'least-squares\' is used for
-            \'retry_time\' second.
-        :param dig_deeper: bool, optional
-            If \'dig_deeper\' is True, then a second round of methods is applied, if the usual calculation has lead to
-            a chi-square less than \'dig_deeper_threshold\'.
+        :type methods: list, optional
+        :param nr_methods: Default is 4
+        :type nr_methods: int, optional
+        :param shuffle_methods: Default is True
+        :type shuffle_methods: bool, optional
+        :param max_time: The amount of time in seconds, that the minimizer-algorithm is allowed to run. After this time
+            is elapsed the algorithm is aborted.
+        :type max_time: int, optional
+        :param retry_time: If the minimization-algorithm is aborted for any reason, as a replacement \'least-squares\'
+            is used for \'retry_time\' second.
+        :type retry_time: int, optional
+        :param dig_deeper: If \'dig_deeper\' is True, then a second round of methods is applied, if the usual
+            calculation has lead to a chi-square less than \'dig_deeper_threshold\'.
             Default is False.
-        :param dig_deeper_threshold: float, optional
+        :type dig_deeper: bool, optional
+        :param dig_deeper_threshold:
+        :type dig_deeper_threshold: float, optional
         """
         if methods is None:
             methods = ['least_squares', 'least_squares', 'least_squares',
@@ -63,9 +69,9 @@ class Fit:
     def make_fit(self) -> list:
         """
         Call this function to execute the fit.
-        ----------
-        :return: list
-            A list that contains the results of the fit in form of lmfit.MinimizerResult objects.
+        --------------------------------------
+        :return: A list that contains the results of the fit in form of lmfit.MinimizerResult objects.
+        :rtype: list
         """
         if self.shuffle_methods:
             methods = np.random.choice(self.methods, size=self.nr_methods)
@@ -102,13 +108,13 @@ class Fit:
 
     def fit_results_into_dataframe(self, fit_results: list) -> pd.DataFrame:
         """
-        Convertes the result of Fit.make_fit() into a pandas.DataFrame
-        ----------
-        :param fit_results: list
-            A list that contains elements of the lmfit.MinimizerResult.
-        :return: pandas.DataFrame
-            A pandas.DataFrame object that contains the best-fit parameters as well as the value of chi-square of the
-            elements of fit_results.
+        Convertes the result of Fit.make_fit() into a pandas.DataFrame.
+        ---------------------------------------------------------------
+        :param fit_results: A list that contains elements of the lmfit.MinimizerResult.
+        :type fit_results: list
+        :return: A pandas.DataFrame object that contains the best-fit parameters as well as the value of chi-square of
+            the elements of fit_results.
+        :rtype: pandas.DataFrame
         """
         df = pd.DataFrame()
         for result in fit_results:

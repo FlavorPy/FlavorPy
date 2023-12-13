@@ -15,57 +15,57 @@ class FlavorPyError(Exception):
 class LeptonModel:
     """
     A model of leptons with its mass matrices, parameters, ordering, and experimental data.
+
+    :param mass_matrix_e: The charged lepton mass matrix M, for Phi_left M Phi_right.
+        This should be a function with one argument, namely a dictionary of parameters and the corresponding value.
+        Example::
+            def m_e(params):
+                return params['c'] * numpy.identity(3)
+            M = LeptonModel(mass_matrix_e=m_e, ...)
+        Default is a function that returns \'numpy.identity(3)\'.
+        The program in its current state only gives the dimensionless mass ratios m_e/m_mu and m_mu/m_tau. It is
+        advisable to only use dimensionless parameters and simply ignore the overall mass scale, as it would only
+        confuse the fit.
+        The convention Phi_left M Phi_right is used, where left and right indicates left- and right-handed chiral
+        fields, respectively. I.e. L_i^c M_ij e_j, where L refers to the left-handed lepton doublet and e is the
+        right-handed charged lepton field, and i,j=1,2,3.
+        If you use the other convention, i.e. left-handed fields on the right-hand-side, simply transpose your mass
+        matrix.
+    :type mass_matrix_e: function
+    :param mass_matrix_n: The light neutrino mass matrix M, for Phi_left M Phi_right.
+        Should be a function with one argument, namely a dictionary of parameters.
+        Default is a function that returns \'numpy.identity(3)\'.
+        It is !strongly! recommended to only use dimensionless parameters and one overall mass scale with the exact
+        name \'n_scale\', i.e. mass_matrix_n = params[\'n_scale\']*dimensionless_mass_matrix(params). Otherwise, the
+        program will add a parameter \'n_scale\' itself to the ParameterSpace and mass_matrix_n.
+    :type mass_matrix_n: function
+    :param parameterspace: The parameterspace of the model. See documentation of \'ParameterSpace\'.
+        Default is an empty parameter space.
+    :type parameterspace: :py:meth:`~modelfitting.parameterspace.ParameterSpace`
+    :param ordering: Specify whether the neutrino spectrum is normal or inverted ordered. Has to be either \'NO\'
+        or \'IO\'.
+        Default is \'NO\'.
+    :type ordering: str
+    :param experimental_data: The experimental data used when fitting the model.
+        For more information on the structure please confer the documentation of the \'ExperimentalData\' class.
+        The default is \'NuFit52_NO\', i.e. the data of NuFit v5.2 for Normal Ordering taking into account results
+        of SK. Please consider citing NuFit (www.nu-fit.org) when using this data.
+    :type experimental_data: :py:meth:`~modelfitting.experimentaldata.ExperimentalData`
+    :param fitted_observables:  A list of the observables that is considered when calculating chi-square and,
+        hence, when making the fit.
+        Default is \'['me/mu', 'mu/mt', 's12^2', 's13^2', 's23^2', 'd/pi', 'm21^2', 'm3l^2']\'.
+    :type fitted_observables: list, optional
+    :param name: If you want, you can give the model a name. This name will be used as __repr__.
+    :type name: str, optional
+    :param comments: If you want, you can write some comments here.
+    :type comments: str, optional
+    :param fit_results: It is possible to store the results of make_fits() in this list. It is of course also
+        possible to load the results from an external calculation into this list.
+    :type fit_results: list, optional
     """
     def __init__(self, mass_matrix_e=None, mass_matrix_n=None, parameterspace=None,
                  ordering='NO', experimental_data=NuFit52_NO, fitted_observables='all',
                  name='Lepton Model', comments='', fit_results=None):
-        """
-        LeptonModel
-        ----------
-        :param mass_matrix_e: function
-            The charged lepton mass matrix M, for Phi_left M Phi_right. This should be a function with one argument,
-            namely a dictionary of parameters and the corresponding value.
-            E.g. def m_e(params):
-                     return params['c']*numpy.identity(3)
-                 M = LeptonModel(mass_matrix_e=m_e, ...)
-            Default is a function that returns \'numpy.identity(3)\'.
-            The program in its current state only gives the dimensionless mass ratios m_e/m_mu and m_mu/m_tau. It is
-            advisable to only use dimensionless parameters and simply ignore the overall mass scale, as it would only
-            confuse the fit.
-            The convention Phi_left M Phi_right is used, where left and right indicates left- and right-handed chiral
-            fields, respectively. I.e. L_i^c M_ij e_j, where L refers to the left-handed lepton doublet and e is the
-            right-handed charged lepton field, and i,j=1,2,3.
-            If you use the other convention, i.e. left-handed fields on the right-hand-side, simply transpose your mass
-            matrix.
-        :param mass_matrix_n: function
-            The light neutrino mass matrix M, for Phi_left M Phi_right.
-            Should be a function with one argument, namely a dictionary of parameters.
-            Default is a function that returns \'numpy.identity(3)\'.
-            It is !strongly! recommended to only use dimensionless parameters and one overall mass scale with the exact
-            name \'n_scale\', i.e. mass_matrix_n = params[\'n_scale\']*dimensionless_mass_matrix(params). Otherwise, the
-            program will add a parameter \'n_scale\' itself to the ParameterSpace and mass_matrix_n.
-        :param parameterspace: An object of the \'ParameterSpace\' class
-            The parameterspace of the model. See documentation of \'ParameterSpace\'.
-            Default is an empty parameter space.
-        :param ordering: str
-            Specify whether the neutrino spectrum is normal or inverted ordered. Has to be either \'NO\' or \'IO\'.
-            Default is \'NO\'.
-        :param experimental_data: An object of the \'ExperimentalData\' class
-            The experimental data used when fitting the model. For more information on the structure please confer the
-            documentation of the \'ExperimentalData\' class.
-            The default is \'NuFit52_NO\', i.e. the data of NuFit v5.2 for Normal Ordering taking into account results
-            of SK. Please consider citing NuFit (www.nu-fit.org) when using this data.
-        :param fitted_observables: list, optional
-            A list of the observables that is considered when calculating chi-square and, hence, when making the fit.
-            Default is \'['me/mu', 'mu/mt', 's12^2', 's13^2', 's23^2', 'd/pi', 'm21^2', 'm3l^2']\'.
-        :param name: str, optional
-            If you want, you can give the model a name. This name will be used as __repr__.
-        :param comments: str, optional
-            If you want, you can write some comments here.
-        :param fit_results: list, optional
-            It is possible to store the results of make_fits() in this list. It is of course also possible to load
-            the results from an external calculation into this list.
-        """
 
         def triv_mat(params):
             return np.identity(3)
@@ -139,11 +139,11 @@ class LeptonModel:
     def get_obs(self, params: dict) -> dict:
         """
         Get a dictionary of all lepton observables for a point in parameterspace.
-        ----------
-        :param params: dict
-            The point in parameter space.
-        :return: dict
-            All lepton observables, i.e. {'me/mu':0.0048, ...}
+
+        :param params: The point in parameter space.
+        :type params: dict
+        :return: All lepton observables, i.e. {'me/mu':0.0048, ...}
+        :rtype: dict
         """
         # Get experimental best fit value for squared neutrino mass differences m_21^2 and m_3l^2
         try:
@@ -167,11 +167,12 @@ class LeptonModel:
     def residual(self, params: dict) -> list:  # there can be no other arguments than params! Otherwise, you need to adjust fit.py!
         """
         The residual used to make the dimensionless fit.
-        ----------
-        :param params: dict
-            The point in parameterspace.
-        :return: list
-            A list of values of individual chis (not chi-squares!). Only dimensionless observables are being considered.
+
+        :param params: The point in parameterspace.
+        :type params: dict
+        :return: A list of values of individual chis (not chi-squares!). Only dimensionless observables are
+            being considered.
+        :rtype: list
         """
         # This is the residual used for the 'fast_fit' that only fits dimensionless observables.
         observables = self.get_dimless_obs(params)
@@ -182,16 +183,16 @@ class LeptonModel:
     def get_chisq(self, params=None, observables=None) -> float:
         """
         Returns the value of chi-square for a given point in parameter space.
-        ----------
-        :param params: dict
-            The point in parameterspace. Alternatively, you can also insert the observables.
+
+        :param params: The point in parameterspace. Alternatively, you can also insert the observables.
             Default is None.
-        :param observables: dict
-            Alternatively, you can directly insert a dictionary with the observables. Note that the value of \'params\'
+        :type params: dict
+        :param observables: Alternatively, you can directly insert a dictionary with the observables. Note that the value of \'params\'
             is ignored one you define \'observables\'! Also you need to define either \'params\' or \'observables\'
             Default is None.
-        :return: loat
-            The value of chi-square.
+        :type observables: dict
+        :return: The value of chi-square.
+        :rtype: float
         """
         if observables is None:
             if params is None:
@@ -203,9 +204,9 @@ class LeptonModel:
     def print_chisq(self, params: dict):
         """
         Prints the value of all observables and the associated contribution to chi-square. Also prints total chi-square.
-        ----------
-        :param params: dict
-            The point in parameterspace
+
+        :param params: The point in parameterspace
+        :type params: dict
         """
         observables = self.get_obs(params)
         chisq_list = self.experimental_data.get_chisq_list(values=observables, considered_obs=self.fitted_observables)
@@ -217,20 +218,22 @@ class LeptonModel:
     def make_fit(self, points: int, **fitting_kwargs) -> pd.DataFrame:
         """
         Does the fit for a specific number of random points in parameterspace.
-        ----------
-        :param points: int
-            The number of random points in parameter space you want to fit.
+
+        :param points: The number of random points in parameter space you want to fit.
             If you want to fit a specific starting point in parameter space, adjust the \'sampling_fct\' in your
             ParameterSpace.
-        :param fitting_kwargs: properties of the Fit class
+        :type points: int
+
+        :param fitting_kwargs: properties of the Fit class.
             You can add keyword arguments that will be passed down to the Fit object used to make the fit.
             Please see the documentation of the Fit class for the specific keyword arguments. Of course, the keywords
             \'model\' and \'params\' can not be passed down to Fit.
-        :return: DataFrame object from pandas
-            The result of the fit is returned in form of a pandas.DataFrame.
+
+        :return: The result of the fit is returned in form of a pandas.DataFrame.
             Note that several (default:4) minimization algorithms are applied consecutively to one random point. Since
             the results of the intermediate steps are also written into the resulting DataFrame, it has more rows than
             the number entered as \'points\'.
+        :rtype: pandas.DataFrame
         """
         df = self.dimless_fit(points, **fitting_kwargs)
         df = self.complete_fit(df)
@@ -246,20 +249,20 @@ class LeptonModel:
         dimless_fit() uses a smaller amount of memory when stored into a file compared to the result of
         complete_fit(). You can transfer the files from dimless_fit() to your local machine and easily run
         complete_fit() since complete_fit() does not take a lot of time compared to dimless_fit().
-        ----------
-        :param points: int
-            The number of random points in parameter space you want to fit.
+
+        :param points: The number of random points in parameter space you want to fit.
             If you want to fit a specific starting point in parameter space, adjust the \'sampling_fct\' in your
             ParameterSpace.
-        :param fitting_kwargs: properties of the Fit class
+        :type points: int
+        :param fitting_kwargs: properties of the Fit class.
             You can add keyword arguments that will be passed down to the Fit object used to make the fit.
             Please see the documentation of the Fit class for the specific keyword arguments. Of course, the keywords
             \'model\' and \'params\' can not be passed down to Fit.
-        :return: DataFrame object from pandas
-            The result of the fit is returned in form of a pandas.DataFrame.
+        :return: The result of the fit is returned in form of a pandas.DataFrame.
             Note that several (default:4) minimization algorithms are applied consecutively to one random point. Since
             the results of the intermediate steps are also written into the resulting DataFrame, it has more rows than
             the number entered as \'points\'.
+        :rtype: pandas.DataFrame
         """
         # Fast refers to that only the dimensionless observables are fitted, and the resulting pd.DataFrame is also
         # minimal in terms of memory consumption because it does not contain any redundant value.
@@ -291,11 +294,12 @@ class LeptonModel:
         """
         Use this function to add the observables (while simultaneously fitting the dimensionful \'n_scale\' parameter)
         to a pandas.DataFrame containing points in parameterspace.
-        ----------
-        :param df: pandas.DataFrame
-            Points in parameterspace. E.g. the result of Model.dimless_fit().
-        :return: pandas.DataFrame
-            The as \'df\' entered points in parameterspace plus their corresponding observables and chi-square value.
+
+        :param df: Points in parameterspace. E.g. the result of Model.dimless_fit().
+        :type df: pandas.DataFrame
+        :return: The as \'df\' entered points in parameterspace plus their corresponding observables and
+            chi-square value.
+        :rtype: pandas.DataFrame
         """
         # Add all lepton observables and at the same time "fit" the dimensienful neutrino scale
         # Todo: Up to now, the fit of the neutrino scale is part of mixingcalculations.calculate_lepton_observables()

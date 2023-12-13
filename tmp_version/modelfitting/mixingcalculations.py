@@ -5,14 +5,14 @@ def calculate_quark_observables(mass_matrix_u=np.identity(3), mass_matrix_d=np.i
                                 parameterization='standard') -> dict:
     """
     Calculates the quark observables of up and down-type mass matrices.
-    ----------
-    :param mass_matrix_u: 3x3 matrix
-        The up-type quark mass matrix M, for Phi_left M Phi_right.
-    :param mass_matrix_d: 3x3 matrix
-        The down-type quark mass matrix M, for Phi_left M Phi_right.
-    :param parameterization: str, default:\'standard\'
-        Specify whether you want the result in standard or wolfenstein parametrization. Has to be either \'standard\'
-        or \'wolfenstein\'.
+
+    :param mass_matrix_u: The up-type quark mass matrix M, for Phi_left M Phi_right.
+    :type mass_matrix_u: 3x3 matrix
+    :param mass_matrix_d: The down-type quark mass matrix M, for Phi_left M Phi_right.
+    :type mass_matrix_d: 3x3 matrix
+    :param parameterization: Specify whether you want the result in standard or wolfenstein parametrization.
+        Has to be either \'standard\' or \'wolfenstein\'.
+    :type parameterization: str, default:\'standard\'
     :return: dict
         Contains the standard or wolfenstein parameters as well as the quark mass ratios.
     """
@@ -42,21 +42,21 @@ def calculate_lepton_dimensionless_observables(mass_matrix_e=np.identity(3), mas
                                                ordering='NO') -> dict:
     """
     Calculates the dimensionless observables of a charged lepton and neutrino mass matrix.
-    ----------
-    :param mass_matrix_e: 3x3 matrix
-        The charged lepton mass matrix M, for Phi_left M Phi_right, where left and right indicates left- and
-        right-handed chiral fields, respectively. I.e. L_i^c M_ij e_j, where L refers to the left-handed lepton doublet
-        and e is the right-handed charged lepton field, and i,j=1,2,3.
+
+    :param mass_matrix_e: The charged lepton mass matrix M, for Phi_left M Phi_right, where left and right indicates
+        left- and right-handed chiral fields, respectively. I.e. L_i^c M_ij e_j, where L refers to the left-handed
+        lepton doublet and e is the right-handed charged lepton field, and i,j=1,2,3.
         If you use the other convention, i.e. left-handed fields on the right-hand-side, simply transpose your mass
         matrix.
-    :param mass_matrix_n: 3x3 matrix
-        The neutrino mass matrix M, for Phi_left M Phi_right.
-    :param ordering: str
-        Specify whether the neutrino spectrum is normal or inverted ordered. Has to be either \'NO\' or \'IO\'.
-        Default is \'NO\'.
-    :return: dict
-        Contains the PMNS-parameters and the charged lepton mass matrices. It also contains wrongly scaled neutrino
+    :type mass_matrix_e: 3x3 matrix
+    :param mass_matrix_n: The neutrino mass matrix M, for Phi_left M Phi_right.
+    :type mass_matrix_n: 3x3 matrix
+    :param ordering: Specify whether the neutrino spectrum is normal or inverted ordered. Has to be either \'NO\'
+        or \'IO\'. Default is \'NO\'.
+    :type ordering: str
+    :return: Contains the PMNS-parameters and the charged lepton mass matrices. It also contains wrongly scaled neutrino
         masses, that are needed for the function \'calculate_lepton_observables\'.
+    :rtype: dict
     """
     # Singular Value decomposition for digonalization.   There are also some takagi decompositions in the utils.py file.
     tVel, me, tVerh = np.linalg.svd(mass_matrix_e)  # tVel * diag(me) * tVerh = Me
@@ -101,26 +101,26 @@ def calculate_lepton_observables(mass_matrix_e=np.identity(3), mass_matrix_n=np.
                                  m21sq_best=None, m3lsq_best=None) -> dict:
     """
     Calculates the observables of the lepton sector from charged lepton and neutrino mass matrices.
-    ----------
-    :param mass_matrix_e: 3x3 matrix
-        The charged lepton mass matrix M, for Phi_left M Phi_right, where left and right indicates left- and
-        right-handed chiral fields, respectively. I.e. L_i^c M_ij e_j, where L refers to the left-handed lepton doublet
-        and e is the right-handed charged lepton field, and i,j=1,2,3.
+    -----------------------------------------------------------------------------------------------
+    :param mass_matrix_e: The charged lepton mass matrix M, for Phi_left M Phi_right, where left and right indicates
+        left- and right-handed chiral fields, respectively. I.e. L_i^c M_ij e_j, where L refers to the left-handed
+        lepton doublet and e is the right-handed charged lepton field, and i,j=1,2,3.
         If you use the other convention, i.e. left-handed fields on the right-hand-side, simply transpose your mass
         matrix.
-    :param mass_matrix_n: 3x3 matrix
-        The neutrino mass matrix M, for Phi_left M Phi_right.
-    :param ordering: str
-        Specify whether the neutrino spectrum is normal or inverted ordered. Has to be either \'NO\' or \'IO\'.
-        Default is \'NO\'.
-    :param m21sq_best: float
-        The best fit value for the squared neutrino mass difference m_1^2 - m_2^2.
+    :type mass_matrix_e: 3x3 matrix
+    :param mass_matrix_n: The neutrino mass matrix M, for Phi_left M Phi_right.
+    :type mass_matrix_n: 3x3 matrix
+    :param ordering: Specify whether the neutrino spectrum is normal or inverted ordered. Has to be either \'NO\'
+        or \'IO\'. Default is \'NO\'.
+    :type ordering: str
+    :param m21sq_best: The best fit value for the squared neutrino mass difference m_1^2 - m_2^2.
         Default is None, which will yield 7.41e-05.
-    :param m3lsq_best: float
-        The best fit value for the squared neutrino mass difference m_3^2 - m_l^2, where l=1 for NO and l=2 for IO.
-        Default is None, yielding 2.507e-03 for NO and -2.486e-03 for IO.
-    :return: dict
-        Contains the PMNS parameters as well as the neutrino masses and charged lepton mass ratios.
+    :type m21sq_best: float
+    :param m3lsq_best: The best fit value for the squared neutrino mass difference m_3^2 - m_l^2, where l=1 for NO
+        and l=2 for IO. Default is None, yielding 2.507e-03 for NO and -2.486e-03 for IO.
+    :type m3lsq_best: float
+    :return: Contains the PMNS parameters as well as the neutrino masses and charged lepton mass ratios.
+    :rtype: dict
     """
     # Get dimensionless observables from calculate_lepton_dimensionless_observables()
     dimless_obs = calculate_lepton_dimensionless_observables(mass_matrix_e, mass_matrix_n, ordering)
@@ -179,11 +179,11 @@ def calculate_lepton_observables(mass_matrix_e=np.identity(3), mass_matrix_n=np.
 def get_wolfenstein_parameters(CKM) -> dict:
     """
     Get values of the Wolfenstein-parameterization of CKM matrix, according to PDG.
-    ----------
-    :param CKM: 3x3 matrix
-        The CKM matrix in a 3x3-matrix-shape.
-    :return: dict
-        Dictionary that contains the parameters
+
+    :param CKM: The CKM matrix in a 3x3-matrix-shape.
+    :type CKM: 3x3 matrix
+    :return: Dictionary that contains the parameters
+    :rtype: dict
     """
     l = np.abs(CKM[0, 1]) / np.sqrt(np.power(np.abs(CKM[0, 0]), 2) + np.power(np.abs(CKM[0, 1]), 2))
     A = 1 / l * np.abs(CKM[1, 2] / CKM[0, 1])
@@ -195,11 +195,11 @@ def get_wolfenstein_parameters(CKM) -> dict:
 def get_standard_parameters_ckm(CKM) -> dict:
     """
     Get the values of the standard-parametrization of CKM matrix.
-    ----------
-    :param CKM: 3x3 matrix
-        The CKM matrix in a 3x3-matrix-shape.
-    :return: dict
-        Dictionary that contains the parameters
+
+    :param CKM: The CKM matrix in a 3x3-matrix-shape.
+    :type CKM: 3x3 matrix
+    :return: Dictionary that contains the parameters
+    :rtype: dict
     """
     t13 = np.arcsin(np.abs(CKM[0, 2]))
     t12 = np.arctan(np.abs(CKM[0, 1]) / np.abs(CKM[0, 0]))
@@ -215,10 +215,11 @@ def get_standard_parameters_ckm(CKM) -> dict:
 def get_standard_parameters_pmns(PMNS) -> dict:
     """
     Get the values of the standard-parameterization of PMNS matrix.
-    :param PMNS: 3x3 matrix
-        The PMNS matrix in a 3x3-matrix-shape.
-    :return: dict
-        Dictionary that contains the parameters.
+
+    :param PMNS: The PMNS matrix in a 3x3-matrix-shape.
+    :type PMNS: 3x3 matrix
+    :return: Dictionary that contains the parameters.
+    :rtype: dict
     """
     t13 = np.arcsin(np.abs(PMNS[0, 2]))
     t12 = np.arctan(np.abs(PMNS[0, 1])/np.abs(PMNS[0, 0]))
@@ -236,13 +237,13 @@ def get_standard_parameters_pmns(PMNS) -> dict:
 def calculate_ckm(Mu=np.identity(3), Md=np.identity(3)) -> np.ndarray:
     """
     Calculates the CKM matrix out of the up and down-type quark mass matrices.
-    ----------
-    :param Mu: 3x3 matrix
-        The up-type quark mass matrix M, for Phi_left M Phi_right.
-    :param Md: 3x3 matrix
-        The down-type quark mass matrix M, for Phi_left M Phi_right.
-    :return: 3x3 matrix
-        The CKM matrix
+
+    :param Mu: The up-type quark mass matrix M, for Phi_left M Phi_right.
+    :type Mu: 3x3 matrix
+    :param Md: The down-type quark mass matrix M, for Phi_left M Phi_right.
+    :type Md: 3x3 matrix
+    :return: The CKM matrix
+    :rtype: 3x3 matrix
     """
     # This function is not necessarily needed for the package. It's just here in case someone might find it useful.
 
@@ -264,15 +265,16 @@ def calculate_ckm(Mu=np.identity(3), Md=np.identity(3)) -> np.ndarray:
 def calculate_pmns(Me=np.identity(3), Mn=np.identity(3), ordering='NO') -> np.ndarray:
     """
     Calculates the PMNS matrix out of the charged lepton and light neutrino mass matrices.
-    ----------
-    :param Me: 3x3 matrix
-        The charged lepton mass matrix M, for Phi_left M Phi_right.
-    :param Mn: 3x3 matrix
-        The light neutrino mass matrix M, for Phi_left M Phi_right.
-    :param ordering: str
-        Specify whether the neutrino spectrum is normal or inverted ordered. Has to be either \'NO\' or \'IO\'.
-    :return: 3x3 matrix
-        The PMNS matrix.
+
+    :param Me: The charged lepton mass matrix M, for Phi_left M Phi_right.
+    :type Me: 3x3 matrix
+    :param Mn: The light neutrino mass matrix M, for Phi_left M Phi_right.
+    :type Mn: 3x3 matrix
+    :param ordering: Specify whether the neutrino spectrum is normal or inverted ordered. Has to be either
+        \'NO\' or \'IO\'.
+    :type ordering: str
+    :return: The PMNS matrix.
+    :rtype: 3x3 matrix
     """
     # This function is not necessarily needed for the package. It's just here in case someone might find it useful.
 

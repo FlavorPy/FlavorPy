@@ -1,0 +1,666 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>modelfitting.mixingcalculations &#8212; FlavorPy Pre-alpha documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/modelfitting/mixingcalculations';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">FlavorPy Pre-alpha documentation</p>
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../constructterms.html">
+                        constructterms
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../modelfitting.html">
+                        modelfitting
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../constructterms.html">
+                        constructterms
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../modelfitting.html">
+                        modelfitting
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">modelfitting.mixingcalculations</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for modelfitting.mixingcalculations</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<div class="viewcode-block" id="calculate_quark_observables"><a class="viewcode-back" href="../../modelfitting.html#modelfitting.mixingcalculations.calculate_quark_observables">[docs]</a><span class="k">def</span> <span class="nf">calculate_quark_observables</span><span class="p">(</span><span class="n">mass_matrix_u</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">mass_matrix_d</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span>
+                                <span class="n">parameterization</span><span class="o">=</span><span class="s1">&#39;standard&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the quark observables of up and down-type mass matrices.</span>
+
+<span class="sd">    :param mass_matrix_u: The up-type quark mass matrix M, for Phi_left M Phi_right.</span>
+<span class="sd">    :type mass_matrix_u: 3x3 matrix</span>
+<span class="sd">    :param mass_matrix_d: The down-type quark mass matrix M, for Phi_left M Phi_right.</span>
+<span class="sd">    :type mass_matrix_d: 3x3 matrix</span>
+<span class="sd">    :param parameterization: Specify whether you want the result in standard or wolfenstein parametrization.</span>
+<span class="sd">        Has to be either \&#39;standard\&#39; or \&#39;wolfenstein\&#39;.</span>
+<span class="sd">    :type parameterization: str, default:\&#39;standard\&#39;</span>
+<span class="sd">    :return: dict</span>
+<span class="sd">        Contains the standard or wolfenstein parameters as well as the quark mass ratios.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Singular Value decomposition for digonalization</span>
+    <span class="n">Vul_tilde</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">Vurh_tilde</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">mass_matrix_u</span><span class="p">)</span>  <span class="c1"># Mu = tVul * mu * tVurh</span>
+    <span class="n">Vdl_tilde</span><span class="p">,</span> <span class="n">md</span><span class="p">,</span> <span class="n">Vdrh_tilde</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">mass_matrix_d</span><span class="p">)</span>
+
+    <span class="c1"># correct the fact that svd sorts its singular values descending</span>
+    <span class="n">permut</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+    <span class="n">mu</span><span class="p">,</span> <span class="n">md</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">permut</span><span class="p">,</span> <span class="n">mu</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">permut</span><span class="p">,</span> <span class="n">md</span><span class="p">)</span>
+    <span class="n">Vul</span><span class="p">,</span> <span class="n">Vdl</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">permut</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">Vul_tilde</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">permut</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">Vdl_tilde</span><span class="p">))</span>
+
+    <span class="c1"># construct CKM Matrix and calculate its parameterization</span>
+    <span class="n">CKM</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Vul</span><span class="p">,</span> <span class="n">Vdl</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">parameterization</span> <span class="o">==</span> <span class="s1">&#39;wolfenstein&#39;</span><span class="p">:</span>
+        <span class="n">CKM_p</span> <span class="o">=</span> <span class="n">get_wolfenstein_parameters</span><span class="p">(</span><span class="n">CKM</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">parameterization</span> <span class="o">==</span> <span class="s1">&#39;standard&#39;</span><span class="p">:</span>
+        <span class="n">CKM_p</span> <span class="o">=</span> <span class="n">get_standard_parameters_ckm</span><span class="p">(</span><span class="n">CKM</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;The value of </span><span class="se">\&#39;</span><span class="s1">parameterization</span><span class="se">\&#39;</span><span class="s1"> has to be either</span>
+<span class="s1">                                  </span><span class="se">\&#39;</span><span class="s1">wolfenstein</span><span class="se">\&#39;</span><span class="s1"> or </span><span class="se">\&#39;</span><span class="s1">standard</span><span class="se">\&#39;</span><span class="s1">.&#39;&#39;&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;mu/mc&#39;</span><span class="p">:</span> <span class="n">mu</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">mu</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;mc/mt&#39;</span><span class="p">:</span> <span class="n">mu</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">mu</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;md/ms&#39;</span><span class="p">:</span> <span class="n">md</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">md</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;ms/mb&#39;</span><span class="p">:</span> <span class="n">md</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">md</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="o">**</span><span class="n">CKM_p</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="calculate_lepton_dimensionless_observables"><a class="viewcode-back" href="../../modelfitting.html#modelfitting.mixingcalculations.calculate_lepton_dimensionless_observables">[docs]</a><span class="k">def</span> <span class="nf">calculate_lepton_dimensionless_observables</span><span class="p">(</span><span class="n">mass_matrix_e</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">mass_matrix_n</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span>
+                                               <span class="n">ordering</span><span class="o">=</span><span class="s1">&#39;NO&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the dimensionless observables of a charged lepton and neutrino mass matrix.</span>
+
+<span class="sd">    :param mass_matrix_e: The charged lepton mass matrix M, for Phi_left M Phi_right, where left and right indicates</span>
+<span class="sd">        left- and right-handed chiral fields, respectively. I.e. L_i^c M_ij e_j, where L refers to the left-handed</span>
+<span class="sd">        lepton doublet and e is the right-handed charged lepton field, and i,j=1,2,3.</span>
+<span class="sd">        If you use the other convention, i.e. left-handed fields on the right-hand-side, simply transpose your mass</span>
+<span class="sd">        matrix.</span>
+<span class="sd">    :type mass_matrix_e: 3x3 matrix</span>
+<span class="sd">    :param mass_matrix_n: The neutrino mass matrix M, for Phi_left M Phi_right.</span>
+<span class="sd">    :type mass_matrix_n: 3x3 matrix</span>
+<span class="sd">    :param ordering: Specify whether the neutrino spectrum is normal or inverted ordered. Has to be either \&#39;NO\&#39;</span>
+<span class="sd">        or \&#39;IO\&#39;. Default is \&#39;NO\&#39;.</span>
+<span class="sd">    :type ordering: str</span>
+<span class="sd">    :return: Contains the PMNS-parameters and the charged lepton mass matrices. It also contains wrongly scaled neutrino</span>
+<span class="sd">        masses, that are needed for the function \&#39;calculate_lepton_observables\&#39;.</span>
+<span class="sd">    :rtype: dict</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Singular Value decomposition for digonalization.   There are also some takagi decompositions in the utils.py file.</span>
+    <span class="n">tVel</span><span class="p">,</span> <span class="n">me</span><span class="p">,</span> <span class="n">tVerh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">mass_matrix_e</span><span class="p">)</span>  <span class="c1"># tVel * diag(me) * tVerh = Me</span>
+    <span class="n">tVnl</span><span class="p">,</span> <span class="n">mn</span><span class="p">,</span> <span class="n">tVnrh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">mass_matrix_n</span><span class="p">)</span>  <span class="c1"># tVnl * diag(mn) * tVnrh = Mn</span>
+
+    <span class="c1"># correct the fact that svd sorts its singular values (=physical masses) in descending order.</span>
+    <span class="c1"># Idea: one could add some code here that automatically detects, whether the spectrum is normal or inverted ordered</span>
+    <span class="c1">#       by checking if mn[0]-mn[1] &gt;&lt; mn[1]-mn[2]. The ordering would then be an observable. I don&#39;t know if this</span>
+    <span class="c1">#       would be useful for fitting, because the experimental data is specific for normal or inverted ordering.</span>
+    <span class="c1">#       But maybe one could take the absolute value of m21^2/mel^2 and simply fit to the NO data to get a rough</span>
+    <span class="c1">#       estimate because the exp data for NO and IO are very similar.</span>
+    <span class="c1">#       Or the experimental data set simply needs to contain both, the data for NO and for IO.</span>
+    <span class="n">permutE</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+    <span class="k">if</span> <span class="n">ordering</span> <span class="o">==</span> <span class="s1">&#39;NO&#39;</span><span class="p">:</span>
+        <span class="n">permutN</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+    <span class="k">elif</span> <span class="n">ordering</span> <span class="o">==</span> <span class="s1">&#39;IO&#39;</span><span class="p">:</span>
+        <span class="n">permutN</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;The value of </span><span class="se">\&#39;</span><span class="s1">ordering</span><span class="se">\&#39;</span><span class="s1"> has to be either </span><span class="se">\&#39;</span><span class="s1">NO</span><span class="se">\&#39;</span><span class="s1"> or </span><span class="se">\&#39;</span><span class="s1">IO</span><span class="se">\&#39;</span><span class="s1">.&#39;&#39;&#39;</span><span class="p">)</span>
+    <span class="n">me</span><span class="p">,</span> <span class="n">mn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">permutE</span><span class="p">,</span> <span class="n">me</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">permutN</span><span class="p">,</span> <span class="n">mn</span><span class="p">)</span>
+    <span class="n">Vel</span><span class="p">,</span> <span class="n">Vnl</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">permutE</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">tVel</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">permutN</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">tVnl</span><span class="p">))</span>
+
+    <span class="c1"># construct PMNS Matrix and calculate its parameterization</span>
+    <span class="n">PMNS</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Vel</span><span class="o">.</span><span class="n">conj</span><span class="p">(),</span> <span class="n">Vnl</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>  <span class="c1"># PMNS = np.dot( Vel.conj().T, Vnl)</span>
+    <span class="n">pmns_parameters</span> <span class="o">=</span> <span class="n">get_standard_parameters_pmns</span><span class="p">(</span><span class="n">PMNS</span><span class="p">)</span>
+
+    <span class="c1"># calculate neutrino mass-squared-differences.</span>
+    <span class="n">m21sq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">mn</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">mn</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ordering</span> <span class="o">==</span> <span class="s1">&#39;NO&#39;</span><span class="p">:</span>
+        <span class="n">m3lsq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">mn</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">mn</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">ordering</span> <span class="o">==</span> <span class="s1">&#39;IO&#39;</span><span class="p">:</span>
+        <span class="n">m3lsq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">mn</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">mn</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;The value of </span><span class="se">\&#39;</span><span class="s1">ordering</span><span class="se">\&#39;</span><span class="s1"> has to be either </span><span class="se">\&#39;</span><span class="s1">NO</span><span class="se">\&#39;</span><span class="s1"> or </span><span class="se">\&#39;</span><span class="s1">IO</span><span class="se">\&#39;</span><span class="s1">.&#39;&#39;&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;me/mu&#39;</span><span class="p">:</span> <span class="n">me</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">me</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;mu/mt&#39;</span><span class="p">:</span> <span class="n">me</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">me</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;r&#39;</span><span class="p">:</span> <span class="n">m21sq</span> <span class="o">/</span> <span class="n">m3lsq</span><span class="p">,</span> <span class="o">**</span><span class="n">pmns_parameters</span><span class="p">,</span>
+            <span class="s1">&#39;m1_wrong_scaled&#39;</span><span class="p">:</span> <span class="n">mn</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;m2_wrong_scaled&#39;</span><span class="p">:</span> <span class="n">mn</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;m3_wrong_scaled&#39;</span><span class="p">:</span> <span class="n">mn</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+            <span class="s1">&#39;m21^2_wrong_scaled&#39;</span><span class="p">:</span> <span class="n">m21sq</span><span class="p">,</span> <span class="s1">&#39;m3l^2_wrong_scaled&#39;</span><span class="p">:</span> <span class="n">m3lsq</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="calculate_lepton_observables"><a class="viewcode-back" href="../../modelfitting.html#modelfitting.mixingcalculations.calculate_lepton_observables">[docs]</a><span class="k">def</span> <span class="nf">calculate_lepton_observables</span><span class="p">(</span><span class="n">mass_matrix_e</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">mass_matrix_n</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">ordering</span><span class="o">=</span><span class="s1">&#39;NO&#39;</span><span class="p">,</span>
+                                 <span class="n">m21sq_best</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">m3lsq_best</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the observables of the lepton sector from charged lepton and neutrino mass matrices.</span>
+<span class="sd">    -----------------------------------------------------------------------------------------------</span>
+<span class="sd">    :param mass_matrix_e: The charged lepton mass matrix M, for Phi_left M Phi_right, where left and right indicates</span>
+<span class="sd">        left- and right-handed chiral fields, respectively. I.e. L_i^c M_ij e_j, where L refers to the left-handed</span>
+<span class="sd">        lepton doublet and e is the right-handed charged lepton field, and i,j=1,2,3.</span>
+<span class="sd">        If you use the other convention, i.e. left-handed fields on the right-hand-side, simply transpose your mass</span>
+<span class="sd">        matrix.</span>
+<span class="sd">    :type mass_matrix_e: 3x3 matrix</span>
+<span class="sd">    :param mass_matrix_n: The neutrino mass matrix M, for Phi_left M Phi_right.</span>
+<span class="sd">    :type mass_matrix_n: 3x3 matrix</span>
+<span class="sd">    :param ordering: Specify whether the neutrino spectrum is normal or inverted ordered. Has to be either \&#39;NO\&#39;</span>
+<span class="sd">        or \&#39;IO\&#39;. Default is \&#39;NO\&#39;.</span>
+<span class="sd">    :type ordering: str</span>
+<span class="sd">    :param m21sq_best: The best fit value for the squared neutrino mass difference m_1^2 - m_2^2.</span>
+<span class="sd">        Default is None, which will yield 7.41e-05.</span>
+<span class="sd">    :type m21sq_best: float</span>
+<span class="sd">    :param m3lsq_best: The best fit value for the squared neutrino mass difference m_3^2 - m_l^2, where l=1 for NO</span>
+<span class="sd">        and l=2 for IO. Default is None, yielding 2.507e-03 for NO and -2.486e-03 for IO.</span>
+<span class="sd">    :type m3lsq_best: float</span>
+<span class="sd">    :return: Contains the PMNS parameters as well as the neutrino masses and charged lepton mass ratios.</span>
+<span class="sd">    :rtype: dict</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Get dimensionless observables from calculate_lepton_dimensionless_observables()</span>
+    <span class="n">dimless_obs</span> <span class="o">=</span> <span class="n">calculate_lepton_dimensionless_observables</span><span class="p">(</span><span class="n">mass_matrix_e</span><span class="p">,</span> <span class="n">mass_matrix_n</span><span class="p">,</span> <span class="n">ordering</span><span class="p">)</span>
+    <span class="n">s12sq</span> <span class="o">=</span> <span class="n">dimless_obs</span><span class="p">[</span><span class="s1">&#39;s12^2&#39;</span><span class="p">]</span>
+    <span class="n">s13sq</span> <span class="o">=</span> <span class="n">dimless_obs</span><span class="p">[</span><span class="s1">&#39;s13^2&#39;</span><span class="p">]</span>
+    <span class="n">s23sq</span> <span class="o">=</span> <span class="n">dimless_obs</span><span class="p">[</span><span class="s1">&#39;s23^2&#39;</span><span class="p">]</span>
+    <span class="n">c12sq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arcsin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">s12sq</span><span class="p">)))</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="n">c13sq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arcsin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">s13sq</span><span class="p">)))</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="n">c23sq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arcsin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">s23sq</span><span class="p">)))</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="n">eta1</span> <span class="o">=</span> <span class="n">dimless_obs</span><span class="p">[</span><span class="s1">&#39;eta1&#39;</span><span class="p">]</span>
+    <span class="n">eta2</span> <span class="o">=</span> <span class="n">dimless_obs</span><span class="p">[</span><span class="s1">&#39;eta2&#39;</span><span class="p">]</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">dimless_obs</span><span class="p">[</span><span class="s1">&#39;d/pi&#39;</span><span class="p">]</span>
+
+    <span class="c1"># Jarlskog</span>
+    <span class="n">Jmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">c12sq</span> <span class="o">*</span> <span class="n">s12sq</span> <span class="o">*</span> <span class="n">c23sq</span> <span class="o">*</span> <span class="n">s23sq</span> <span class="o">*</span> <span class="n">s13sq</span><span class="p">)</span> <span class="o">*</span> <span class="n">c13sq</span>
+    <span class="n">J</span> <span class="o">=</span> <span class="n">Jmax</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">d</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+
+    <span class="c1"># Correctly scale neutrino masses</span>
+    <span class="k">if</span> <span class="n">m21sq_best</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">m21sq_best</span> <span class="o">=</span> <span class="mf">7.41e-05</span>
+    <span class="k">if</span> <span class="n">m3lsq_best</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ordering</span> <span class="o">==</span> <span class="s1">&#39;NO&#39;</span><span class="p">:</span>
+            <span class="n">m3lsq_best</span> <span class="o">=</span> <span class="mf">2.507e-03</span>
+        <span class="k">elif</span> <span class="n">ordering</span> <span class="o">==</span> <span class="s1">&#39;IO&#39;</span><span class="p">:</span>
+            <span class="n">m3lsq_best</span> <span class="o">=</span> <span class="o">-</span><span class="mf">2.486e-03</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;The value of </span><span class="se">\&#39;</span><span class="s1">ordering</span><span class="se">\&#39;</span><span class="s1"> has to be either </span><span class="se">\&#39;</span><span class="s1">NO</span><span class="se">\&#39;</span><span class="s1"> or </span><span class="se">\&#39;</span><span class="s1">IO</span><span class="se">\&#39;</span><span class="s1">.&#39;&#39;&#39;</span><span class="p">)</span>
+    <span class="n">mn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">dimless_obs</span><span class="p">[</span><span class="s1">&#39;m1_wrong_scaled&#39;</span><span class="p">],</span> <span class="n">dimless_obs</span><span class="p">[</span><span class="s1">&#39;m2_wrong_scaled&#39;</span><span class="p">],</span> <span class="n">dimless_obs</span><span class="p">[</span><span class="s1">&#39;m3_wrong_scaled&#39;</span><span class="p">]])</span>
+    <span class="n">m21sq</span><span class="p">,</span> <span class="n">m3lsq</span> <span class="o">=</span> <span class="n">dimless_obs</span><span class="p">[</span><span class="s1">&#39;m21^2_wrong_scaled&#39;</span><span class="p">],</span> <span class="n">dimless_obs</span><span class="p">[</span><span class="s1">&#39;m3l^2_wrong_scaled&#39;</span><span class="p">]</span>
+    <span class="n">nscale</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">m21sq_best</span> <span class="o">/</span> <span class="n">m21sq</span> <span class="o">+</span> <span class="n">m3lsq_best</span> <span class="o">/</span> <span class="n">m3lsq</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">mn</span> <span class="o">=</span> <span class="n">nscale</span> <span class="o">*</span> <span class="n">mn</span>
+    <span class="n">m21sq</span> <span class="o">=</span> <span class="n">nscale</span> <span class="o">*</span> <span class="n">nscale</span> <span class="o">*</span> <span class="n">m21sq</span>
+    <span class="n">m3lsq</span> <span class="o">=</span> <span class="n">nscale</span> <span class="o">*</span> <span class="n">nscale</span> <span class="o">*</span> <span class="n">m3lsq</span>
+
+    <span class="c1"># Calculate effective neutrino mass for beta-decay and for neutrinoless double beta-decay.</span>
+    <span class="k">if</span> <span class="n">ordering</span> <span class="o">==</span> <span class="s1">&#39;NO&#39;</span><span class="p">:</span>
+        <span class="n">m_beta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mn</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">m21sq</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">c13sq</span> <span class="o">*</span> <span class="n">c12sq</span><span class="p">)</span> <span class="o">+</span> <span class="n">m3lsq</span> <span class="o">*</span> <span class="n">s13sq</span><span class="p">)</span>
+        <span class="n">m_betabeta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">mn</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">c12sq</span> <span class="o">*</span> <span class="n">c13sq</span> <span class="o">+</span>
+                            <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">m21sq</span> <span class="o">+</span> <span class="n">mn</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">s12sq</span> <span class="o">*</span> <span class="n">c13sq</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">2</span><span class="n">j</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">(</span><span class="n">eta2</span> <span class="o">-</span> <span class="n">eta1</span><span class="p">))</span> <span class="o">+</span>
+                            <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">m3lsq</span> <span class="o">+</span> <span class="n">m21sq</span> <span class="o">+</span> <span class="n">mn</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">s13sq</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="n">j</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">(</span><span class="n">d</span> <span class="o">+</span> <span class="n">eta1</span><span class="p">)))</span>
+    <span class="k">elif</span> <span class="n">ordering</span> <span class="o">==</span> <span class="s1">&#39;IO&#39;</span><span class="p">:</span>
+        <span class="n">m_beta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mn</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">m21sq</span> <span class="o">*</span> <span class="n">c13sq</span> <span class="o">*</span> <span class="n">c12sq</span> <span class="o">-</span> <span class="n">m3lsq</span> <span class="o">*</span> <span class="n">c13sq</span><span class="p">)</span>
+        <span class="n">m_betabeta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">mn</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">s13sq</span> <span class="o">+</span>
+                            <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mn</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">m3lsq</span><span class="p">)</span> <span class="o">*</span> <span class="n">s12sq</span> <span class="o">*</span> <span class="n">c13sq</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">2</span><span class="n">j</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">(</span><span class="n">eta2</span> <span class="o">+</span> <span class="n">d</span><span class="p">))</span> <span class="o">+</span>
+                            <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mn</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">m3lsq</span> <span class="o">-</span> <span class="n">m21sq</span><span class="p">)</span> <span class="o">*</span> <span class="n">c12sq</span> <span class="o">*</span> <span class="n">c13sq</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">2</span><span class="n">j</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">(</span><span class="n">eta1</span> <span class="o">+</span> <span class="n">d</span><span class="p">)))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;The value of </span><span class="se">\&#39;</span><span class="s1">ordering</span><span class="se">\&#39;</span><span class="s1"> has to be either </span><span class="se">\&#39;</span><span class="s1">NO</span><span class="se">\&#39;</span><span class="s1"> or </span><span class="se">\&#39;</span><span class="s1">IO</span><span class="se">\&#39;</span><span class="s1">.&#39;&#39;&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;me/mu&#39;</span><span class="p">:</span> <span class="n">dimless_obs</span><span class="p">[</span><span class="s1">&#39;me/mu&#39;</span><span class="p">],</span> <span class="s1">&#39;mu/mt&#39;</span><span class="p">:</span> <span class="n">dimless_obs</span><span class="p">[</span><span class="s1">&#39;mu/mt&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;s12^2&#39;</span><span class="p">:</span> <span class="n">dimless_obs</span><span class="p">[</span><span class="s1">&#39;s12^2&#39;</span><span class="p">],</span> <span class="s1">&#39;s13^2&#39;</span><span class="p">:</span> <span class="n">dimless_obs</span><span class="p">[</span><span class="s1">&#39;s13^2&#39;</span><span class="p">],</span> <span class="s1">&#39;s23^2&#39;</span><span class="p">:</span> <span class="n">dimless_obs</span><span class="p">[</span><span class="s1">&#39;s23^2&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;d/pi&#39;</span><span class="p">:</span> <span class="n">dimless_obs</span><span class="p">[</span><span class="s1">&#39;d/pi&#39;</span><span class="p">],</span> <span class="s1">&#39;r&#39;</span><span class="p">:</span> <span class="n">dimless_obs</span><span class="p">[</span><span class="s1">&#39;r&#39;</span><span class="p">],</span> <span class="s1">&#39;m21^2&#39;</span><span class="p">:</span> <span class="n">m21sq</span><span class="p">,</span> <span class="s1">&#39;m3l^2&#39;</span><span class="p">:</span> <span class="n">m3lsq</span><span class="p">,</span>
+            <span class="s1">&#39;m1&#39;</span><span class="p">:</span> <span class="n">mn</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;m2&#39;</span><span class="p">:</span> <span class="n">mn</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;m3&#39;</span><span class="p">:</span> <span class="n">mn</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;eta1&#39;</span><span class="p">:</span> <span class="n">dimless_obs</span><span class="p">[</span><span class="s1">&#39;eta1&#39;</span><span class="p">],</span> <span class="s1">&#39;eta2&#39;</span><span class="p">:</span> <span class="n">dimless_obs</span><span class="p">[</span><span class="s1">&#39;eta2&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;J&#39;</span><span class="p">:</span> <span class="n">J</span><span class="p">,</span> <span class="s1">&#39;Jmax&#39;</span><span class="p">:</span> <span class="n">Jmax</span><span class="p">,</span> <span class="s1">&#39;Sum(m_i)&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">mn</span><span class="p">),</span> <span class="s1">&#39;m_b&#39;</span><span class="p">:</span> <span class="n">m_beta</span><span class="p">,</span> <span class="s1">&#39;m_bb&#39;</span><span class="p">:</span> <span class="n">m_betabeta</span><span class="p">,</span> <span class="s1">&#39;nscale&#39;</span><span class="p">:</span> <span class="n">nscale</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="get_wolfenstein_parameters"><a class="viewcode-back" href="../../modelfitting.html#modelfitting.mixingcalculations.get_wolfenstein_parameters">[docs]</a><span class="k">def</span> <span class="nf">get_wolfenstein_parameters</span><span class="p">(</span><span class="n">CKM</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get values of the Wolfenstein-parameterization of CKM matrix, according to PDG.</span>
+
+<span class="sd">    :param CKM: The CKM matrix in a 3x3-matrix-shape.</span>
+<span class="sd">    :type CKM: 3x3 matrix</span>
+<span class="sd">    :return: Dictionary that contains the parameters</span>
+<span class="sd">    :rtype: dict</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">l</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">CKM</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">CKM</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">CKM</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">l</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">CKM</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">/</span> <span class="n">CKM</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+    <span class="n">rhobar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="o">-</span><span class="n">CKM</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="n">CKM</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span> <span class="o">/</span> <span class="n">CKM</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="n">CKM</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]))</span>
+    <span class="n">etabar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">imag</span><span class="p">(</span><span class="o">-</span><span class="n">CKM</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="n">CKM</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span> <span class="o">/</span> <span class="n">CKM</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="n">CKM</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;lambda&#39;</span><span class="p">:</span> <span class="n">l</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="n">A</span><span class="p">,</span> <span class="s1">&#39;rhobar&#39;</span><span class="p">:</span> <span class="n">rhobar</span><span class="p">,</span> <span class="s1">&#39;etabar&#39;</span><span class="p">:</span> <span class="n">etabar</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="get_standard_parameters_ckm"><a class="viewcode-back" href="../../modelfitting.html#modelfitting.mixingcalculations.get_standard_parameters_ckm">[docs]</a><span class="k">def</span> <span class="nf">get_standard_parameters_ckm</span><span class="p">(</span><span class="n">CKM</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the values of the standard-parametrization of CKM matrix.</span>
+
+<span class="sd">    :param CKM: The CKM matrix in a 3x3-matrix-shape.</span>
+<span class="sd">    :type CKM: 3x3 matrix</span>
+<span class="sd">    :return: Dictionary that contains the parameters</span>
+<span class="sd">    :rtype: dict</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">t13</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arcsin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">CKM</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]))</span>
+    <span class="n">t12</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">CKM</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">CKM</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]))</span>
+    <span class="n">t23</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">CKM</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">CKM</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]))</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span>
+        <span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">conjugate</span><span class="p">(</span><span class="n">CKM</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="n">CKM</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">CKM</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">conjugate</span><span class="p">(</span><span class="n">CKM</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]))</span> <span class="o">/</span>
+         <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">t12</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">t13</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">t23</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">t13</span><span class="p">))</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">t12</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">t23</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span>
+                    <span class="n">t13</span><span class="p">))</span> <span class="o">/</span>
+        <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">t12</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">t23</span><span class="p">)))</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="mi">180</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;t12&#39;</span><span class="p">:</span> <span class="n">t12</span> <span class="o">*</span> <span class="mi">180</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="s1">&#39;t13&#39;</span><span class="p">:</span> <span class="n">t13</span> <span class="o">*</span> <span class="mi">180</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="s1">&#39;t23&#39;</span><span class="p">:</span> <span class="n">t23</span> <span class="o">*</span> <span class="mi">180</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="n">d</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="get_standard_parameters_pmns"><a class="viewcode-back" href="../../modelfitting.html#modelfitting.mixingcalculations.get_standard_parameters_pmns">[docs]</a><span class="k">def</span> <span class="nf">get_standard_parameters_pmns</span><span class="p">(</span><span class="n">PMNS</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the values of the standard-parameterization of PMNS matrix.</span>
+
+<span class="sd">    :param PMNS: The PMNS matrix in a 3x3-matrix-shape.</span>
+<span class="sd">    :type PMNS: 3x3 matrix</span>
+<span class="sd">    :return: Dictionary that contains the parameters.</span>
+<span class="sd">    :rtype: dict</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">t13</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arcsin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">PMNS</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]))</span>
+    <span class="n">t12</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">PMNS</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">PMNS</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]))</span>
+    <span class="n">t23</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">PMNS</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">PMNS</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]))</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span>
+        <span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">conjugate</span><span class="p">(</span><span class="n">PMNS</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span><span class="o">*</span><span class="n">PMNS</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="n">PMNS</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">conjugate</span><span class="p">(</span><span class="n">PMNS</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]))</span> <span class="o">/</span>
+         <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">t12</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">t13</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">t23</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">t13</span><span class="p">))</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">t12</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">t23</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">t13</span><span class="p">))</span> <span class="o">/</span>
+        <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">t12</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">t23</span><span class="p">)))</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">eta1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="n">PMNS</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">PMNS</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">-</span> <span class="n">d</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">eta2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="n">PMNS</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="n">PMNS</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">-</span> <span class="n">d</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;s12^2&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">t12</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;s13^2&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">t13</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;s23^2&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">t23</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>
+            <span class="s1">&#39;d/pi&#39;</span><span class="p">:</span> <span class="n">d</span><span class="p">,</span> <span class="s1">&#39;eta1&#39;</span><span class="p">:</span> <span class="n">eta1</span><span class="p">,</span> <span class="s1">&#39;eta2&#39;</span><span class="p">:</span> <span class="n">eta2</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="calculate_ckm"><a class="viewcode-back" href="../../modelfitting.html#modelfitting.mixingcalculations.calculate_ckm">[docs]</a><span class="k">def</span> <span class="nf">calculate_ckm</span><span class="p">(</span><span class="n">Mu</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">Md</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the CKM matrix out of the up and down-type quark mass matrices.</span>
+
+<span class="sd">    :param Mu: The up-type quark mass matrix M, for Phi_left M Phi_right.</span>
+<span class="sd">    :type Mu: 3x3 matrix</span>
+<span class="sd">    :param Md: The down-type quark mass matrix M, for Phi_left M Phi_right.</span>
+<span class="sd">    :type Md: 3x3 matrix</span>
+<span class="sd">    :return: The CKM matrix</span>
+<span class="sd">    :rtype: 3x3 matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># This function is not necessarily needed for the package. It&#39;s just here in case someone might find it useful.</span>
+
+    <span class="c1"># Singular Value decomposition for digonalization</span>
+    <span class="n">tVul</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">tVurh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">Mu</span><span class="p">)</span>  <span class="c1"># Mu = tVul * mu * tVurh</span>
+    <span class="n">tVdl</span><span class="p">,</span> <span class="n">md</span><span class="p">,</span> <span class="n">tVdrh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">Md</span><span class="p">)</span>
+
+    <span class="c1"># correct the fact that svd sorts its singular values descending</span>
+    <span class="n">permut</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+    <span class="n">mu</span><span class="p">,</span> <span class="n">md</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">permut</span><span class="p">,</span> <span class="n">mu</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">permut</span><span class="p">,</span> <span class="n">md</span><span class="p">)</span>
+    <span class="n">Vul</span><span class="p">,</span> <span class="n">Vdl</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">permut</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">tVul</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">permut</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">tVdl</span><span class="p">))</span>
+
+    <span class="c1"># construct CKM Matrix</span>
+    <span class="n">CKM</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Vul</span><span class="p">,</span> <span class="n">Vdl</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">CKM</span></div>
+
+
+<div class="viewcode-block" id="calculate_pmns"><a class="viewcode-back" href="../../modelfitting.html#modelfitting.mixingcalculations.calculate_pmns">[docs]</a><span class="k">def</span> <span class="nf">calculate_pmns</span><span class="p">(</span><span class="n">Me</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">Mn</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">ordering</span><span class="o">=</span><span class="s1">&#39;NO&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the PMNS matrix out of the charged lepton and light neutrino mass matrices.</span>
+
+<span class="sd">    :param Me: The charged lepton mass matrix M, for Phi_left M Phi_right.</span>
+<span class="sd">    :type Me: 3x3 matrix</span>
+<span class="sd">    :param Mn: The light neutrino mass matrix M, for Phi_left M Phi_right.</span>
+<span class="sd">    :type Mn: 3x3 matrix</span>
+<span class="sd">    :param ordering: Specify whether the neutrino spectrum is normal or inverted ordered. Has to be either</span>
+<span class="sd">        \&#39;NO\&#39; or \&#39;IO\&#39;.</span>
+<span class="sd">    :type ordering: str</span>
+<span class="sd">    :return: The PMNS matrix.</span>
+<span class="sd">    :rtype: 3x3 matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># This function is not necessarily needed for the package. It&#39;s just here in case someone might find it useful.</span>
+
+    <span class="c1"># Singular Value decomposition for digonalization</span>
+    <span class="n">tVel</span><span class="p">,</span> <span class="n">me</span><span class="p">,</span> <span class="n">tVerh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">Me</span><span class="p">)</span>  <span class="c1"># tVel * diag(me) * tVerh = Me</span>
+    <span class="n">tVnl</span><span class="p">,</span> <span class="n">mn</span><span class="p">,</span> <span class="n">tVnrh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">Mn</span><span class="p">)</span>  <span class="c1"># tVnl * diag(mn) * tVnrh = Mn</span>
+
+    <span class="c1"># correct the fact that svd sorts its singular values (=physical masses) in descending order</span>
+    <span class="n">permutE</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+    <span class="k">if</span> <span class="n">ordering</span> <span class="o">==</span> <span class="s1">&#39;NO&#39;</span><span class="p">:</span>
+        <span class="n">permutN</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+    <span class="k">elif</span> <span class="n">ordering</span> <span class="o">==</span> <span class="s1">&#39;IO&#39;</span><span class="p">:</span>
+        <span class="n">permutN</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;The value of </span><span class="se">\&#39;</span><span class="s1">ordering</span><span class="se">\&#39;</span><span class="s1"> has to be either </span><span class="se">\&#39;</span><span class="s1">NO</span><span class="se">\&#39;</span><span class="s1"> or </span><span class="se">\&#39;</span><span class="s1">IO</span><span class="se">\&#39;</span><span class="s1">.&#39;&#39;&#39;</span><span class="p">)</span>
+    <span class="n">me</span><span class="p">,</span> <span class="n">mn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">permutE</span><span class="p">,</span> <span class="n">me</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">permutN</span><span class="p">,</span> <span class="n">mn</span><span class="p">)</span>
+    <span class="n">Vel</span><span class="p">,</span> <span class="n">Vnl</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">permutE</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">tVel</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">permutN</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">tVnl</span><span class="p">))</span>
+
+    <span class="c1"># construct PMNS Matrix</span>
+    <span class="n">PMNS</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Vel</span><span class="o">.</span><span class="n">conj</span><span class="p">(),</span> <span class="n">Vnl</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>  <span class="c1"># PMNS = np.dot( Vel.conj().T, Vnl)</span>
+
+    <span class="k">return</span> <span class="n">PMNS</span></div>
+
+</pre></div>
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            <div class="bd-footer-content__inner"></div>
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2023, Alexander Baur.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://sphinx-doc.org/">Sphinx</a> 6.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

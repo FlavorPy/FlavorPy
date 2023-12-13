@@ -4,25 +4,26 @@ import numpy as np
 
 
 class ParameterDimension:
+    """
+    A parameter dimension, i.e. one direction in a multidimensional parameter space
+
+    :param name: The name of the dimension.
+    :type name: str
+    :param sample_fct: A function that when evaluated as function() returns a float.
+    :type sample_fct: function
+    :param vary: Specifies whether the parameter is varied during a fit.
+    :type vary: bool, optional
+    :param min: Lower bound. Default is -numpy.inf
+    :type min: float, optional
+    :param max: Upper bound. Default is numpy.inf
+    :type max: float, optional
+    :param expr: A mathematical expression used to constrain the value during the fit. Default is 'None'
+    :type expr: str, optional
+    :param brute_step: Step size for grid points, if you use the \'brute\' method when fitting.
+    :type brute_step: float, optional
+    """
     def __init__(self, name, sample_fct=None, vary=True, min=-np.inf, max=np.inf, expr=None, brute_step=None):
-        """
-        A parameter dimension, i.e. one direction in a multidimensional parameter space
-        ----------
-        :param name: str
-            The name of the dimension.
-        :param sample_fct: function
-            A function that when evaluated as function() returns a float.
-        :param vary: bool, optional
-            Specifies whether the parameter is varied during a fit.
-        :param min: float, optional
-            Lower bound. Default is -numpy.inf
-        :param max: float, optional
-            Upper bound. Default is numpy.inf
-        :param expr: str, optional
-            A mathematical expression used to constrain the value during the fit. Default is 'None'
-        :param brute_step: float, optional
-            Step size for grid points, if you use the \'brute\' method when fitting.
-        """
+
         if sample_fct is None:
             def default_fct():
                 return np.random.uniform
@@ -41,13 +42,14 @@ class ParameterDimension:
 
 
 class ParameterSpace(dict):
+    """
+    A parameter space. This object is a dictionary that contains
+    :py:meth:`~modelfitting.parameterspace.ParameterDimension` objects.
+
+    :param name: You can give your parameter space a name.
+    :type name: str, optional
+    """
     def __init__(self, name='Parameter space'):  # Maybe exclude the option to define the params dict
-        """
-        A parameter space. This object is a dictionary that contains ParameterDimension objects.
-        ----------
-        :param name: str, optional
-            You can give your parameter space a name.
-        """
         super().__init__(self)
         self.name = name
 
@@ -57,22 +59,22 @@ class ParameterSpace(dict):
     def add_dim(self, name, sample_fct=None, vary=True, min=-np.inf, max=np.inf, expr=None, brute_step=None):
         """
         Adds a dimension to your parameter space. Can also be used to update or overwrite an existing dimension.
-        ----------
-        :param name: str
-            The name of the dimension.
-        :param sample_fct: function, optional
-            A function that when evaluated as function() returns a float.
-            Default is numpy.random.uniform
-        :param vary: bool, optional
-            Specifies whether the parameter is varied during a fit.
-        :param min: float, optional
-            Lower bound. Default is -numpy.inf
-        :param max: float, optional
-            Upper bound. Default is numpy.inf
-        :param expr: str, optional
-            A mathematical expression used to constrain the value during the fit. Default is 'None'
-        :param brute_step: float, optional
-            Step size for grid points, if you use the \'brute\' method when fitting.
+
+        :param name: The name of the dimension.
+        :type name: str
+        :param sample_fct: A function that when evaluated as function() returns a float.
+            Default is numpy.random.uniform.
+        :type sample_fct: function
+        :param vary: Specifies whether the parameter is varied during a fit.
+        :type vary: bool, optional
+        :param min: Lower bound. Default is -numpy.inf
+        :type min: float, optional
+        :param max: Upper bound. Default is numpy.inf
+        :type max: float, optional
+        :param expr: A mathematical expression used to constrain the value during the fit. Default is 'None'
+        :type expr: str, optional
+        :param brute_step: Step size for grid points, if you use the \'brute\' method when fitting.
+        :type brute_step: float, optional
         """
         self[name] = ParameterDimension(name=name, sample_fct=sample_fct, vary=vary,
                                         min=min, max=max, expr=expr, brute_step=brute_step)
@@ -80,7 +82,7 @@ class ParameterSpace(dict):
     def random_pt(self) -> lmfit.Parameters:
         """
         Draws a sample in your parameter space.
-        ----------
+
         :return: A lmfit.Parameters object.
         """
         params = Parameters()

@@ -7,15 +7,15 @@ class Group:
 
 
 class AbelianGroup(Group):
+    """
+    An abelian group Z_order
+
+    :param name: The name of this abelian group
+    :type name: bool, optional
+    :param order: The order N of this abelian group Z_N
+    :type order: int, optional, default:1
+    """
     def __init__(self, name, order=1):
-        """
-        An abelian group Z_order
-        ----------
-        :param name: str
-            The name of this abelian group
-        :param order: int, optional, default:1
-            The order N of this abelian group Z_N
-        """
         self.order = order
         super().__init__(name)
 
@@ -30,23 +30,23 @@ class AbelianGroup(Group):
 
 
 class NonAbelianGroup(Group):
+    """
+    A non-abelian group
+
+    :param name: The name of this non-abelian group
+    :type name: str
+    :param gapid: The Gap-Id of this group. For now this has no relevance. The idea is to later add a function that
+        can obtain the 'tensor_products' out of gap or sage.
+    :type gapid: list, optional
+    :param representations: A list of all (relevant) representations of this non-abelian group
+    :type representations: list, optional
+    :param tensor_products: A matrix that contains the tensor products.
+    :type tensor_products: list, optional
+    :param clebsches: For now this has no relevance. The idea would be to later add a function to the package that
+        can give you the Clebsch-Gordans so that a multiplication of actual matrix representations is possible.
+    :type clebsches: dict, optional
+    """
     def __init__(self, name, gapid=None, representations=None, tensor_products=None, clebsches=None):
-        """
-        A non-abelian group
-        ----------
-        :param name: str
-            The name of this non-abelian group
-        :param gapid: list, optional
-            The Gap-Id of this group. For now this has no relevance. The idea is to later add a function that can obtain
-            the 'tensor_products' out of gap or sage.
-        :param representations: list, optional
-            A list of all (relevant) representations of this non-abelian group
-        :param tensor_products: list, optional
-            A matrix that contains
-        :param clebsches:  dict, optional
-            For now this has no relevance. The idea would be to later add a function to the package that can give you
-            the Clebsch-Gordans so that a multiplication of actual matrix representations is possible.
-        """
         if gapid is None:
             gapid = []
         if representations is None:
@@ -65,13 +65,15 @@ class NonAbelianGroup(Group):
     def make_product(self, repA: list, repB: list) -> list:
         """
         Calculates the resulting representations of the tensor product between repA and repB
-        ----------
-        :param repA: list
-            A list of irreducible representations. E.g. ['3_1', '3_2']. Entries have to be in 'self.representations'!
-        :param repB: list
-            A list of irreducible representations. E.g. ['3_1', '3_2']. Entries have to be in 'self.representations'!
-        :return: list
-            A list of irreducible representations.
+
+        :param repA: A list of irreducible representations. E.g. ['3_1', '3_2'].
+            Entries have to be in 'self.representations'!
+        :type repA: list
+        :param repB: A list of irreducible representations. E.g. ['3_1', '3_2']. Entries have to be in
+            'self.representations'!
+        :type repB: list
+        :return: A list of irreducible representations.
+        :rtype: list
         """
         repC = []
         for irrepA in repA:
@@ -84,13 +86,14 @@ class NonAbelianGroup(Group):
         """
         Calculates the components of the tensor product of compA and compB, while using the Clebsch-Gordans
         that have been defined for the group.
-        ----------
-        :param compA: dict
-            The components of representation A. E.g. {'2':[['A1','A2']]}
-        :param compB: dict
-            The components of representation B. E.g. {'3':[['B1','B2','B3],['B4','B5','B6']]} for a 3 + 3 representation
-        :return: dict
-            The components of the product. E.g. {'1':[['A1 B2 + A2 B1']], '2':[['A1 B1 - A2 B2','A1 B3 + A2 B2']]}
+
+        :param compA: The components of representation A. E.g. {'2':[['A1','A2']]}
+        :type compA: dict
+        :param compB: The components of representation B.
+            E.g. {'3':[['B1','B2','B3],['B4','B5','B6']]} for a 3 + 3 representation
+        :type compB: dict
+        :return: The components of the product. E.g. {'1':[['A1 B2 + A2 B1']], '2':[['A1 B1 - A2 B2','A1 B3 + A2 B2']]}
+        :rtype: dict
         """
         compC = {}
         for irrepA in compA:
@@ -150,13 +153,13 @@ class NonAbelianGroup(Group):
 
 
 class U1Group(Group):
+    """
+    A U(1) group
+
+    :param name: The name of the group
+    :type name: str
+    """
     def __init__(self, name):
-        """
-        A U(1) group
-        ----------
-        :param name: str
-            The name of the group
-        """
         super().__init__(name)
 
     def make_product(self, chargeA, chargeB):

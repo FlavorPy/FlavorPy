@@ -4,16 +4,17 @@ from itertools import combinations_with_replacement
 def list_allowed_terms(all_fields: list, allowed, order=4) -> list:
     """
     Make a list of all combinations of fields, that contain the charges of the field 'allowed'.
-    ----------
-    :param all_fields: list
-        A list that contains all fields. Fields have to be an object of the 'Field'-class.
-    :param allowed: 'Field'-class object
-        All returned terms have to contain the representations/charges of this field.
+
+    :param all_fields: A list that contains all fields. Fields have to be an object of the 'Field'-class.
+    :type all_fields: list
+    :param allowed: All returned terms have to contain the representations/charges of this field.
         Has to be an object of the 'Field'-class.
-    :param order: int
-        The order up to which terms are considered, i.e. how many fields are multiplied to yield a term.
-    :return: list
-        A list, whose elements are the terms whose charges coincide with 'allowed'. Elements are object of 'Field'-class
+    :type allowed: :py:meth:`~constructterms.field.Field`
+    :param order: The order up to which terms are considered, i.e. how many fields are multiplied to yield a term.
+    :type order: int
+    :return: A list, whose elements are the terms whose charges coincide with 'allowed'. Elements are object of
+        'Field'-class
+    :rtype: list
     """
     # Generate all possible combinations
     combinations = list(combinations_with_replacement(all_fields, order))
