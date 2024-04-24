@@ -1,0 +1,32 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "flavorpy"
+version = "0.1.0"
+authors = [
+  { name="Alexander Baur", email="alexander.baur@tum.de" },
+]
+description = "Library for calculations around discrete flavor symmetries in particle physics"
+keywords = ["particle physics", "flavor symmetry", "discrete symmetry", "standard model", "modular flavor symmetry", "flavor model"]
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.8"
+dependencies = [
+  "lmfit",
+  "numpy",
+  "scipy",
+  "pandas",
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Licence :: BSD3",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Science/Research",
+    "Topic :: Science/Engineering :: Physics",
+]
+
+[project.urls]
+Homepage = "https://flavorpy.github.io/FlavorPy"
+Repository = "https://github.com/FlavorPy/FlavorPy"
