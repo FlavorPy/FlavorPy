@@ -12,11 +12,8 @@ We begin by importing the necessary packages:
 
 .. code:: ipython3
 
-    directory_to_git_folder = "/home/alex/GitRepos/FlavorPy/tmp_version"  # Adjust this to your case!!
-    import os
-    os.chdir(os.path.expanduser(directory_to_git_folder))
     # Import the modelfitting module of FlavorPy
-    import modelfitting as mf
+    import flavorpy.modelfitting as mf
     # We will also need numpy and pandas
     import numpy as np
     import pandas as pd

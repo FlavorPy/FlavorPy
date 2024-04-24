@@ -6,22 +6,14 @@ This example is supposed to serve as a quick start to the ModelFitting module of
 Import FlavorPy
 ---------------
 
-First dowload the files from the `github repository <https://github.com/FlavorPy/FlavorPy/>`_ 
-and save them to some location on your computer.
-
-Then tell python this location. This is done here with ‘directory_to_git_folder’.
-
-Import the modelfitting module of FlavorPy.
+After installing flavorpy with 
+:code:`pip install flavorpy`,
+import the modelfitting module of FlavorPy.
 
 .. code:: ipython3
 
-    # Specify location of FlavorPy files
-    directory_to_git_folder = "/home/alex/GitRepos/FlavorPy/current_version"  # Adjust this to your case!!
-    import os
-    os.chdir(os.path.expanduser(directory_to_git_folder))
-    
     # Import the modelfitting module of FlavorPy
-    import modelfitting as mf
+    import flavorpy.modelfitting as mf
     
     # We will also need numpy and pandas
     import numpy as np

@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Simple example &#8212; FlavorPy 1.0 documentation</title>
+    <title>Simple example &#8212; FlavorPy 0.1.0 documentation</title>
   
   
   
@@ -105,7 +105,7 @@
   
   
   
-    <p class="title logo__title">FlavorPy 1.0 documentation</p>
+    <p class="title logo__title">FlavorPy 0.1.0 documentation</p>
   
 </a></div>
     
@@ -320,17 +320,11 @@ document.write(`
 <p>This example is supposed to serve as a quick start to the ModelFitting module of FlavorPy.</p>
 <section id="import-flavorpy">
 <h2>Import FlavorPy<a class="headerlink" href="#import-flavorpy" title="Permalink to this heading">#</a></h2>
-<p>First dowload the files from the <a class="reference external" href="https://github.com/FlavorPy/FlavorPy/">github repository</a>
-and save them to some location on your computer.</p>
-<p>Then tell python this location. This is done here with ‘directory_to_git_folder’.</p>
-<p>Import the modelfitting module of FlavorPy.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Specify location of FlavorPy files</span>
-<span class="n">directory_to_git_folder</span> <span class="o">=</span> <span class="s2">&quot;/home/alex/GitRepos/FlavorPy/current_version&quot;</span>  <span class="c1"># Adjust this to your case!!</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">directory_to_git_folder</span><span class="p">))</span>
-
-<span class="c1"># Import the modelfitting module of FlavorPy</span>
-<span class="kn">import</span> <span class="nn">modelfitting</span> <span class="k">as</span> <span class="nn">mf</span>
+<p>After installing flavorpy with
+<code class="code docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">flavorpy</span></code>,
+import the modelfitting module of FlavorPy.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import the modelfitting module of FlavorPy</span>
+<span class="kn">import</span> <span class="nn">flavorpy.modelfitting</span> <span class="k">as</span> <span class="nn">mf</span>
 
 <span class="c1"># We will also need numpy and pandas</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>

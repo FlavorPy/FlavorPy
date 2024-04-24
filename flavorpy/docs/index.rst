@@ -18,7 +18,7 @@
 FlavorPy documentation
 ======================
 
-FlavorPy is a Python library for calculations around discrete flavor symmetries. Currently it is split into two parts: 
+FlavorPy is a Python library for calculations around discrete flavor symmetries in particle physics. Currently it is split into two parts: 
 
 .. grid:: 2
    :gutter: 4
@@ -57,6 +57,15 @@ FlavorPy is a Python library for calculations around discrete flavor symmetries.
 Install
 -------
 
+You can install FlavorPy from PyPI with pip by running
+
+   .. code-block:: 
+   
+      pip install flavorpy
+      
+      
+Alternatively, you can:
+
 #. Download the files from the `github repository <https://github.com/FlavorPy/FlavorPy/>`_. 
 
 #. Open python and load the files with:
@@ -72,7 +81,13 @@ Install
       
 #. Start using the parts of FlavorPy imported as `ct` and `mf`!
 
-   
+Examples
+--------
+
+Take a look at these 
+:doc:`examples/examples_page` 
+to get an overview of the usage and capabilities of FlavorPy.
+
 
 Development
 -----------
@@ -84,6 +99,14 @@ The objectives of current development are:
 * implementing quark models in ModelFitting
 * bringing the two parts, ConstructTerms and ModelFitting, together
 * integrating `GAP <https://www.gap-system.org/>`_ and its `SmallGroups` library
+
+If you want to contribute, please feel free to contact `Alexander Baur <alexander.baur@tum.de>`_.
+
+
+Credit
+------
+
+FlavorPy makes use of experimental data obtained by NuFit published in `JHEP 09 (2020) 178 <http://dx.doi.org/10.1007/JHEP09(2020)178>`_, `arXiv:2007.14792 <http://arxiv.org/abs/2007.14792>`_, and their website `www.nu-fit.org <http://www.nu-fit.org/>`_. Please cite NuFit if you use their experimental data.
 
 
 Indices and tables
