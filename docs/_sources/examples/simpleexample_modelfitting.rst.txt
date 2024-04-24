@@ -6,9 +6,9 @@ This example is supposed to serve as a quick start to the ModelFitting module of
 Import FlavorPy
 ---------------
 
-After installing flavorpy with 
+After installing FlavorPy with 
 :code:`pip install flavorpy`,
-import the modelfitting module of FlavorPy.
+import the modelfitting module.
 
 .. code:: ipython3
 

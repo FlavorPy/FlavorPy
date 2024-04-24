@@ -57,11 +57,11 @@ FlavorPy is a Python library for calculations around discrete flavor symmetries 
 Install
 -------
 
-You can install FlavorPy from PyPI with pip by running
+You can install FlavorPy from `PyPI <https://pypi.org/project/flavorpy/>`_ with pip by running
 
-   .. code-block:: 
+.. code-block:: 
    
-      pip install flavorpy
+   pip install flavorpy
       
       
 Alternatively, you can:
@@ -108,6 +108,30 @@ Credit
 
 FlavorPy makes use of experimental data obtained by NuFit published in `JHEP 09 (2020) 178 <http://dx.doi.org/10.1007/JHEP09(2020)178>`_, `arXiv:2007.14792 <http://arxiv.org/abs/2007.14792>`_, and their website `www.nu-fit.org <http://www.nu-fit.org/>`_. Please cite NuFit if you use their experimental data.
 
+Citing FlavorPy
+---------------
+
+If FlavorPy contributes to a project that leads to a publication, please acknowledge this fact by citing:
+
+`A. Baur, "FlavorPy", Zenodo, 2024, doi: 10.5281/zenodo.11060597 <https://doi.org/10.5281/zenodo.11060597>`_.
+
+Here is an example of a BibTex entry:
+
+.. code-block:: tex
+   
+      @software{FlavorPy,
+        author        = {Baur, Alexander},
+        title         = "{FlavorPy}",
+        year          = {2024},
+        publisher     = {Zenodo},
+        version       = {v0.1.0},
+        doi           = {10.5281/zenodo.11060597},
+        url           = "\url{https://doi.org/10.5281/zenodo.11060597}"
+      } 
+
+When using the NuFit experimental data, please also cite:
+
+`I. Esteban, M. C. González-García, M. Maltoni, T. Schwetz, and A. Zhou, The fate of hints: updated global analysis of three-flavor neutrino oscillations, JHEP 09 (2020), 178, arXiv:2007.14792 [hep-ph], https://www.nu-fit.org <https://link.springer.com/article/10.1007/JHEP09(2020)178>`_.
 
 Indices and tables
 ------------------
