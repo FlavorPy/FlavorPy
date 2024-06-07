@@ -1,6 +1,8 @@
 import numpy as np
 import pandas as pd
 import scipy.interpolate
+import pkgutil
+from io import StringIO
 from ...experimentaldata import ExperimentalData
 
 ###########################################################################################
@@ -11,24 +13,36 @@ from ...experimentaldata import ExperimentalData
 
 ### import the 1-dimensional chi^2 projections
 # Normal ordering
-exps13_NO = pd.read_csv('~/v52.release-SKyes-NO.txt', delimiter='\s+', skiprows=1524981, nrows=102, index_col=False)
-exps12_NO = pd.read_csv('~/v52.release-SKyes-NO.txt', delimiter='\s+', skiprows=1525084, nrows=133, index_col=False)
-exps23_NO = pd.read_csv('~/v52.release-SKyes-NO.txt', delimiter='\s+', skiprows=1525220, nrows=101, index_col=False)
-expdcp_NO = pd.read_csv('~/v52.release-SKyes-NO.txt', delimiter='\s+', skiprows=1525323, nrows=73, index_col=False)
-expm21_NO = pd.read_csv('~/v52.release-SKyes-NO.txt', delimiter='\s+', skiprows=1525398, nrows=312, index_col=False)
-expm3l_NO = pd.read_csv('~/v52.release-SKyes-NO.txt', delimiter='\s+', skiprows=1525712, nrows=480, index_col=False)
+data_no = StringIO(pkgutil.get_data(__name__, "v52.release-SKyes-NO.txt").decode())
+exps13_NO = pd.read_csv(data_no, delimiter='\s+', skiprows=1524981, nrows=102, index_col=False)
+data_no.seek(0)
+exps12_NO = pd.read_csv(data_no, delimiter='\s+', skiprows=1525084, nrows=133, index_col=False)
+data_no.seek(0)
+exps23_NO = pd.read_csv(data_no, delimiter='\s+', skiprows=1525220, nrows=101, index_col=False)
+data_no.seek(0)
+expdcp_NO = pd.read_csv(data_no, delimiter='\s+', skiprows=1525323, nrows=73, index_col=False)
+data_no.seek(0)
+expm21_NO = pd.read_csv(data_no, delimiter='\s+', skiprows=1525398, nrows=312, index_col=False)
+data_no.seek(0)
+expm3l_NO = pd.read_csv(data_no, delimiter='\s+', skiprows=1525712, nrows=480, index_col=False)
 expdcp_NO['d/pi'] = np.mod(expdcp_NO['Delta_CP/deg']/180, 2)
 expdcp_NO = expdcp_NO.sort_values(by=['d/pi'])
 expdcp_NO = expdcp_NO.drop_duplicates(subset=['d/pi'])
 expm21_NO['m21'] = np.power(10, expm21_NO['Log10(Delta_m21^2/[eV^2])'])
 expm3l_NO['m3l'] = expm3l_NO['Delta_m31^2/[1e-3_eV^2]']*1e-03
 # Inverted ordering
-exps13_IO = pd.read_csv('~/v52.release-SKyes-IO.txt', delimiter='\s+', skiprows=1524981, nrows=102, index_col=False)
-exps12_IO = pd.read_csv('~/v52.release-SKyes-IO.txt', delimiter='\s+', skiprows=1525084, nrows=133, index_col=False)
-exps23_IO = pd.read_csv('~/v52.release-SKyes-IO.txt', delimiter='\s+', skiprows=1525220, nrows=101, index_col=False)
-expdcp_IO = pd.read_csv('~/v52.release-SKyes-IO.txt', delimiter='\s+', skiprows=1525323, nrows=73, index_col=False)
-expm21_IO = pd.read_csv('~/v52.release-SKyes-IO.txt', delimiter='\s+', skiprows=1525398, nrows=312, index_col=False)
-expm3l_IO = pd.read_csv('~/v52.release-SKyes-IO.txt', delimiter='\s+', skiprows=1525712, nrows=480, index_col=False)
+data_io = StringIO(pkgutil.get_data(__name__, "v52.release-SKyes-IO.txt").decode())
+exps13_IO = pd.read_csv(data_io, delimiter='\s+', skiprows=1524981, nrows=102, index_col=False)
+data_io.seek(0)
+exps12_IO = pd.read_csv(data_io, delimiter='\s+', skiprows=1525084, nrows=133, index_col=False)
+data_io.seek(0)
+exps23_IO = pd.read_csv(data_io, delimiter='\s+', skiprows=1525220, nrows=101, index_col=False)
+data_io.seek(0)
+expdcp_IO = pd.read_csv(data_io, delimiter='\s+', skiprows=1525323, nrows=73, index_col=False)
+data_io.seek(0)
+expm21_IO = pd.read_csv(data_io, delimiter='\s+', skiprows=1525398, nrows=312, index_col=False)
+data_io.seek(0)
+expm3l_IO = pd.read_csv(data_io, delimiter='\s+', skiprows=1525712, nrows=480, index_col=False)
 expdcp_IO['d/pi'] = np.mod(expdcp_IO['Delta_CP/deg']/180, 2)
 expdcp_IO = expdcp_IO.sort_values(by=['d/pi'])
 expdcp_IO = expdcp_IO.drop_duplicates(subset=['d/pi'])
