@@ -1,6 +1,7 @@
 import lmfit
 from lmfit import Parameters
 import numpy as np
+from copy import deepcopy
 
 
 class ParameterDimension:
@@ -40,6 +41,9 @@ class ParameterDimension:
     def __repr__(self):
         return f"Parameter '{self.name}'"
 
+    def copy(self):
+        return deepcopy(self)
+
 
 class ParameterSpace(dict):
     """
@@ -55,6 +59,9 @@ class ParameterSpace(dict):
 
     def __repr__(self):
         return self.name
+
+    def copy(self):
+        return deepcopy(self)
 
     def add_dim(self, name, sample_fct=None, vary=True, min=-np.inf, max=np.inf, expr=None, brute_step=None):
         """

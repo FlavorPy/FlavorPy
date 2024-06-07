@@ -1,10 +1,10 @@
 import numpy as np
 import pandas as pd
+from copy import deepcopy
 from .experimental_data.NuFit52.nufit52_chisqprofiles import NuFit52_NO
 from .parameterspace import ParameterSpace
 from .mixingcalculations import calculate_lepton_dimensionless_observables, calculate_lepton_observables
-from .fit import Fit
-from copy import deepcopy
+from .fit import Fit, LmfitMinimizer
 
 
 class FlavorPyError(Exception):
@@ -117,14 +117,14 @@ class LeptonModel:
 
             self.parameterspace.add_dim(name='n_scale', sample_fct=const_fct, vary=False)
 
-            # add the scale to the mass matrix
+            # add the scale to the neutrino mass matrix
             def new_mass_matrix(params):
                 return params['n_scale'] * mass_matrix_n(params)
 
             self.mass_matrix_n = new_mass_matrix
 
         else:
-            self.parameterspace['n_scale'].vary = False  # don't worry we are going to fit it, just
+            self.parameterspace['n_scale'].vary = False  # don't worry we are going to fit it, just not in dimless_fit
 
     def __repr__(self):
         return self.name
@@ -176,7 +176,7 @@ class LeptonModel:
             being considered.
         :rtype: list
         """
-        # This is the residual used for the 'fast_fit' that only fits dimensionless observables.
+        # This is the residual used for the 'dimless_fit' that only fits dimensionless observables.
         observables = self.get_dimless_obs(params)
         chisq_list = self.experimental_data.get_chisq_list(values=observables,
                                                            considered_obs=self.fitted_observables_dimless)
@@ -266,8 +266,6 @@ class LeptonModel:
             the number entered as \'points\'.
         :rtype: pandas.DataFrame
         """
-        # Fast refers to that only the dimensionless observables are fitted, and the resulting pd.DataFrame is also
-        # minimal in terms of memory consumption because it does not contain any redundant value.
 
         if self.parameterspace['n_scale'].vary:
             print("""Please set ParameterSpace[\'n_scale\'].vary = False, unless you have a very good reason.
@@ -281,12 +279,12 @@ class LeptonModel:
                 SingleFit = Fit(model=self, params=self.parameterspace.random_pt(), **fitting_kwargs)
                 single_result = SingleFit.make_fit()
                 result_df = SingleFit.fit_results_into_dataframe(single_result)
-                df = df.append(result_df, ignore_index=True)
+                df = pd.concat([df, result_df], ignore_index=True)
             except:
                 counter_exception += 1
                 pass
             if counter_exception == points:
-                raise FlavorPyError(f"""When calling Model.fast_fit() all fits failed. Try running 
+                raise FlavorPyError(f"""When calling Model.dimless_fit() all fits failed. Try running 
                                     res = Fit(model='{self.name}', params='{self.name}'.parameterspace.random_pt(),
                                               **fitting_kwargs).make_fit() and see what causes the error.
                                     If this runs smoothly, try Fit(...).fit_results_into_dataframe(res).""")
@@ -324,6 +322,66 @@ class LeptonModel:
 
     # def merge_fit_results(self):
         # merge all entries of fit_results, which should be a pd.DataFrame, into one big pd.DataFrame
+
+    def mcmc_fit(self, df_start, params_not_varied=None, mcmc_steps=1000, burn=300, thin=10, nwalkers=40,
+                 nan_policy='omit', progress=True, print_error=False, **emcee_kwargs):
+        """
+        A Markov-Chain-Monte-Carlo (MCMC) sampling is a useful method to explore the parameter space around a minimum.
+        A typical workflow would be to first find a minimum using the make_fit() option and then further explore the
+        vicinity of this minimum with mcmc_fit() to get an improved understanding of the probability distribution
+        for the parameters.
+
+        :param df_start: Contains the starting points around which further points should be sampled.
+        :type df_start: Two-dimensional dict-like, preferably a pandas.DataFrame
+        :param params_not_varied: The parameters of self.parameterspace that should not be varied additionally to the
+            ones that are already set not to vary in self.parameterspace.
+        :type params_not_varied: list, optional
+        :param mcmc_steps: The amount of points sampled.
+        :type mcmc_steps: int
+        :param burn: How many samples from the start of the sampling should be discarded. Default is 300.
+        :type burn: int, optional
+        :param thin: Only accept 1 in every 'thin' samples. Default is 10.
+        :type thin: int, optional
+        :param nwalkers: Number of members of the ensemble. Make sure that 'nwalkers' >> number of varied parameters.
+            Default is 40.
+        :type nwalkers: int
+        :param nan_policy: Specify how to handle it if the residual returns NaN values. Default is 'omit'.
+        :type nan_policy: possible are 'raise', 'propagate', and 'omit', optional
+        :param progress: If True prints a progress bar of the sampling. Default is True.
+        :type progress: bool, optional
+        :param print_error: If True prints the index of a given row if the sampling didn't work for this row.
+            Default is False.
+        :type print_error: bool, optional
+        :param emcee_kwargs: Further keyword arguments can be passed down to
+            `lmfit.Minimizer.emcee <https://lmfit.github.io/lmfit-py/fitting.html#lmfit.minimizer.Minimizer.emcee>`
+        :return: A pandas.DataFrame containing all the sampled points.
+        :rtype: panda.DataFrame
+        """
+
+        if params_not_varied is None:
+            params_not_varied = []
+        df = pd.DataFrame()
+        for i in df_start.index:
+            if progress:
+                print(i, ": ")
+            try:
+                params = self.parameterspace.random_pt()  # The values of this "random" point are set in the next line
+                for param in params:
+                    params[param].value = df_start.loc[i][param]
+                for par in params_not_varied:
+                    params[par].vary = False
+                SingleFit = LmfitMinimizer(model=self, params=params, nan_policy=nan_policy)
+                out = SingleFit.emcee(steps=mcmc_steps, nwalkers=nwalkers, burn=burn, thin=thin, progress=progress,
+                                      **emcee_kwargs)
+                flatchain = out.flatchain
+                for param in params:
+                    if not params[param].vary:
+                        flatchain[param] = df_start.loc[i][param]
+                df = pd.concat([df, flatchain], ignore_index=True)
+            except:
+                if print_error:
+                    print(f"error with index {i}")
+        return df
 
 
 class QuarkModel:

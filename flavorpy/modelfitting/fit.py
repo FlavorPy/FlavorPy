@@ -1,12 +1,13 @@
+import lmfit
 import pandas as pd
-from lmfit import minimize
+from lmfit import minimize, Minimizer
 import time
 import numpy as np
 
 
 class Fit:
     """
-    This Class is supposed to represent the fitting of a single random point.
+    This class is supposed to represent the fitting of a single random point.
     
     :param model: The Model whose parameters you want to fit
     :type model: py:meth:`~modelfitting.model.LeptonModel`
@@ -93,7 +94,7 @@ class Fit:
 
     def fit_results_into_dataframe(self, fit_results: list) -> pd.DataFrame:
         """
-        Convertes the result of Fit.make_fit() into a pandas.DataFrame.
+        Converts the result of Fit.make_fit() into a pandas.DataFrame.
         
         :param fit_results: A list that contains elements of the lmfit.MinimizerResult.
         :type fit_results: list
@@ -105,10 +106,31 @@ class Fit:
         for result in fit_results:
             add = {'chisq': result.chisqr}
             for name in result.params:
-                add[name] = result.params[name].value
-            df = df.append(add, ignore_index=True)
+                add[name] = [result.params[name].value]
+            df = pd.concat([df, pd.DataFrame(add)], ignore_index=True)
         return df
-        
+
+
+class LmfitMinimizer(Minimizer):
+    """
+    A subclass of the `lmfit.Minimizer <https://lmfit.github.io/lmfit-py/fitting.html#using-the-minimizer-class>` class.
+
+    :param model: The Model whose parameters you want to fit
+    :type model: py:meth:`~modelfitting.model.LeptonModel`
+    :param params: The parameters you want to fit
+    :type params: A lmfit.Parameters object.
+    :param **kwargs_Minimizer: Additional keyword arguments to pass to the
+        `lmfit.Minimizer <https://lmfit.github.io/lmfit-py/fitting.html#using-the-minimizer-class>` superclass.
+    """
+    def __init__(self, model=None, params=None, nan_policy='omit', **kwargs_Minimizer):
+        def residual_nan(p):  # have the residual return 'nan' instead of stopping all calculations
+            try:
+                return model.residual(p)
+            except:
+                return np.array([np.nan for i in self.model.fitted_observables])
+        super().__init__(residual_nan, params, nan_policy=nan_policy, **kwargs_Minimizer)
+        self.model = model
+
 
 class MinimizeStopper(object):
     """

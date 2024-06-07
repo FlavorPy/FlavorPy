@@ -2,3 +2,4 @@ numpy>=1.23.4
 lmfit>=1.0.3
 pandas>=1.5.1
 scipy>=1.9.3
+emcee>=3.0.0

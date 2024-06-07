@@ -1,3 +1,6 @@
+from copy import deepcopy
+
+
 class Field:
     """
     Mathematically this object is a representation charged under some symmetry groups.
@@ -32,6 +35,9 @@ class Field:
 
     def __repr__(self):
         return self.name
+        
+    def copy(self):
+        return deepcopy(self)
 
     def times(self, other_field):
         """

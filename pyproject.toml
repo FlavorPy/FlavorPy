@@ -18,6 +18,7 @@ dependencies = [
   "numpy",
   "scipy",
   "pandas",
+  "emcee"
 ]
 classifiers = [
     "Programming Language :: Python :: 3",

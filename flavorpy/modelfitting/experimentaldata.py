@@ -1,4 +1,5 @@
 import numpy as np
+from copy import deepcopy
 
 
 class ExperimentalData:
@@ -62,6 +63,9 @@ class ExperimentalData:
 
     def __repr__(self):
         return self.name
+
+    def copy(self):
+        return deepcopy(self)
 
     def get_chisq(self, values: dict, considered_obs="auto") -> float:
         """

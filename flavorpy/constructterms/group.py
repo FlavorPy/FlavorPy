@@ -1,9 +1,15 @@
+from copy import deepcopy
+
+
 class Group:
     def __init__(self, name):
         self.name = name
 
     def __repr__(self):
         return self.name
+
+    def copy(self):
+        return deepcopy(self)
 
 
 class AbelianGroup(Group):
