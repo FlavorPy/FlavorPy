@@ -1,0 +1,604 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Detailed Example &#8212; FlavorPy 0.2.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/detailedexample_constructterms';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">FlavorPy 0.2.0 documentation</p>
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../constructterms.html">
+                        ConstructTerms
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../modelfitting.html">
+                        ModelFitting
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="examples_page.html">
+                        Examples
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/flavorpy/flavorpy" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../constructterms.html">
+                        ConstructTerms
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../modelfitting.html">
+                        ModelFitting
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="examples_page.html">
+                        Examples
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/flavorpy/flavorpy" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Detailed Example</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="detailed-example">
+<h1>Detailed Example<a class="headerlink" href="#detailed-example" title="Permalink to this heading">#</a></h1>
+<p>Compared to the simple example, in this detailed example, we will also
+determine the explicit form of the mass matrices for the flavor model
+introduced in “Are neutrino masses modular forms?” by F. Feruglio
+(<a class="reference external" href="https://arxiv.org/pdf/1706.08749">https://arxiv.org/pdf/1706.08749</a>) as so-called Example 1 in section
+3.12. The chiral supermultiplets and their transformation properties of
+this model are</p>
+<img alt="../_images/simpleexample_constructterms_table.png" src="../_images/simpleexample_constructterms_table.png" />
+<p>where <span class="math notranslate nohighlight">\(k_L=1\)</span>, <span class="math notranslate nohighlight">\(k_u=0\)</span>, <span class="math notranslate nohighlight">\(k_\varphi=-3\)</span>,
+and <span class="math notranslate nohighlight">\(k_{E_i}+k_L+k_d+k_\varphi=0\)</span>. Table taken from
+<a class="reference external" href="https://arxiv.org/pdf/1706.08749">https://arxiv.org/pdf/1706.08749</a>.</p>
+<section id="import">
+<h2>Import<a class="headerlink" href="#import" title="Permalink to this heading">#</a></h2>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import the constructterms module of FlavorPy</span>
+<span class="kn">import</span> <span class="nn">flavorpy.constructterms</span> <span class="k">as</span> <span class="nn">ct</span>
+</pre></div>
+</div>
+</section>
+<section id="define-groups">
+<h2>Define Groups<a class="headerlink" href="#define-groups" title="Permalink to this heading">#</a></h2>
+<p>Analogous to the simple example, we start by defining the non-Abelian
+group <span class="math notranslate nohighlight">\(A_4\)</span>. Only this time, we also define specific
+clebsch-gordan coefficients</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Representations of A4</span>
+<span class="n">A4_reps</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;1p&#39;</span><span class="p">,</span> <span class="s1">&#39;1pp&#39;</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="p">]</span>
+
+<span class="c1"># Tensor products of A_reps as a matrix, i.e. A_tensor_procuts[i,j,] = A4_reps[i] x A4_reps[j]</span>
+<span class="n">A4_tensor_products</span> <span class="o">=</span> <span class="p">[[[</span><span class="s1">&#39;1&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;1p&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;1pp&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;3&#39;</span><span class="p">]],</span>
+                      <span class="p">[[</span><span class="s1">&#39;1p&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;1pp&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;1&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;3&#39;</span><span class="p">]],</span>
+                      <span class="p">[[</span><span class="s1">&#39;1pp&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;1&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;1p&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;3&#39;</span><span class="p">]],</span>
+                      <span class="p">[[</span><span class="s1">&#39;3&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;3&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;3&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;1p&#39;</span><span class="p">,</span> <span class="s1">&#39;1pp&#39;</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="p">]]]</span>
+
+<span class="c1"># To determine the components of the mass matrix, we need to define the clebsch gordans for a specific basis.</span>
+<span class="c1"># In this case we will use the so-called &quot;complex basis&quot; specified in Appendix C of the paper</span>
+<span class="n">A4_clebsches</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;1 x 1&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="p">[[[</span><span class="mi">1</span><span class="p">]]]},</span>
+                <span class="s1">&#39;1 x 1p&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;1p&#39;</span><span class="p">:</span> <span class="p">[[[</span><span class="mi">1</span><span class="p">]]]},</span>
+                <span class="s1">&#39;1 x 1pp&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;1pp&#39;</span><span class="p">:</span> <span class="p">[[[</span><span class="mi">1</span><span class="p">]]]},</span>
+                <span class="s1">&#39;1p x 1p&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;1pp&#39;</span><span class="p">:</span> <span class="p">[[[</span><span class="mi">1</span><span class="p">]]]},</span>
+                <span class="s1">&#39;1p x 1pp&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="p">[[[</span><span class="mi">1</span><span class="p">]]]},</span>
+                <span class="s1">&#39;1pp x 1pp&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;1p&#39;</span><span class="p">:</span> <span class="p">[[[</span><span class="mi">1</span><span class="p">]]]},</span>
+                <span class="s1">&#39;1 x 3&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;3&#39;</span><span class="p">:</span> <span class="p">[[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]]]},</span>
+                <span class="s1">&#39;1p x 3&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;3&#39;</span><span class="p">:</span> <span class="p">[[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]]]},</span>
+                <span class="s1">&#39;1pp x 3&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;3&#39;</span><span class="p">:</span> <span class="p">[[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]]]},</span>
+                <span class="s1">&#39;3 x 3&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="p">[[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]]],</span>
+                          <span class="s1">&#39;1p&#39;</span><span class="p">:</span> <span class="p">[[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]]],</span>
+                          <span class="s1">&#39;1pp&#39;</span><span class="p">:</span> <span class="p">[[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]]],</span>
+                          <span class="s1">&#39;3&#39;</span><span class="p">:</span> <span class="p">[[[</span><span class="s2">&quot; 2/sqrt(3)&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s2">&quot;- 1/sqrt(3)&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="s2">&quot;- 1/sqrt(3)&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+                                 <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="s2">&quot;- 1/sqrt(3)&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;- 1/sqrt(3)&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s2">&quot; 2/sqrt(3)&quot;</span><span class="p">],</span>
+                                 <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s2">&quot;- 1/sqrt(3)&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="s2">&quot; 2/sqrt(3)&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;- 1/sqrt(3)&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]],</span>
+                                <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+                                 <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+                                 <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]]]}}</span>
+
+<span class="c1"># Construct A4 Group</span>
+<span class="n">A4</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">NonAbelianGroup</span><span class="p">(</span><span class="s1">&#39;A4&#39;</span><span class="p">,</span> <span class="n">representations</span><span class="o">=</span><span class="n">A4_reps</span><span class="p">,</span>
+                        <span class="n">tensor_products</span><span class="o">=</span><span class="n">A4_tensor_products</span><span class="p">,</span> <span class="n">clebsches</span><span class="o">=</span><span class="n">A4_clebsches</span><span class="p">)</span>
+
+<span class="c1"># Construct Modular Weight &quot;group&quot;</span>
+<span class="n">mod_weight</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">U1Group</span><span class="p">(</span><span class="s1">&#39;mod weight&#39;</span><span class="p">)</span>
+
+<span class="c1"># Construct U(1) Hypercharge</span>
+<span class="n">U1y</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">U1Group</span><span class="p">(</span><span class="s1">&#39;U1y&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="define-fields">
+<h2>Define Fields<a class="headerlink" href="#define-fields" title="Permalink to this heading">#</a></h2>
+<p>Next, we can define the fields of the flavor model. Compared to the
+simple example we now also give explicit components under the A4
+symmetry.</p>
+<p>It is very important to note that ConstructTerms can only handle one
+non-Abelian group or multiple non-Abelian groups that commute with each
+other, i.e. a direct product of multiple non-Abelian groups. Do not
+assign charges of two separate non-Abelian groups, if they do not
+commute!</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ke</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">kd</span> <span class="o">=</span> <span class="o">-</span> <span class="n">ke</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">-</span> <span class="mi">3</span>
+
+<span class="n">E1</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="s1">&#39;E1&#39;</span><span class="p">,</span> <span class="n">charges</span><span class="o">=</span><span class="p">{</span><span class="n">A4</span><span class="p">:[</span><span class="s1">&#39;1&#39;</span><span class="p">],</span> <span class="n">mod_weight</span><span class="p">:</span><span class="n">ke</span><span class="p">,</span> <span class="n">U1y</span><span class="p">:</span><span class="mi">1</span><span class="p">},</span> <span class="n">components</span><span class="o">=</span><span class="p">{</span><span class="n">A4</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s1">&#39;e1&#39;</span><span class="p">]]}})</span>
+<span class="n">E2</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="s1">&#39;E2&#39;</span><span class="p">,</span> <span class="n">charges</span><span class="o">=</span><span class="p">{</span><span class="n">A4</span><span class="p">:[</span><span class="s1">&#39;1pp&#39;</span><span class="p">],</span> <span class="n">mod_weight</span><span class="p">:</span><span class="n">ke</span><span class="p">,</span> <span class="n">U1y</span><span class="p">:</span><span class="mi">1</span><span class="p">},</span> <span class="n">components</span><span class="o">=</span><span class="p">{</span><span class="n">A4</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;1pp&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s1">&#39;e2&#39;</span><span class="p">]]}})</span>
+<span class="n">E3</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="s1">&#39;E3&#39;</span><span class="p">,</span> <span class="n">charges</span><span class="o">=</span><span class="p">{</span><span class="n">A4</span><span class="p">:[</span><span class="s1">&#39;1p&#39;</span><span class="p">],</span> <span class="n">mod_weight</span><span class="p">:</span><span class="n">ke</span><span class="p">,</span> <span class="n">U1y</span><span class="p">:</span><span class="mi">1</span><span class="p">},</span> <span class="n">components</span><span class="o">=</span><span class="p">{</span><span class="n">A4</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;1p&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s1">&#39;e3&#39;</span><span class="p">]]}})</span>
+<span class="n">L</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="s1">&#39;L&#39;</span><span class="p">,</span> <span class="n">charges</span><span class="o">=</span><span class="p">{</span><span class="n">A4</span><span class="p">:[</span><span class="s1">&#39;3&#39;</span><span class="p">],</span> <span class="n">mod_weight</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">U1y</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">},</span> <span class="n">components</span><span class="o">=</span><span class="p">{</span><span class="n">A4</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;3&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s1">&#39;l1&#39;</span><span class="p">,</span> <span class="s1">&#39;l2&#39;</span><span class="p">,</span> <span class="s1">&#39;l3&#39;</span><span class="p">]]}})</span>
+<span class="n">Hd</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="s1">&#39;Hd&#39;</span><span class="p">,</span> <span class="n">charges</span><span class="o">=</span><span class="p">{</span><span class="n">A4</span><span class="p">:[</span><span class="s1">&#39;1&#39;</span><span class="p">],</span> <span class="n">mod_weight</span><span class="p">:</span><span class="n">kd</span><span class="p">,</span> <span class="n">U1y</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">},</span> <span class="n">components</span><span class="o">=</span><span class="p">{</span><span class="n">A4</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s1">&#39;hd&#39;</span><span class="p">]]}})</span>
+<span class="n">Hu</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="s1">&#39;Hu&#39;</span><span class="p">,</span> <span class="n">charges</span><span class="o">=</span><span class="p">{</span><span class="n">A4</span><span class="p">:[</span><span class="s1">&#39;1&#39;</span><span class="p">],</span> <span class="n">mod_weight</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="n">U1y</span><span class="p">:</span><span class="o">+</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">},</span> <span class="n">components</span><span class="o">=</span><span class="p">{</span><span class="n">A4</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s1">&#39;hu&#39;</span><span class="p">]]}})</span>
+<span class="n">PhiT</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="s1">&#39;PhiT&#39;</span><span class="p">,</span> <span class="n">charges</span><span class="o">=</span><span class="p">{</span><span class="n">A4</span><span class="p">:[</span><span class="s1">&#39;3&#39;</span><span class="p">],</span> <span class="n">mod_weight</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="n">U1y</span><span class="p">:</span><span class="mi">0</span><span class="p">},</span> <span class="n">components</span><span class="o">=</span><span class="p">{</span><span class="n">A4</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;3&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s1">&#39;phi1&#39;</span><span class="p">,</span> <span class="s1">&#39;phi2&#39;</span><span class="p">,</span> <span class="s1">&#39;phi3&#39;</span><span class="p">]]}})</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="s1">&#39;Y&#39;</span><span class="p">,</span> <span class="n">charges</span><span class="o">=</span><span class="p">{</span><span class="n">A4</span><span class="p">:[</span><span class="s1">&#39;3&#39;</span><span class="p">],</span> <span class="n">mod_weight</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="n">U1y</span><span class="p">:</span><span class="mi">0</span><span class="p">},</span> <span class="n">components</span><span class="o">=</span><span class="p">{</span><span class="n">A4</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;3&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s1">&#39;y1&#39;</span><span class="p">,</span> <span class="s1">&#39;y2&#39;</span><span class="p">,</span> <span class="s1">&#39;y3&#39;</span><span class="p">]]}})</span>
+
+<span class="n">all_fields</span> <span class="o">=</span> <span class="p">[</span><span class="n">E1</span><span class="p">,</span> <span class="n">E2</span><span class="p">,</span> <span class="n">E3</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">Hd</span><span class="p">,</span> <span class="n">Hu</span><span class="p">,</span> <span class="n">PhiT</span><span class="p">,</span> <span class="n">Y</span><span class="p">]</span>
+
+<span class="n">W</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="s1">&#39;W&#39;</span><span class="p">,</span> <span class="n">charges</span><span class="o">=</span><span class="p">{</span><span class="n">A4</span><span class="p">:[</span><span class="s1">&#39;1&#39;</span><span class="p">],</span> <span class="n">mod_weight</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="n">U1y</span><span class="p">:</span><span class="mi">0</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>As a side remark, it is also possible to determine the product of two
+fields, which again yields an instance of the Field class, i.e.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">LxPhiT</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">times</span><span class="p">(</span><span class="n">PhiT</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;LxPhiT.charges: &#39;</span><span class="p">,</span> <span class="n">LxPhiT</span><span class="o">.</span><span class="n">charges</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;LxPhiT.components:&#39;</span><span class="p">,</span> <span class="n">LxPhiT</span><span class="o">.</span><span class="n">components</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">LxPhiT</span><span class="o">.</span><span class="n">charges</span><span class="p">:</span>  <span class="p">{</span><span class="n">A4</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;1p&#39;</span><span class="p">,</span> <span class="s1">&#39;1pp&#39;</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="p">],</span> <span class="n">mod</span> <span class="n">weight</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="n">U1y</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">}</span>
+
+<span class="n">LxPhiT</span><span class="o">.</span><span class="n">components</span><span class="p">:</span> <span class="p">{</span><span class="n">A4</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s1">&#39;l1 phi1 + l2 phi3 + l3 phi2&#39;</span><span class="p">]],</span> <span class="s1">&#39;1p&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s1">&#39;l1 phi2 + l2 phi1 + l3 phi3&#39;</span><span class="p">]],</span> <span class="s1">&#39;1pp&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s1">&#39;l1 phi3 + l2 phi2 + l3 phi1&#39;</span><span class="p">]],</span> <span class="s1">&#39;3&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s1">&#39;2/sqrt(3) l1 phi1  - 1/sqrt(3) l2 phi3  - 1/sqrt(3) l3 phi2&#39;</span><span class="p">,</span> <span class="s1">&#39;- 1/sqrt(3) l1 phi2  - 1/sqrt(3) l2 phi1 +  2/sqrt(3) l3 phi3&#39;</span><span class="p">,</span> <span class="s1">&#39;- 1/sqrt(3) l1 phi3 +  2/sqrt(3) l2 phi2  - 1/sqrt(3) l3 phi1&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;l2 phi3 - l3 phi2&#39;</span><span class="p">,</span> <span class="s1">&#39;l1 phi2 - l2 phi1&#39;</span><span class="p">,</span> <span class="s1">&#39;- l1 phi3 + l3 phi1&#39;</span><span class="p">]]}}</span>
+</pre></div>
+</div>
+</section>
+<section id="determine-symmetry-invariant-terms-in-the-superpotential">
+<h2>Determine symmetry invariant terms in the superpotential<a class="headerlink" href="#determine-symmetry-invariant-terms-in-the-superpotential" title="Permalink to this heading">#</a></h2>
+<p>Then we can determine the symmetry invariant terms up to a specific
+order of the superpotential with</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">allowed_products</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">list_allowed_terms</span><span class="p">(</span><span class="n">all_fields</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">allowed_products</span>
+</pre></div>
+</div>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">L</span> <span class="n">L</span> <span class="n">Hu</span> <span class="n">Hu</span> <span class="n">Y</span><span class="p">,</span> <span class="n">E1</span> <span class="n">L</span> <span class="n">Hd</span> <span class="n">PhiT</span><span class="p">,</span> <span class="n">E2</span> <span class="n">L</span> <span class="n">Hd</span> <span class="n">PhiT</span><span class="p">,</span> <span class="n">E3</span> <span class="n">L</span> <span class="n">Hd</span> <span class="n">PhiT</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Moreover to obtain the explicit components of a term and determine the
+mass matrix call</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">product0</span> <span class="o">=</span> <span class="n">allowed_products</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">triv_A4_components</span> <span class="o">=</span> <span class="n">product0</span><span class="o">.</span><span class="n">components</span><span class="p">[</span><span class="n">A4</span><span class="p">][</span><span class="s1">&#39;1&#39;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">term</span> <span class="ow">in</span> <span class="n">triv_A4_components</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">term</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s1">&#39;(hu (hu (2/sqrt(3) l1 l1  - 1/sqrt(3) l2 l3  - 1/sqrt(3) l3 l2))) y1 + (hu (hu (- 1/sqrt(3) l1 l2  - 1/sqrt(3) l2 l1 +  2/sqrt(3) l3 l3))) y3 + (hu (hu (- 1/sqrt(3) l1 l3 +  2/sqrt(3) l2 l2  - 1/sqrt(3) l3 l1))) y2&#39;</span><span class="p">]</span>
+
+<span class="p">[</span><span class="s1">&#39;(hu (hu (l2 l3 - l3 l2))) y1 + (hu (hu (l1 l2 - l2 l1))) y3 + (hu (hu (- l1 l3 + l3 l1))) y2&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Here the first term of the product L L Hu Hu Y yields the mass matrix</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}M_\nu ~=~ \dfrac{hu\,hu}{\sqrt{3}} ~\begin{pmatrix} 2\,y1 &amp; -y3 &amp; -y2 \\ -y3 &amp; 2\,y2 &amp; -y1 \\ -y2 &amp; -y1 &amp; 2\,y3 \end{pmatrix},\end{split}\]</div>
+<p>while the second term yields</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\tilde M_\nu ~=~ hu\,hu ~\begin{pmatrix} 0 &amp; y3 &amp; -y2 \\ -y3 &amp; 0 &amp; y1 \\ y2 &amp; -y1 &amp; 0 \end{pmatrix},\end{split}\]</div>
+<p>which is antisymmetric and hence does not contribute to the neutrion
+mass. In total we can obtain the same mass matrix as the paper, see eq.
+(38).</p>
+<p>For the products that give mass to the charged leptons we get</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">products13</span> <span class="o">=</span> <span class="n">allowed_products</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+<span class="n">triv_A4_components</span> <span class="o">=</span> <span class="p">[</span><span class="n">product</span><span class="o">.</span><span class="n">components</span><span class="p">[</span><span class="n">A4</span><span class="p">][</span><span class="s1">&#39;1&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">product</span> <span class="ow">in</span> <span class="n">products13</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">term</span> <span class="ow">in</span> <span class="n">triv_A4_components</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">term</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="p">[[</span><span class="s1">&#39;hd e1 l1 phi1 + hd e1 l2 phi3 + hd e1 l3 phi2&#39;</span><span class="p">]]</span>
+
+<span class="p">[[</span><span class="s1">&#39;hd e2 l2 phi1 + hd e2 l3 phi3 + hd e2 l1 phi2&#39;</span><span class="p">]]</span>
+
+<span class="p">[[</span><span class="s1">&#39;hd e3 l3 phi1 + hd e3 l1 phi3 + hd e3 l2 phi2&#39;</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>Given that the second and third components of the flavon field PhiT
+vanish, i.e. phi2=phi3=0, the charged lepton mass matrix is diagonal and
+reads</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}M_e ~=~ hd\,phi1 ~\begin{pmatrix} \alpha &amp; 0 &amp; 0 \\ 0 &amp; \beta &amp; 0 \\ 0 &amp; 0 &amp; \gamma \end{pmatrix},\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\alpha\)</span>, <span class="math notranslate nohighlight">\(\beta\)</span>, <span class="math notranslate nohighlight">\(\gamma\)</span> are the symmetry
+invariant coupling coefficients in front of the three individual terms.
+This is in agreement with the result from the paper, see eq. (36)</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import">Import</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#define-groups">Define Groups</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#define-fields">Define Fields</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#determine-symmetry-invariant-terms-in-the-superpotential">Determine symmetry invariant terms in the superpotential</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="../_sources/examples/detailedexample_constructterms.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            <div class="bd-footer-content__inner"></div>
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2024, Alexander Baur.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://sphinx-doc.org/">Sphinx</a> 6.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

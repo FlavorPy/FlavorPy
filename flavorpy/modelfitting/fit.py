@@ -1,4 +1,4 @@
-import lmfit
+#import lmfit
 import pandas as pd
 from lmfit import minimize, Minimizer
 import time
@@ -113,14 +113,15 @@ class Fit:
 
 class LmfitMinimizer(Minimizer):
     """
-    A subclass of the `lmfit.Minimizer <https://lmfit.github.io/lmfit-py/fitting.html#using-the-minimizer-class>` class.
+    A subclass of the `lmfit.Minimizer <https://lmfit.github.io/lmfit-py/fitting.html#using-the-minimizer-class>`_
+    class.
 
     :param model: The Model whose parameters you want to fit
-    :type model: py:meth:`~modelfitting.model.LeptonModel`
+    :type model: :py:meth:`~modelfitting.model.LeptonModel`
     :param params: The parameters you want to fit
-    :type params: A lmfit.Parameters object.
+    :type params: lmfit.Parameters
     :param **kwargs_Minimizer: Additional keyword arguments to pass to the
-        `lmfit.Minimizer <https://lmfit.github.io/lmfit-py/fitting.html#using-the-minimizer-class>` superclass.
+        `lmfit.Minimizer <https://lmfit.github.io/lmfit-py/fitting.html#using-the-minimizer-class>`_ superclass.
     """
     def __init__(self, model=None, params=None, nan_policy='omit', **kwargs_Minimizer):
         def residual_nan(p):  # have the residual return 'nan' instead of stopping all calculations

@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "flavorpy"
-version = "0.1.0"
+version = "0.2.0"
 authors = [
   { name="Alexander Baur", email="alexander.baur@tum.de" },
 ]
@@ -14,11 +14,12 @@ readme = "README.md"
 license = {file = "LICENSE"}
 requires-python = ">=3.8"
 dependencies = [
-  "lmfit",
-  "numpy",
-  "scipy",
-  "pandas",
-  "emcee"
+  "lmfit>=1.0.3",
+  "numpy>=1.23.4",
+  "scipy>=1.9.3",
+  "pandas>=1.5.1",
+  "emcee>=3.0.0",
+  "matplotlib>=3.4.3"
 ]
 classifiers = [
     "Programming Language :: Python :: 3",

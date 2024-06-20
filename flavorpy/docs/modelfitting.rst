@@ -15,8 +15,8 @@ For the more advanced features, consider this
 
 
 
-The **Model** classes
----------------------
+The **Flavormodel** class
+-------------------------
 
 .. automodule:: modelfitting.model
    :members:
@@ -52,6 +52,14 @@ Some **mixingcalculations** utils
 ---------------------------------
 
 .. automodule:: modelfitting.mixingcalculations
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   
+Some **plotting** utils
+---------------------------------
+
+.. automodule:: modelfitting.plottingutils
    :members:
    :undoc-members:
    :show-inheritance:

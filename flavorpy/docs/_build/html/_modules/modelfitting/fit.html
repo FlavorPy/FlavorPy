@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>modelfitting.fit &#8212; FlavorPy 1.0 documentation</title>
+    <title>modelfitting.fit &#8212; FlavorPy 0.2.0 documentation</title>
   
   
   
@@ -103,7 +103,7 @@
   
   
   
-    <p class="title logo__title">FlavorPy 1.0 documentation</p>
+    <p class="title logo__title">FlavorPy 0.2.0 documentation</p>
   
 </a></div>
     
@@ -173,6 +173,22 @@ document.write(`
   </button>
 `);
 </script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/flavorpy/flavorpy" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
       
     </div>
     
@@ -256,6 +272,22 @@ document.write(`
 `);
 </script></div>
         
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/flavorpy/flavorpy" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+        
       </div>
     
   </div>
@@ -313,15 +345,16 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <h1>Source code for modelfitting.fit</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">lmfit</span> <span class="kn">import</span> <span class="n">minimize</span>
+<span></span><span class="c1">#import lmfit</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">lmfit</span> <span class="kn">import</span> <span class="n">minimize</span><span class="p">,</span> <span class="n">Minimizer</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 
 <div class="viewcode-block" id="Fit"><a class="viewcode-back" href="../../modelfitting.html#modelfitting.fit.Fit">[docs]</a><span class="k">class</span> <span class="nc">Fit</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This Class is supposed to represent the fitting of a single random point.</span>
+<span class="sd">    This class is supposed to represent the fitting of a single random point.</span>
 <span class="sd">    </span>
 <span class="sd">    :param model: The Model whose parameters you want to fit</span>
 <span class="sd">    :type model: py:meth:`~modelfitting.model.LeptonModel`</span>
@@ -408,7 +441,7 @@ document.write(`
 
 <div class="viewcode-block" id="Fit.fit_results_into_dataframe"><a class="viewcode-back" href="../../modelfitting.html#modelfitting.fit.Fit.fit_results_into_dataframe">[docs]</a>    <span class="k">def</span> <span class="nf">fit_results_into_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fit_results</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Convertes the result of Fit.make_fit() into a pandas.DataFrame.</span>
+<span class="sd">        Converts the result of Fit.make_fit() into a pandas.DataFrame.</span>
 <span class="sd">        </span>
 <span class="sd">        :param fit_results: A list that contains elements of the lmfit.MinimizerResult.</span>
 <span class="sd">        :type fit_results: list</span>
@@ -420,10 +453,32 @@ document.write(`
         <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">fit_results</span><span class="p">:</span>
             <span class="n">add</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;chisq&#39;</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">chisqr</span><span class="p">}</span>
             <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">params</span><span class="p">:</span>
-                <span class="n">add</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
-            <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">add</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">result</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">]</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">add</span><span class="p">)],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">df</span></div></div>
-        
+
+
+<div class="viewcode-block" id="LmfitMinimizer"><a class="viewcode-back" href="../../modelfitting.html#modelfitting.fit.LmfitMinimizer">[docs]</a><span class="k">class</span> <span class="nc">LmfitMinimizer</span><span class="p">(</span><span class="n">Minimizer</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A subclass of the `lmfit.Minimizer &lt;https://lmfit.github.io/lmfit-py/fitting.html#using-the-minimizer-class&gt;`_</span>
+<span class="sd">    class.</span>
+
+<span class="sd">    :param model: The Model whose parameters you want to fit</span>
+<span class="sd">    :type model: :py:meth:`~modelfitting.model.LeptonModel`</span>
+<span class="sd">    :param params: The parameters you want to fit</span>
+<span class="sd">    :type params: lmfit.Parameters</span>
+<span class="sd">    :param **kwargs_Minimizer: Additional keyword arguments to pass to the</span>
+<span class="sd">        `lmfit.Minimizer &lt;https://lmfit.github.io/lmfit-py/fitting.html#using-the-minimizer-class&gt;`_ superclass.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nan_policy</span><span class="o">=</span><span class="s1">&#39;omit&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs_Minimizer</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">residual_nan</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>  <span class="c1"># have the residual return &#39;nan&#39; instead of stopping all calculations</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">model</span><span class="o">.</span><span class="n">residual</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">fitted_observables</span><span class="p">])</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">residual_nan</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">nan_policy</span><span class="o">=</span><span class="n">nan_policy</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs_Minimizer</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span></div>
+
 
 <div class="viewcode-block" id="MinimizeStopper"><a class="viewcode-back" href="../../modelfitting.html#modelfitting.fit.MinimizeStopper">[docs]</a><span class="k">class</span> <span class="nc">MinimizeStopper</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -476,7 +531,7 @@ document.write(`
         <div class="footer-item">
   <p class="copyright">
     
-      © Copyright 2023, Alexander Baur.
+      © Copyright 2024, Alexander Baur.
       <br/>
     
   </p>

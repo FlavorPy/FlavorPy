@@ -27,7 +27,7 @@ class ParameterDimension:
 
         if sample_fct is None:
             def default_fct():
-                return np.random.uniform
+                return np.random.uniform()
             sample_fct = default_fct
 
         self.name = name
@@ -42,6 +42,9 @@ class ParameterDimension:
         return f"Parameter '{self.name}'"
 
     def copy(self):
+        """
+        Returns a deep copy.
+        """
         return deepcopy(self)
 
 
@@ -61,6 +64,9 @@ class ParameterSpace(dict):
         return self.name
 
     def copy(self):
+        """
+        Returns a deep copy.
+        """
         return deepcopy(self)
 
     def add_dim(self, name, sample_fct=None, vary=True, min=-np.inf, max=np.inf, expr=None, brute_step=None):
@@ -90,7 +96,7 @@ class ParameterSpace(dict):
         """
         Draws a sample in your parameter space.
 
-        :return: A lmfit.Parameters object.
+        :return: A `lmfit.Parameters <https://lmfit.github.io/lmfit-py/parameters.html#the-parameters-class>`_ object.
         """
         params = Parameters()
         for name in self:

@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>ConstructTerms &#8212; FlavorPy 0.1.0 documentation</title>
+    <title>ConstructTerms &#8212; FlavorPy 0.2.0 documentation</title>
   
   
   
@@ -40,6 +40,7 @@
     <script src="_static/doctools.js"></script>
     <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/design-tabs.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'constructterms';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -106,7 +107,7 @@
   
   
   
-    <p class="title logo__title">FlavorPy 0.1.0 documentation</p>
+    <p class="title logo__title">FlavorPy 0.2.0 documentation</p>
   
 </a></div>
     
@@ -352,12 +353,22 @@ document.write(`
 <h1><strong>ConstructTerms</strong><a class="headerlink" href="#constructterms" title="Permalink to this heading">#</a></h1>
 <p>ConstructTerms is a module for group theoretical calculations around discrete flavor symmetries.
 With this module one can define the symmetries and fields of a theory and determine the invariant terms of the lagrangian.</p>
+<p>As a quick start guide, take a look at this
+<a class="reference internal" href="examples/simpleexample_constructterms.html"><span class="doc">Simple Example</span></a>.</p>
+<p>For the more advanced features, consider this
+<a class="reference internal" href="examples/detailedexample_constructterms.html"><span class="doc">Detailed Example</span></a>.</p>
 <section id="module-constructterms.group">
 <span id="the-group-classes"></span><h2>The <strong>Group</strong> classes<a class="headerlink" href="#module-constructterms.group" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="constructterms.group.Group">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">constructterms.group.</span></span><span class="sig-name descname"><span class="pre">Group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/constructterms/group.html#Group"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#constructterms.group.Group" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="constructterms.group.Group.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/constructterms/group.html#Group.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#constructterms.group.Group.copy" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns a deep copy.</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -396,23 +407,39 @@ With this module one can define the symmetries and fields of a theory and determ
 <li><p><strong>name</strong> (<em>str</em>) – The name of this non-Abelian group</p></li>
 <li><p><strong>gapid</strong> (<em>list</em><em>, </em><em>optional</em>) – The Gap-Id of this group. For now this has no relevance. The idea is to later add a function that
 can obtain the ‘tensor_products’ out of gap or sage.</p></li>
-<li><p><strong>representations</strong> (<em>list</em><em>, </em><em>optional</em>) – A list of all (relevant) representations of this non-Abelian group</p></li>
-<li><p><strong>tensor_products</strong> (<em>list</em><em>, </em><em>optional</em>) – A matrix that contains the tensor products.</p></li>
-<li><p><strong>clebsches</strong> (<em>dict</em><em>, </em><em>optional</em>) – For now this has no relevance. The idea would be to later add a function to the package that
-can give you the Clebsch-Gordans so that a multiplication of actual matrix representations is possible.</p></li>
+<li><p><strong>representations</strong> (<em>list</em>) – A list of all (relevant) representations of this non-Abelian group, e.g.
+<code class="code docutils literal notranslate"><span class="pre">['repA',</span> <span class="pre">'repB',</span> <span class="pre">...</span> <span class="pre">]</span></code></p></li>
+<li><p><strong>tensor_products</strong> (<em>list</em>) – A matrix that contains the tensor products such that
+<code class="code docutils literal notranslate"><span class="pre">tensor_products[i,j]</span> <span class="pre">=</span> <span class="pre">representations[i]</span> <span class="pre">x</span> <span class="pre">representations[j]</span> <span class="pre">=</span> <span class="pre">[representations[k],</span>
+<span class="pre">representations[l],</span> <span class="pre">...]</span></code>.</p></li>
+<li><p><strong>clebsches</strong> (<em>dict</em><em>, </em><em>optional</em>) – <p>You can give the Clebsch-Gordans in a specific basis. This allows you to determine the explicit
+components of a tensor product. Enter the Clebsches in the following form:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;repA x repB&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;repC&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">mat1</span><span class="p">,</span> <span class="n">mat2</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
+                 <span class="s1">&#39;repD&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">mat3</span><span class="p">,</span> <span class="n">mat4</span><span class="p">,</span> <span class="o">...</span><span class="p">]}}</span>
+</pre></div>
+</div>
+<p>if mathematically</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{pmatrix}\text{repA}_1\\\text{repA}_2\end{pmatrix}_\text{repA} \otimes
+\begin{pmatrix}\text{repA}_1\\\text{repA}_2\end{pmatrix}_\text{repA} ~=~
+\text{mat1} \cdot
+\begin{pmatrix} \text{repA}_1\,\text{repB}_1 \\ \text{repA}_1\,\text{repB}_2 \\
+\text{repA}_2\,\text{repB}_1 \\ \text{repA}_2\,\text{repB}_2 \\ \end{pmatrix}_\text{repC}
+\oplus \dots\end{split}\]</div>
+</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="constructterms.group.NonAbelianGroup.make_product">
 <span class="sig-name descname"><span class="pre">make_product</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">repA</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repB</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="reference internal" href="_modules/constructterms/group.html#NonAbelianGroup.make_product"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#constructterms.group.NonAbelianGroup.make_product" title="Permalink to this definition">#</a></dt>
-<dd><p>Calculates the resulting representations of the tensor product between repA and repB</p>
+<dd><p>Calculates the resulting representations of the tensor product between repA and repB.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>repA</strong> (<em>list</em>) – A list of irreducible representations. E.g. [‘3_1’, ‘3_2’].
+<li><p><strong>repA</strong> (<em>list</em>) – A list of irreducible representations. E.g. <code class="code docutils literal notranslate"><span class="pre">['3_1',</span> <span class="pre">'3_2']</span></code>.
 Entries have to be in ‘self.representations’!</p></li>
-<li><p><strong>repB</strong> (<em>list</em>) – A list of irreducible representations. E.g. [‘3_1’, ‘3_2’]. Entries have to be in
+<li><p><strong>repB</strong> (<em>list</em>) – A list of irreducible representations. E.g. <code class="code docutils literal notranslate"><span class="pre">['3_1',</span> <span class="pre">'3_2']</span></code>. Entries have to be in
 ‘self.representations’!</p></li>
 </ul>
 </dd>
@@ -433,13 +460,14 @@ that have been defined for the group.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>compA</strong> (<em>dict</em>) – The components of representation A. E.g. {‘2’:[[‘A1’,’A2’]]}</p></li>
+<li><p><strong>compA</strong> (<em>dict</em>) – The components of representation A. E.g. <code class="code docutils literal notranslate"><span class="pre">{'2':[['A1','A2']]}</span></code>.</p></li>
 <li><p><strong>compB</strong> (<em>dict</em>) – The components of representation B.
-E.g. {‘3’:[[‘B1’,’B2’,’B3],[‘B4’,’B5’,’B6’]]} for a 3 + 3 representation</p></li>
+E.g. <code class="code docutils literal notranslate"><span class="pre">{'3':[['B1','B2','B3],</span> <span class="pre">['B4','B5','B6']]}</span></code> for a 3 + 3 representation.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The components of the product. E.g. {‘1’:[[‘A1 B2 + A2 B1’]], ‘2’:[[‘A1 B1 - A2 B2’,’A1 B3 + A2 B2’]]}</p>
+<dd class="field-even"><p>The components of the product. E.g.
+<code class="code docutils literal notranslate"><span class="pre">{'1':[['A1</span> <span class="pre">B2</span> <span class="pre">+</span> <span class="pre">A2</span> <span class="pre">B1']],</span> <span class="pre">'2':[['A1</span> <span class="pre">B1</span> <span class="pre">-</span> <span class="pre">A2</span> <span class="pre">B2','A1</span> <span class="pre">B3</span> <span class="pre">+</span> <span class="pre">A2</span> <span class="pre">B2']]}</span></code>.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>dict</p>
@@ -450,8 +478,8 @@ E.g. {‘3’:[[‘B1’,’B2’,’B3],[‘B4’,’B5’,’B6’]]} for a 3 
 <dl class="py method">
 <dt class="sig sig-object py" id="constructterms.group.NonAbelianGroup.is_desired">
 <span class="sig-name descname"><span class="pre">is_desired</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rep_field</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rep_desired</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/constructterms/group.html#NonAbelianGroup.is_desired"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#constructterms.group.NonAbelianGroup.is_desired" title="Permalink to this definition">#</a></dt>
-<dd><p>Note that this function does not check if repA and repB are the same, but rather if any of the reps in
-‘rep_desired’ is contained in ‘rep_field’ !!</p>
+<dd><p>Note that this function does not check if ‘rep_desired’ and ‘rep_field’ are the same, but rather if any of the
+reps in ‘rep_desired’ is contained in ‘rep_field’ !!</p>
 </dd></dl>
 
 </dd></dl>
@@ -491,8 +519,9 @@ Physically it is a field of the theory.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>name</strong> (<em>str</em>) – The name of the field / representation</p></li>
-<li><p><strong>charges</strong> (<em>dict</em><em>, </em><em>optional</em>) – <p>The charges / irreps under the Groups. Has the form {Group1: charge1, Group2: charge2}, where
-‘Group1’ and ‘Group2’ have to be an Object of the <a class="reference internal" href="#constructterms.group.Group" title="constructterms.group.Group"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Group()</span></code></a> class.
+<li><p><strong>charges</strong> (<em>dict</em><em>, </em><em>optional</em>) – <p>The charges / irreps under the Groups. Has the form <code class="code docutils literal notranslate"><span class="pre">{Group1:</span> <span class="pre">charge1,</span> <span class="pre">Group2:</span> <span class="pre">charge2}</span></code>,
+where <code class="code docutils literal notranslate"><span class="pre">Group1</span></code> and <code class="code docutils literal notranslate"><span class="pre">Group2</span></code> have to be an Object of the <a class="reference internal" href="#constructterms.group.Group" title="constructterms.group.Group"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Group()</span></code></a>
+class.
 Note that Abelian groups have integer charges, U(1) groups have integer or float charges and non-Abelian groups
 have a list of one or more irreps, e.g.:</p>
 <div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">charges</span> <span class="o">=</span> <span class="p">{</span><span class="n">Abelian_Group</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="n">U1_Group</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">Non_Abelian_Group</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;3_1&#39;</span><span class="p">,</span><span class="s1">&#39;3_2&#39;</span><span class="p">]}</span>
@@ -508,6 +537,12 @@ it would be:</p>
 </ul>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="constructterms.field.Field.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/constructterms/field.html#Field.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#constructterms.field.Field.copy" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns a deep copy.</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="constructterms.field.Field.times">
 <span class="sig-name descname"><span class="pre">times</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other_field</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/constructterms/field.html#Field.times"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#constructterms.field.Field.times" title="Permalink to this definition">#</a></dt>
@@ -534,7 +569,7 @@ a Lagrangian-term is invariant.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>desired_field</strong> (<a class="reference internal" href="#constructterms.field.Field" title="constructterms.field.Field"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Field()</span></code></a>) – Compare the charges of ‘self’ to this field. Has to be of ‘Field’-class!</p></li>
+<li><p><strong>desired_field</strong> (<a class="reference internal" href="#constructterms.field.Field" title="constructterms.field.Field"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Field()</span></code></a>) – Compare the charges of ‘self’ to this field. Has to be an instance of the Field class!</p></li>
 <li><p><strong>ignore</strong> (<em>list</em><em>, </em><em>optional</em>) – List here any symmetry that you do not want to compare to the desired field.</p></li>
 <li><p><strong>print_cause</strong> (<em>bool</em><em>, </em><em>optional</em>) – If ‘True’ it prints which symmetry is causing the end-result to be ‘False’</p></li>
 </ul>
@@ -560,15 +595,16 @@ a Lagrangian-term is invariant.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>all_fields</strong> (<em>list</em>) – A list that contains all fields. Fields have to be an object of the ‘Field’-class.</p></li>
+<li><p><strong>all_fields</strong> (<em>list</em>) – A list that contains all fields. Fields have to be an object of the
+<a class="reference internal" href="#constructterms.field.Field" title="constructterms.field.Field"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Field()</span></code></a> class.</p></li>
 <li><p><strong>allowed</strong> (<a class="reference internal" href="#constructterms.field.Field" title="constructterms.field.Field"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Field()</span></code></a>) – All returned terms have to contain the representations/charges of this field.
 Has to be an object of the ‘Field’-class.</p></li>
 <li><p><strong>order</strong> (<em>int</em>) – The order up to which terms are considered, i.e. how many fields are multiplied to yield a term.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A list, whose elements are the terms whose charges coincide with ‘allowed’. Elements are object of
-‘Field’-class</p>
+<dd class="field-even"><p>A list, whose elements are the terms whose charges coincide with ‘allowed’. Elements are objects of
+<a class="reference internal" href="#constructterms.field.Field" title="constructterms.field.Field"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Field()</span></code></a> class.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>list</p>
@@ -621,7 +657,10 @@ Has to be an object of the ‘Field’-class.</p></li>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-constructterms.group">The <strong>Group</strong> classes</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#constructterms.group.Group"><code class="docutils literal notranslate"><span class="pre">Group</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#constructterms.group.Group"><code class="docutils literal notranslate"><span class="pre">Group</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#constructterms.group.Group.copy"><code class="docutils literal notranslate"><span class="pre">Group.copy()</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#constructterms.group.AbelianGroup"><code class="docutils literal notranslate"><span class="pre">AbelianGroup</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#constructterms.group.AbelianGroup.make_product"><code class="docutils literal notranslate"><span class="pre">AbelianGroup.make_product()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#constructterms.group.AbelianGroup.is_desired"><code class="docutils literal notranslate"><span class="pre">AbelianGroup.is_desired()</span></code></a></li>
@@ -642,6 +681,7 @@ Has to be an object of the ‘Field’-class.</p></li>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-constructterms.field">The <strong>Field</strong> class</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#constructterms.field.Field"><code class="docutils literal notranslate"><span class="pre">Field</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#constructterms.field.Field.copy"><code class="docutils literal notranslate"><span class="pre">Field.copy()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#constructterms.field.Field.times"><code class="docutils literal notranslate"><span class="pre">Field.times()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#constructterms.field.Field.is_desired"><code class="docutils literal notranslate"><span class="pre">Field.is_desired()</span></code></a></li>
 </ul>

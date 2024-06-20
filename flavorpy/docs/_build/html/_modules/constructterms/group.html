@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>constructterms.group &#8212; FlavorPy 1.0 documentation</title>
+    <title>constructterms.group &#8212; FlavorPy 0.2.0 documentation</title>
   
   
   
@@ -103,7 +103,7 @@
   
   
   
-    <p class="title logo__title">FlavorPy 1.0 documentation</p>
+    <p class="title logo__title">FlavorPy 0.2.0 documentation</p>
   
 </a></div>
     
@@ -173,6 +173,22 @@ document.write(`
   </button>
 `);
 </script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/flavorpy/flavorpy" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
       
     </div>
     
@@ -256,6 +272,22 @@ document.write(`
 `);
 </script></div>
         
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/flavorpy/flavorpy" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+        
       </div>
     
   </div>
@@ -313,12 +345,21 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <h1>Source code for constructterms.group</h1><div class="highlight"><pre>
-<div class="viewcode-block" id="Group"><a class="viewcode-back" href="../../constructterms.html#constructterms.group.Group">[docs]</a><span></span><span class="k">class</span> <span class="nc">Group</span><span class="p">:</span>
+<span></span><span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+
+
+<div class="viewcode-block" id="Group"><a class="viewcode-back" href="../../constructterms.html#constructterms.group.Group">[docs]</a><span class="k">class</span> <span class="nc">Group</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+
+<div class="viewcode-block" id="Group.copy"><a class="viewcode-back" href="../../constructterms.html#constructterms.group.Group.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a deep copy.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="AbelianGroup"><a class="viewcode-back" href="../../constructterms.html#constructterms.group.AbelianGroup">[docs]</a><span class="k">class</span> <span class="nc">AbelianGroup</span><span class="p">(</span><span class="n">Group</span><span class="p">):</span>
@@ -345,7 +386,7 @@ document.write(`
 
 
 <div class="viewcode-block" id="NonAbelianGroup"><a class="viewcode-back" href="../../constructterms.html#constructterms.group.NonAbelianGroup">[docs]</a><span class="k">class</span> <span class="nc">NonAbelianGroup</span><span class="p">(</span><span class="n">Group</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A non-Abelian group</span>
 
 <span class="sd">    :param name: The name of this non-Abelian group</span>
@@ -353,12 +394,30 @@ document.write(`
 <span class="sd">    :param gapid: The Gap-Id of this group. For now this has no relevance. The idea is to later add a function that</span>
 <span class="sd">        can obtain the &#39;tensor_products&#39; out of gap or sage.</span>
 <span class="sd">    :type gapid: list, optional</span>
-<span class="sd">    :param representations: A list of all (relevant) representations of this non-Abelian group</span>
-<span class="sd">    :type representations: list, optional</span>
-<span class="sd">    :param tensor_products: A matrix that contains the tensor products.</span>
-<span class="sd">    :type tensor_products: list, optional</span>
-<span class="sd">    :param clebsches: For now this has no relevance. The idea would be to later add a function to the package that</span>
-<span class="sd">        can give you the Clebsch-Gordans so that a multiplication of actual matrix representations is possible.</span>
+<span class="sd">    :param representations: A list of all (relevant) representations of this non-Abelian group, e.g.</span>
+<span class="sd">        :code:`[&#39;repA&#39;, &#39;repB&#39;, ... ]`</span>
+<span class="sd">    :type representations: list</span>
+<span class="sd">    :param tensor_products: A matrix that contains the tensor products such that</span>
+<span class="sd">        :code:`tensor_products[i,j] = representations[i] x representations[j] = [representations[k],</span>
+<span class="sd">        representations[l], ...]`.</span>
+<span class="sd">    :type tensor_products: list</span>
+<span class="sd">    :param clebsches: You can give the Clebsch-Gordans in a specific basis. This allows you to determine the explicit</span>
+<span class="sd">        components of a tensor product. Enter the Clebsches in the following form::</span>
+
+<span class="sd">            {&#39;repA x repB&#39;: {&#39;repC&#39;: [mat1, mat2, ...],</span>
+<span class="sd">                             &#39;repD&#39;: [mat3, mat4, ...]}}</span>
+
+<span class="sd">        if mathematically</span>
+
+<span class="sd">        .. math::</span>
+
+<span class="sd">            \begin{pmatrix}\text{repA}_1\\\text{repA}_2\end{pmatrix}_\text{repA} \otimes</span>
+<span class="sd">            \begin{pmatrix}\text{repA}_1\\\text{repA}_2\end{pmatrix}_\text{repA} ~=~</span>
+<span class="sd">            \text{mat1} \cdot</span>
+<span class="sd">            \begin{pmatrix} \text{repA}_1\,\text{repB}_1 \\ \text{repA}_1\,\text{repB}_2 \\</span>
+<span class="sd">            \text{repA}_2\,\text{repB}_1 \\ \text{repA}_2\,\text{repB}_2 \\ \end{pmatrix}_\text{repC}</span>
+<span class="sd">            \oplus \dots</span>
+
 <span class="sd">    :type clebsches: dict, optional</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">gapid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">representations</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tensor_products</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">clebsches</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -379,12 +438,12 @@ document.write(`
 
 <div class="viewcode-block" id="NonAbelianGroup.make_product"><a class="viewcode-back" href="../../constructterms.html#constructterms.group.NonAbelianGroup.make_product">[docs]</a>    <span class="k">def</span> <span class="nf">make_product</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repA</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">repB</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculates the resulting representations of the tensor product between repA and repB</span>
+<span class="sd">        Calculates the resulting representations of the tensor product between repA and repB.</span>
 
-<span class="sd">        :param repA: A list of irreducible representations. E.g. [&#39;3_1&#39;, &#39;3_2&#39;].</span>
+<span class="sd">        :param repA: A list of irreducible representations. E.g. :code:`[&#39;3_1&#39;, &#39;3_2&#39;]`.</span>
 <span class="sd">            Entries have to be in &#39;self.representations&#39;!</span>
 <span class="sd">        :type repA: list</span>
-<span class="sd">        :param repB: A list of irreducible representations. E.g. [&#39;3_1&#39;, &#39;3_2&#39;]. Entries have to be in</span>
+<span class="sd">        :param repB: A list of irreducible representations. E.g. :code:`[&#39;3_1&#39;, &#39;3_2&#39;]`. Entries have to be in</span>
 <span class="sd">            &#39;self.representations&#39;!</span>
 <span class="sd">        :type repB: list</span>
 <span class="sd">        :return: A list of irreducible representations.</span>
@@ -402,12 +461,13 @@ document.write(`
 <span class="sd">        Calculates the components of the tensor product of compA and compB, while using the Clebsch-Gordans</span>
 <span class="sd">        that have been defined for the group.</span>
 
-<span class="sd">        :param compA: The components of representation A. E.g. {&#39;2&#39;:[[&#39;A1&#39;,&#39;A2&#39;]]}</span>
+<span class="sd">        :param compA: The components of representation A. E.g. :code:`{&#39;2&#39;:[[&#39;A1&#39;,&#39;A2&#39;]]}`.</span>
 <span class="sd">        :type compA: dict</span>
 <span class="sd">        :param compB: The components of representation B.</span>
-<span class="sd">            E.g. {&#39;3&#39;:[[&#39;B1&#39;,&#39;B2&#39;,&#39;B3],[&#39;B4&#39;,&#39;B5&#39;,&#39;B6&#39;]]} for a 3 + 3 representation</span>
+<span class="sd">            E.g. :code:`{&#39;3&#39;:[[&#39;B1&#39;,&#39;B2&#39;,&#39;B3], [&#39;B4&#39;,&#39;B5&#39;,&#39;B6&#39;]]}` for a 3 + 3 representation.</span>
 <span class="sd">        :type compB: dict</span>
-<span class="sd">        :return: The components of the product. E.g. {&#39;1&#39;:[[&#39;A1 B2 + A2 B1&#39;]], &#39;2&#39;:[[&#39;A1 B1 - A2 B2&#39;,&#39;A1 B3 + A2 B2&#39;]]}</span>
+<span class="sd">        :return: The components of the product. E.g.</span>
+<span class="sd">            :code:`{&#39;1&#39;:[[&#39;A1 B2 + A2 B1&#39;]], &#39;2&#39;:[[&#39;A1 B1 - A2 B2&#39;,&#39;A1 B3 + A2 B2&#39;]]}`.</span>
 <span class="sd">        :rtype: dict</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">compC</span> <span class="o">=</span> <span class="p">{}</span>
@@ -415,19 +475,20 @@ document.write(`
             <span class="k">for</span> <span class="n">irrepB</span> <span class="ow">in</span> <span class="n">compB</span><span class="p">:</span>
                 <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">irrepA</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; x &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">irrepB</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">clebsches</span><span class="p">:</span>
                     <span class="n">irrepAxB</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">irrepA</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; x &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">irrepB</span><span class="p">)</span>
+                    <span class="n">local_irrepA</span><span class="p">,</span> <span class="n">local_irrepB</span> <span class="o">=</span> <span class="n">irrepA</span><span class="p">,</span> <span class="n">irrepB</span>
                     <span class="n">local_compA</span><span class="p">,</span> <span class="n">local_compB</span> <span class="o">=</span> <span class="n">compA</span><span class="p">,</span> <span class="n">compB</span>
                 <span class="k">elif</span> <span class="nb">str</span><span class="p">(</span><span class="n">irrepB</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; x &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">irrepA</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">clebsches</span><span class="p">:</span> <span class="c1"># interchange A and B if only &#39;B x A&#39; in clebsches</span>
                     <span class="n">irrepAxB</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">irrepB</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; x &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">irrepA</span><span class="p">)</span>
-                    <span class="n">irrepA</span><span class="p">,</span> <span class="n">irrepB</span> <span class="o">=</span> <span class="n">irrepB</span><span class="p">,</span> <span class="n">irrepA</span>
+                    <span class="n">local_irrepA</span><span class="p">,</span> <span class="n">local_irrepB</span> <span class="o">=</span> <span class="n">irrepB</span><span class="p">,</span> <span class="n">irrepA</span>
                     <span class="n">local_compA</span><span class="p">,</span> <span class="n">local_compB</span> <span class="o">=</span> <span class="n">compB</span><span class="p">,</span> <span class="n">compA</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;&#39;&#39;The tensor product &#39;</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">irrepA</span><span class="p">)</span><span class="si">}</span><span class="s1"> x </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">irrepB</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39; is not defined </span>
 <span class="s1">                                       in the clebsches of the group </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span><span class="si">}</span><span class="s1">!&#39;&#39;&#39;</span><span class="p">)</span>
-                <span class="k">for</span> <span class="n">entryA</span> <span class="ow">in</span> <span class="n">local_compA</span><span class="p">[</span><span class="n">irrepA</span><span class="p">]:</span>
+                <span class="k">for</span> <span class="n">entryA</span> <span class="ow">in</span> <span class="n">local_compA</span><span class="p">[</span><span class="n">local_irrepA</span><span class="p">]:</span>
                     <span class="c1"># Make brackets around name of component if it contains a &#39;+&#39; or &#39;-&#39;</span>
                     <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="fm">__contains__</span><span class="p">(</span><span class="s1">&#39;+&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">entryA</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">any</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="fm">__contains__</span><span class="p">(</span><span class="s1">&#39;+&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">entryA</span><span class="p">):</span>
                         <span class="n">entryA</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;(&#39;</span><span class="o">+</span><span class="n">x</span><span class="o">+</span><span class="s1">&#39;)&#39;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">entryA</span><span class="p">]</span>
-                    <span class="k">for</span> <span class="n">entryB</span> <span class="ow">in</span> <span class="n">local_compB</span><span class="p">[</span><span class="n">irrepB</span><span class="p">]:</span>
+                    <span class="k">for</span> <span class="n">entryB</span> <span class="ow">in</span> <span class="n">local_compB</span><span class="p">[</span><span class="n">local_irrepB</span><span class="p">]:</span>
                         <span class="c1"># Make brackets around name of component if it contains a &#39;+&#39; or &#39;-&#39;</span>
                         <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="fm">__contains__</span><span class="p">(</span><span class="s1">&#39;+&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">entryB</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">any</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="fm">__contains__</span><span class="p">(</span><span class="s1">&#39;+&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">entryB</span><span class="p">):</span>
                             <span class="n">entryB</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;(&#39;</span> <span class="o">+</span> <span class="n">x</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">entryB</span><span class="p">]</span>
@@ -458,8 +519,8 @@ document.write(`
 
 <div class="viewcode-block" id="NonAbelianGroup.is_desired"><a class="viewcode-back" href="../../constructterms.html#constructterms.group.NonAbelianGroup.is_desired">[docs]</a>    <span class="k">def</span> <span class="nf">is_desired</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rep_field</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">rep_desired</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Note that this function does not check if repA and repB are the same, but rather if any of the reps in</span>
-<span class="sd">        &#39;rep_desired&#39; is contained in &#39;rep_field&#39; !!</span>
+<span class="sd">        Note that this function does not check if &#39;rep_desired&#39; and &#39;rep_field&#39; are the same, but rather if any of the</span>
+<span class="sd">        reps in &#39;rep_desired&#39; is contained in &#39;rep_field&#39; !!</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">irrep_desired</span> <span class="ow">in</span> <span class="n">rep_desired</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">irrep_desired</span> <span class="ow">in</span> <span class="n">rep_field</span><span class="p">:</span>
@@ -523,7 +584,7 @@ document.write(`
         <div class="footer-item">
   <p class="copyright">
     
-      © Copyright 2023, Alexander Baur.
+      © Copyright 2024, Alexander Baur.
       <br/>
     
   </p>

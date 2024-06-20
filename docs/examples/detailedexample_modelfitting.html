@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Detailed example &#8212; FlavorPy 0.1.0 documentation</title>
+    <title>Detailed example &#8212; FlavorPy 0.2.0 documentation</title>
   
   
   
@@ -105,7 +105,7 @@
   
   
   
-    <p class="title logo__title">FlavorPy 0.1.0 documentation</p>
+    <p class="title logo__title">FlavorPy 0.2.0 documentation</p>
   
 </a></div>
     
@@ -351,13 +351,14 @@ document.write(`
 <h1>Detailed example<a class="headerlink" href="#detailed-example" title="Permalink to this heading">#</a></h1>
 <p>Let us now take a look at a more involved example that better showcases
 more advanced features of the modelfitting package. More specifically we
-consider the Model 1 described in section 3.1.2 of
-<a class="reference external" href="https://arxiv.org/abs/1706.08749">https://arxiv.org/abs/1706.08749</a>.
-This is a model of modular flavor
-symmetries, where modular forms are present in the neutrino mass matrix.</p>
+consider the Model 1 described in section 3.1.2 of “Are neutrino masses
+modular forms?” by F. Feruglio (<a class="reference external" href="https://arxiv.org/pdf/1706.08749">https://arxiv.org/pdf/1706.08749</a>). This
+is a model of modular flavor symmetries, where modular forms are present
+in the neutrino mass matrix.</p>
 <p>We begin by importing the necessary packages:</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import the modelfitting module of FlavorPy</span>
 <span class="kn">import</span> <span class="nn">flavorpy.modelfitting</span> <span class="k">as</span> <span class="nn">mf</span>
+
 <span class="c1"># We will also need numpy and pandas</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -368,14 +369,15 @@ symmetries, where modular forms are present in the neutrino mass matrix.</p>
 <p>Then we define the mass matrices. There is a subtlety: The modelfitting
 package considers a mass matrix <span class="math notranslate nohighlight">\(M\)</span> for
 <span class="math notranslate nohighlight">\(\Phi_\mathrm{left} ~M~ \Phi_{\mathrm{right}}\)</span>. However the
-convention used in the paper is <span class="math notranslate nohighlight">\(E^c ~M_\mathrm{e}~L\)</span>, meaning
-that we need to transpose the mass matrix compared to the paper!
-Nevertheless, for this specific case the mass matrices are symmetric
-anyway. It is highly recommended to only use dimensionless parameters
-and then have one dimensionfull parameter, i.e. an overall scale, in
-front of the mass matrix. For the neutrino mass matrix please name this
-parameter ‘n_scale’. For the charged lepton mass matrix, simply ignore
-it, because we will only fit charged lepton mass ratios.</p>
+convention used in the paper is <span class="math notranslate nohighlight">\(E^c ~M_\mathrm{e}~L\)</span>, where
+<span class="math notranslate nohighlight">\(E^c\)</span> is right-handed and <span class="math notranslate nohighlight">\(L\)</span> is left-handed, meaning that
+we need to transpose the mass matrix compared to the paper! For this
+specific case the mass matrices are symmetric anyway. It is highly
+recommended to only use dimensionless parameters and then have one
+dimensionfull parameter, i.e. an overall scale, in front of the mass
+matrix. For the neutrino mass matrix, please name this parameter
+‘n_scale’. For the charged lepton mass matrix, simply ignore it, because
+we will only fit charged lepton mass ratios.</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Charged lepton mass matrix</span>
 <span class="k">def</span> <span class="nf">Me</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;alpha&#39;</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
@@ -383,13 +385,13 @@ it, because we will only fit charged lepton mass ratios.</p>
                                   <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;gamma&#39;</span><span class="p">]]]))</span>
 
 <span class="c1"># Modular forms</span>
-<span class="k">def</span> <span class="nf">Y1</span><span class="p">(</span><span class="n">tau</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">Y1</span><span class="p">(</span><span class="n">tau</span><span class="p">):</span>
     <span class="n">q</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">2</span><span class="n">j</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">tau</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>
     <span class="k">return</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">12</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="mi">1</span><span class="o">*</span><span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="mi">36</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="mi">12</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="mi">3</span><span class="o">*</span><span class="mi">3</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">Y2</span><span class="p">(</span><span class="n">tau</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">Y2</span><span class="p">(</span><span class="n">tau</span><span class="p">):</span>
     <span class="n">q</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">2</span><span class="n">j</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">tau</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>
     <span class="k">return</span> <span class="o">-</span><span class="mi">6</span><span class="o">*</span><span class="n">q</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">7</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">q</span><span class="p">,</span><span class="mi">1</span><span class="o">*</span><span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="mi">8</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="mi">3</span><span class="p">))</span>
-<span class="k">def</span> <span class="nf">Y3</span><span class="p">(</span><span class="n">tau</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">Y3</span><span class="p">(</span><span class="n">tau</span><span class="p">):</span>
     <span class="n">q</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">2</span><span class="n">j</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">tau</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>
     <span class="k">return</span> <span class="o">-</span><span class="mi">18</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="mi">1</span><span class="o">*</span><span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="mi">5</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="mi">3</span><span class="p">))</span>
 
@@ -447,14 +449,14 @@ invered neutrino mass ordering. We therefore choose the NuFit v5.2
 experimental data for inverted ordering including the SK data. The
 onedimensional chisqure projections of the NuFit v5.2 data are already
 implemented in the modelfitting package and can be simply loaded by</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mf</span><span class="o">.</span><span class="n">NuFit52_IO</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mf</span><span class="o">.</span><span class="n">NuFit53_IO</span>
 </pre></div>
 </div>
-<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">NuFit</span> <span class="n">v5</span><span class="mf">.2</span> <span class="n">IO</span> <span class="k">with</span> <span class="n">SK</span> <span class="n">chisquare</span> <span class="n">profiles</span>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">NuFit</span> <span class="n">v5</span><span class="mf">.3</span> <span class="n">IO</span> <span class="k">with</span> <span class="n">SK</span> <span class="n">chisquare</span> <span class="n">profiles</span>
 </pre></div>
 </div>
-<p>If you wanted to compare your model to your own custom experimental
-data, you can create an experimental dataset by</p>
+<p>If you wanted to compare your model to your own experimental data, you
+can create an experimental dataset by</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
     <span class="p">[</span><span class="mf">0.0048</span><span class="p">,</span> <span class="mf">0.0565</span><span class="p">,</span> <span class="mf">0.303</span><span class="p">,</span> <span class="mf">0.02223</span><span class="p">,</span> <span class="mf">0.569</span><span class="p">,</span> <span class="mf">0.0741</span><span class="o">/-</span><span class="mf">2.486</span><span class="p">,</span> <span class="mf">1.54</span><span class="p">,</span> <span class="mf">7.41e-05</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.486e-03</span><span class="p">],</span>
     <span class="p">[</span><span class="mf">0.0046</span><span class="p">,</span> <span class="mf">0.0520</span><span class="p">,</span> <span class="mf">0.292</span><span class="p">,</span> <span class="mf">0.02165</span><span class="p">,</span> <span class="mf">0.548</span><span class="p">,</span> <span class="mf">0.0721</span><span class="o">/-</span><span class="mf">2.511</span><span class="p">,</span> <span class="mf">1.38</span><span class="p">,</span> <span class="mf">7.21e-05</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.458e-03</span><span class="p">],</span>
@@ -465,16 +467,16 @@ data, you can create an experimental dataset by</p>
 </pre></div>
 </div>
 <p>The total resudiual is then <span class="math notranslate nohighlight">\(\chi^2 = \sum_x \chi^2_x\)</span>, where
-<span class="math notranslate nohighlight">\(x\)</span> represents the observables, e.g. ‘me/mu’. The individual
+<span class="math notranslate nohighlight">\(x\)</span> represents the observables, e.g. ‘me/mu’. The individual
 contributions are determined by
 <span class="math notranslate nohighlight">\(\chi^2_x = \big(\dfrac{x_\mathrm{model} - x_\mathrm{best}}{1/2\,(x_{1\mathrm{sig}\_\mathrm{max}} - x_\mathrm{1sig\_min}) }\big)^2\)</span>,
 where <span class="math notranslate nohighlight">\(x_\mathrm{model}\)</span> is the value of the model and
-<span class="math notranslate nohighlight">\(x_\mathrm{best}\)</span>, <span class="math notranslate nohighlight">\(x_{1\mathrm{sig}\_\mathrm{max}}\)</span>, and
-<span class="math notranslate nohighlight">\(x_{1\mathrm{sig}\_\mathrm{min}}\)</span> are the experimental values.</p>
+<span class="math notranslate nohighlight">\(x_\mathrm{best}\)</span>, <span class="math notranslate nohighlight">\(x_{1\mathrm{sig\_max}}\)</span>, and
+<span class="math notranslate nohighlight">\(x_{1\mathrm{sig\_min}}\)</span> are the experimental values</p>
 <p>Alternatively, if you have a non-gaussian error distribution for lets
-say ‘me/mu’ and you want <span class="math notranslate nohighlight">\(\chi^2\)</span> to be calculated using a
-specific <span class="math notranslate nohighlight">\(\chi^2\)</span>-profile, then you can define your experimental
-data set as</p>
+say me/mu and you want <span class="math notranslate nohighlight">\(\chi^2\)</span> to be calculated using a specific
+<span class="math notranslate nohighlight">\(\chi^2\)</span>-profile, then you can define your experimental data set
+as</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">memu_profile</span><span class="p">(</span><span class="n">memu</span><span class="p">):</span>  <span class="c1"># This is just an example profile</span>
     <span class="k">return</span> <span class="mf">1e11</span><span class="o">*</span><span class="p">(</span><span class="n">memu</span> <span class="o">-</span> <span class="mf">0.003</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">memu</span> <span class="o">-</span> <span class="mf">0.007</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">memu</span> <span class="o">-</span> <span class="mf">0.008</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">memu</span> <span class="o">-</span> <span class="mf">0.001</span><span class="p">)</span> <span class="o">+</span> <span class="mf">3.0978</span>
 
@@ -487,26 +489,28 @@ data set as</p>
 <section id="constructing-the-model">
 <h2>Constructing the model<a class="headerlink" href="#constructing-the-model" title="Permalink to this heading">#</a></h2>
 <p>In the modelfitting module, everything is packed into a class called
-Model. The Model object contains the mass matrices, the parameterspace,
-the experimental data, the neutrino mass ordering, and even the results
-of fits can be stored in this object. Note that the neutrino ordering
-is not (yet) automatically determined by the modelfitting package, nor
-is it checked whether the results of a given random point indeed follow
-that ordering. For now there is only the class LeptonModel, however
-models for quark will be implemented soon into the modelfitting package.
-Since the paper does not compare the CP violating phase ‘d/pi’ to the
-experimental data, we will do the same here and only fit the three mixing
-angles as well as the squared neutrino mass differences. It is also not
-necessary to fit the charged lepton masses, since we already fixed them
-to their correct value.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Model1</span> <span class="o">=</span> <span class="n">mf</span><span class="o">.</span><span class="n">LeptonModel</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Feruglios model 1&#39;</span><span class="p">,</span>
+FlavorModel. The FlavorModel object contains the mass matrices, the
+parameterspace, the experimental data, the neutrino mass ordering, and
+even the results of fits can be stored in this object. Note that the
+neutrino ordering is not (yet) automatically determined by the
+modelfitting package, nor is it checked whether the results of a given
+random point indeed follow that ordering. A FlavorModel instance can be
+a model of leptons, of quarks or of both. It depends on which mass
+matrices you specify when initializing the FlavorModel.</p>
+<p>As the model of this example is a lepton model, we will only specify the
+mass_matrix_e and mass_matric_n. Since the paper does not compare the CP
+violating phase ‘d/pi’ to the experimental data, we will do the same
+here and only fit the three mixing angles as well as the squared
+neutrino mass differences. It is also not necessary to fit the charged
+lepton masses, since we already fixed them to their correct value.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Model1</span> <span class="o">=</span> <span class="n">mf</span><span class="o">.</span><span class="n">FlavorModel</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Feruglios model 1&#39;</span><span class="p">,</span>
                        <span class="n">comments</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;This was the first modular flavor symmetry model.</span>
 <span class="s1">                                Unfortunately it is now way outside the experimentally viable region.&#39;&#39;&#39;</span><span class="p">,</span>
                        <span class="n">mass_matrix_e</span><span class="o">=</span><span class="n">Me</span><span class="p">,</span>
                        <span class="n">mass_matrix_n</span><span class="o">=</span><span class="n">Mn</span><span class="p">,</span>
                        <span class="n">parameterspace</span><span class="o">=</span><span class="n">ParamSpace</span><span class="p">,</span>
                        <span class="n">ordering</span><span class="o">=</span><span class="s1">&#39;IO&#39;</span><span class="p">,</span>
-                       <span class="n">experimental_data</span><span class="o">=</span><span class="n">mf</span><span class="o">.</span><span class="n">NuFit52_IO</span><span class="p">,</span>
+                       <span class="n">experimental_data</span><span class="o">=</span><span class="n">mf</span><span class="o">.</span><span class="n">NuFit53_IO</span><span class="p">,</span>
                        <span class="n">fitted_observables</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;s12^2&#39;</span><span class="p">,</span> <span class="s1">&#39;s13^2&#39;</span><span class="p">,</span> <span class="s1">&#39;s23^2&#39;</span><span class="p">,</span> <span class="s1">&#39;m21^2&#39;</span><span class="p">,</span> <span class="s1">&#39;m3l^2&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
@@ -518,34 +522,67 @@ point</p>
 </div>
 <div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;me/mu&#39;</span><span class="p">:</span> <span class="mf">0.0048</span><span class="p">,</span>
  <span class="s1">&#39;mu/mt&#39;</span><span class="p">:</span> <span class="mf">0.0565</span><span class="p">,</span>
- <span class="s1">&#39;s12^2&#39;</span><span class="p">:</span> <span class="mf">0.9989074489211242</span><span class="p">,</span>
- <span class="s1">&#39;s13^2&#39;</span><span class="p">:</span> <span class="mf">0.0004515063173869479</span><span class="p">,</span>
- <span class="s1">&#39;s23^2&#39;</span><span class="p">:</span> <span class="mf">0.47402369343152484</span><span class="p">,</span>
- <span class="s1">&#39;d/pi&#39;</span><span class="p">:</span> <span class="mf">1.7243267756116443</span><span class="p">,</span>
- <span class="s1">&#39;r&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.934864550872772</span><span class="p">,</span>
- <span class="s1">&#39;m21^2&#39;</span><span class="p">:</span> <span class="mf">0.0011990866367348556</span><span class="p">,</span>
- <span class="s1">&#39;m3l^2&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.001282631409668289</span><span class="p">,</span>
- <span class="s1">&#39;m1&#39;</span><span class="p">:</span> <span class="mf">0.021372812096913652</span><span class="p">,</span>
- <span class="s1">&#39;m2&#39;</span><span class="p">:</span> <span class="mf">0.040692551329018854</span><span class="p">,</span>
- <span class="s1">&#39;m3&#39;</span><span class="p">:</span> <span class="mf">0.019319739232105206</span><span class="p">,</span>
- <span class="s1">&#39;eta1&#39;</span><span class="p">:</span> <span class="mf">1.7268565851575932</span><span class="p">,</span>
- <span class="s1">&#39;eta2&#39;</span><span class="p">:</span> <span class="mf">1.6031520425143535</span><span class="p">,</span>
- <span class="s1">&#39;J&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.0002668890393932839</span><span class="p">,</span>
- <span class="s1">&#39;Jmax&#39;</span><span class="p">:</span> <span class="mf">0.00035035022527843336</span><span class="p">,</span>
- <span class="s1">&#39;Sum(m_i)&#39;</span><span class="p">:</span> <span class="mf">0.08138510265803772</span><span class="p">,</span>
- <span class="s1">&#39;m_b&#39;</span><span class="p">:</span> <span class="mf">0.04070152441097532</span><span class="p">,</span>
- <span class="s1">&#39;m_bb&#39;</span><span class="p">:</span> <span class="mf">0.04064229787720081</span><span class="p">,</span>
- <span class="s1">&#39;nscale&#39;</span><span class="p">:</span> <span class="mf">0.02032799146295054</span><span class="p">}</span>
+ <span class="s1">&#39;s12^2&#39;</span><span class="p">:</span> <span class="mf">0.999889815537418</span><span class="p">,</span>
+ <span class="s1">&#39;s13^2&#39;</span><span class="p">:</span> <span class="mf">2.8667406090866322e-05</span><span class="p">,</span>
+ <span class="s1">&#39;s23^2&#39;</span><span class="p">:</span> <span class="mf">0.4921266138553866</span><span class="p">,</span>
+ <span class="s1">&#39;d/pi&#39;</span><span class="p">:</span> <span class="mf">0.23645762527543615</span><span class="p">,</span>
+ <span class="s1">&#39;r&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.9795497247469228</span><span class="p">,</span>
+ <span class="s1">&#39;m21^2&#39;</span><span class="p">:</span> <span class="mf">0.001254630307860425</span><span class="p">,</span>
+ <span class="s1">&#39;m3l^2&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.0012808235010066205</span><span class="p">,</span>
+ <span class="s1">&#39;m1&#39;</span><span class="p">:</span> <span class="mf">0.02087600341297992</span><span class="p">,</span>
+ <span class="s1">&#39;m2&#39;</span><span class="p">:</span> <span class="mf">0.04111493434701282</span><span class="p">,</span>
+ <span class="s1">&#39;m3&#39;</span><span class="p">:</span> <span class="mf">0.020238930934032902</span><span class="p">,</span>
+ <span class="s1">&#39;eta1&#39;</span><span class="p">:</span> <span class="mf">0.2362765443592603</span><span class="p">,</span>
+ <span class="s1">&#39;eta2&#39;</span><span class="p">:</span> <span class="mf">0.3204549337296819</span><span class="p">,</span>
+ <span class="s1">&#39;J&#39;</span><span class="p">:</span> <span class="mf">1.9003468739495824e-05</span><span class="p">,</span>
+ <span class="s1">&#39;Jmax&#39;</span><span class="p">:</span> <span class="mf">2.809533105931343e-05</span><span class="p">,</span>
+ <span class="s1">&#39;Sum(m_i)&#39;</span><span class="p">:</span> <span class="mf">0.08222986869402565</span><span class="p">,</span>
+ <span class="s1">&#39;m_b&#39;</span><span class="p">:</span> <span class="mf">0.04111616890318147</span><span class="p">,</span>
+ <span class="s1">&#39;m_bb&#39;</span><span class="p">:</span> <span class="mf">0.04111066795658337</span><span class="p">,</span>
+ <span class="s1">&#39;nscale&#39;</span><span class="p">:</span> <span class="mf">0.020555777634506344</span><span class="p">}</span>
 </pre></div>
 </div>
 <p>If you wanted to see, whether the model can also fit the experimental
 data for a normal ordered spectrum simply define</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Model1_NO</span> <span class="o">=</span> <span class="n">Model1</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 <span class="n">Model1_NO</span><span class="o">.</span><span class="n">ordering</span> <span class="o">=</span> <span class="s1">&#39;NO&#39;</span>
-<span class="n">Model1_NO</span><span class="o">.</span><span class="n">experimentaldata</span> <span class="o">=</span> <span class="n">mf</span><span class="o">.</span><span class="n">NuFit52_NO</span>
+<span class="n">Model1_NO</span><span class="o">.</span><span class="n">experimental_data</span> <span class="o">=</span> <span class="n">mf</span><span class="o">.</span><span class="n">NuFit53_NO</span>
 </pre></div>
 </div>
 <p>and do the following fitting with Model1_NO.</p>
+<p>In case we were interested in studying a model that simultaneously
+descibes leptons and quarks and where the two sectors have a common
+parameter, we would define</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># We need to define the quark mass matrices</span>
+<span class="k">def</span> <span class="nf">Mu</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;Retau&#39;</span><span class="p">],</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;Imtau&#39;</span><span class="p">]],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">]])</span>
+
+<span class="k">def</span> <span class="nf">Md</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;Retau&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;Imtau&#39;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">Y1</span><span class="p">(</span><span class="n">tau</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">Y2</span><span class="p">(</span><span class="n">tau</span><span class="p">),</span> <span class="mi">0</span><span class="p">],</span>
+                     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Y3</span><span class="p">(</span><span class="n">tau</span><span class="p">)]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+
+<span class="c1"># Also we would need to specify the quark experimental data. For example the data used in arXiv:2103.16311</span>
+<span class="n">Qexpdata_Standard</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+    <span class="p">[</span><span class="mf">1.9286e-03</span><span class="p">,</span> <span class="mf">2.8213e-03</span><span class="p">,</span> <span class="mf">5.0523e-02</span><span class="p">,</span> <span class="mf">1.8241e-02</span><span class="p">,</span> <span class="mf">13.0268</span><span class="p">,</span> <span class="mf">0.199962</span><span class="p">,</span> <span class="mf">2.30043</span><span class="p">,</span> <span class="mf">69.2133</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">1.6278e-03</span><span class="p">,</span> <span class="mf">2.7616e-03</span><span class="p">,</span> <span class="mf">4.7428e-02</span><span class="p">,</span> <span class="mf">1.7739e-02</span><span class="p">,</span> <span class="mf">13.0059</span><span class="p">,</span> <span class="mf">0.196238</span><span class="p">,</span> <span class="mf">2.28210</span><span class="p">,</span> <span class="mf">67.6560</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">2.2295e-03</span><span class="p">,</span> <span class="mf">2.8811e-03</span><span class="p">,</span> <span class="mf">5.3619e-02</span><span class="p">,</span> <span class="mf">1.8744e-02</span><span class="p">,</span> <span class="mf">13.0477</span><span class="p">,</span> <span class="mf">0.203686</span><span class="p">,</span> <span class="mf">2.31877</span><span class="p">,</span> <span class="mf">70.7706</span><span class="p">]]),</span>
+                                 <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;mu/mc&quot;</span><span class="p">,</span><span class="s2">&quot;mc/mt&quot;</span><span class="p">,</span><span class="s2">&quot;md/ms&quot;</span><span class="p">,</span><span class="s2">&quot;ms/mb&quot;</span><span class="p">,</span><span class="s2">&quot;t12&quot;</span><span class="p">,</span><span class="s2">&quot;t13&quot;</span><span class="p">,</span><span class="s2">&quot;t23&quot;</span><span class="p">,</span><span class="s2">&quot;dq&quot;</span><span class="p">],</span>
+                                 <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;best&#39;</span><span class="p">,</span> <span class="s1">&#39;1sig_min&#39;</span><span class="p">,</span> <span class="s1">&#39;1sig_max&#39;</span><span class="p">])</span>
+<span class="c1"># and combine Lepton and Quark experimental data</span>
+<span class="n">LeptonQuark_data_table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">mf</span><span class="o">.</span><span class="n">NuFit53_IO_gauss</span><span class="o">.</span><span class="n">data_table</span><span class="p">,</span> <span class="n">Qexpdata_Standard</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">LeptonQuark_ExpData</span> <span class="o">=</span> <span class="n">mf</span><span class="o">.</span><span class="n">ExperimentalData</span><span class="p">(</span><span class="n">data_table</span><span class="o">=</span><span class="n">LeptonQuark_data_table</span><span class="p">)</span>
+
+<span class="c1"># Then we can initialize the Lepton-Quark-Model</span>
+<span class="n">MyLeptonQuarkModel</span> <span class="o">=</span> <span class="n">mf</span><span class="o">.</span><span class="n">FlavorModel</span><span class="p">(</span><span class="n">mass_matrix_e</span><span class="o">=</span><span class="n">Me</span><span class="p">,</span> <span class="n">mass_matrix_n</span><span class="o">=</span><span class="n">Mn</span><span class="p">,</span>
+                                    <span class="n">mass_matrix_u</span><span class="o">=</span><span class="n">Mu</span><span class="p">,</span> <span class="n">mass_matrix_d</span><span class="o">=</span><span class="n">Md</span><span class="p">,</span>
+                                    <span class="n">parameterspace</span><span class="o">=</span><span class="n">ParamSpace</span><span class="p">,</span>
+                                    <span class="n">experimental_data</span><span class="o">=</span><span class="n">LeptonQuark_ExpData</span><span class="p">,</span>
+                                    <span class="n">ordering</span><span class="o">=</span><span class="s1">&#39;IO&#39;</span><span class="p">,</span>
+                                    <span class="n">ckm_parameterization</span><span class="o">=</span><span class="s1">&#39;standard&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
 </section>
 <section id="fitting">
 <h2>Fitting<a class="headerlink" href="#fitting" title="Permalink to this heading">#</a></h2>
@@ -561,11 +598,11 @@ functions of the parameter space are drawn. Then several minimization
 algorithms (methods) implemented in lmfit are applied consecutively
 several times (nr_methods) onto every random point. Since minimization
 algorithms sometimes get lost and run very long, every applied algorithm
-is stopped after a certain amount of seconds (max_time). These and other
+is stopped after a certain amount of second (max_time). These and other
 arguments used for the fit, can be adjusted to the individual needs.
 However, in most cases the default values work very well and it is not
-necessary to adjust them. Only for the purpose of demonstation we will
-do it in this case.</p>
+necessary to adjust them. Here, we will do it for the purpose of
+demonstation.</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_columns&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>  <span class="c1"># This pandas setting allows us to see all columns</span>
 
 <span class="c1"># Adjusting the default setup for fitting.  Usually this is</span>
@@ -597,15 +634,15 @@ do it in this case.</p>
     <tr style="text-align: left;">
       <th></th>
       <th style="min-width: 120px;">chisq</th>
-      <th>chisq_dimless</th>
+      <th style="min-width: 120px;">chisq_dimless</th>
       <th style="min-width: 90px;">Retau</th>
       <th style="min-width: 90px;">Imtau</th>
-      <th style="min-width: 90px;">n_scale</th>
+      <th>n_scale</th>
       <th style="min-width: 90px;">alpha</th>
-      <th style="min-width: 90px;">beta</th>
-      <th style="min-width: 90px;">gamma</th>
-      <th style="min-width: 90px;">me/mu</th>
-      <th style="min-width: 90px;">mu/mt</th>
+      <th style="min-width: 70px;">beta</th>
+      <th>gamma</th>
+      <th style="min-width: 70px;">me/mu</th>
+      <th style="min-width: 70px;">mu/mt</th>
       <th style="min-width: 90px;">s12^2</th>
       <th style="min-width: 90px;">s13^2</th>
       <th style="min-width: 90px;">s23^2</th>
@@ -618,7 +655,7 @@ do it in this case.</p>
       <th style="min-width: 90px;">m3</th>
       <th style="min-width: 90px;">eta1</th>
       <th style="min-width: 90px;">eta2</th>
-      <th style="min-width: 90px;">J</th>
+      <th style="min-width: 120px;">J</th>
       <th style="min-width: 90px;">Jmax</th>
       <th style="min-width: 90px;">Sum(m_i)</th>
       <th style="min-width: 90px;">m_b</th>
@@ -629,313 +666,313 @@ do it in this case.</p>
   <tbody>
     <tr>
       <th>0</th>
-      <td>1234.352993</td>
-      <td>1234.353829</td>
-      <td>-0.011596</td>
-      <td>0.994569</td>
+      <td>1450.840160</td>
+      <td>1450.834863</td>
+      <td>-0.011631</td>
+      <td>0.994666</td>
       <td>1.0</td>
       <td>0.000271</td>
       <td>0.0565</td>
       <td>1.0</td>
       <td>0.0048</td>
       <td>0.0565</td>
-      <td>0.301487</td>
-      <td>0.044683</td>
-      <td>0.348875</td>
-      <td>1.453327</td>
-      <td>-0.029750</td>
+      <td>0.304975</td>
+      <td>0.044684</td>
+      <td>0.348874</td>
+      <td>1.454255</td>
+      <td>-0.029727</td>
       <td>0.000074</td>
-      <td>-0.002488</td>
-      <td>0.049142</td>
-      <td>0.049889</td>
-      <td>0.000748</td>
-      <td>0.245394</td>
-      <td>1.029619</td>
-      <td>-0.043694</td>
-      <td>0.044168</td>
-      <td>0.099778</td>
-      <td>0.049266</td>
-      <td>0.038487</td>
-      <td>0.021932</td>
+      <td>-0.002489</td>
+      <td>0.049152</td>
+      <td>0.049899</td>
+      <td>0.000747</td>
+      <td>0.242450</td>
+      <td>1.027443</td>
+      <td>-0.043855</td>
+      <td>0.044312</td>
+      <td>0.099797</td>
+      <td>0.049273</td>
+      <td>0.038493</td>
+      <td>0.021938</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>1234.352993</td>
-      <td>1234.353829</td>
-      <td>-0.011596</td>
-      <td>0.994569</td>
+      <td>1450.869308</td>
+      <td>1450.831289</td>
+      <td>0.011608</td>
+      <td>0.994678</td>
       <td>1.0</td>
       <td>0.000271</td>
       <td>0.0565</td>
       <td>1.0</td>
       <td>0.0048</td>
       <td>0.0565</td>
-      <td>0.301487</td>
-      <td>0.044683</td>
-      <td>0.348875</td>
-      <td>1.453327</td>
-      <td>-0.029750</td>
+      <td>0.304997</td>
+      <td>0.044684</td>
+      <td>0.348874</td>
+      <td>0.545733</td>
+      <td>-0.029669</td>
       <td>0.000074</td>
-      <td>-0.002488</td>
-      <td>0.049142</td>
-      <td>0.049889</td>
-      <td>0.000748</td>
-      <td>0.245394</td>
-      <td>1.029619</td>
-      <td>-0.043694</td>
-      <td>0.044168</td>
-      <td>0.099778</td>
-      <td>0.049266</td>
-      <td>0.038487</td>
-      <td>0.021932</td>
+      <td>-0.002492</td>
+      <td>0.049177</td>
+      <td>0.049923</td>
+      <td>0.000746</td>
+      <td>1.757572</td>
+      <td>0.972569</td>
+      <td>0.043856</td>
+      <td>0.044313</td>
+      <td>0.099847</td>
+      <td>0.049296</td>
+      <td>0.038513</td>
+      <td>0.021950</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>1234.354697</td>
-      <td>1234.353935</td>
-      <td>-0.011592</td>
-      <td>0.994571</td>
+      <td>1450.870137</td>
+      <td>1450.831319</td>
+      <td>0.011607</td>
+      <td>0.994678</td>
       <td>1.0</td>
       <td>0.000271</td>
       <td>0.0565</td>
       <td>1.0</td>
       <td>0.0048</td>
       <td>0.0565</td>
-      <td>0.301476</td>
-      <td>0.044683</td>
-      <td>0.348875</td>
-      <td>1.453324</td>
-      <td>-0.029741</td>
+      <td>0.305002</td>
+      <td>0.044684</td>
+      <td>0.348874</td>
+      <td>0.545732</td>
+      <td>-0.029668</td>
       <td>0.000074</td>
-      <td>-0.002489</td>
-      <td>0.049146</td>
-      <td>0.049893</td>
-      <td>0.000747</td>
-      <td>0.245403</td>
-      <td>1.029627</td>
-      <td>-0.043694</td>
-      <td>0.044168</td>
-      <td>0.099786</td>
-      <td>0.049270</td>
-      <td>0.038490</td>
-      <td>0.021934</td>
+      <td>-0.002492</td>
+      <td>0.049178</td>
+      <td>0.049924</td>
+      <td>0.000746</td>
+      <td>1.757576</td>
+      <td>0.972573</td>
+      <td>0.043857</td>
+      <td>0.044313</td>
+      <td>0.099848</td>
+      <td>0.049296</td>
+      <td>0.038513</td>
+      <td>0.021950</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>1234.355203</td>
-      <td>1234.353743</td>
-      <td>-0.011591</td>
-      <td>0.994571</td>
+      <td>1450.870886</td>
+      <td>1450.831218</td>
+      <td>0.011607</td>
+      <td>0.994678</td>
       <td>1.0</td>
       <td>0.000271</td>
       <td>0.0565</td>
       <td>1.0</td>
       <td>0.0048</td>
       <td>0.0565</td>
-      <td>0.301488</td>
-      <td>0.044683</td>
-      <td>0.348875</td>
-      <td>1.453328</td>
-      <td>-0.029738</td>
+      <td>0.305000</td>
+      <td>0.044684</td>
+      <td>0.348874</td>
+      <td>0.545732</td>
+      <td>-0.029666</td>
       <td>0.000074</td>
-      <td>-0.002489</td>
-      <td>0.049147</td>
-      <td>0.049894</td>
-      <td>0.000747</td>
-      <td>0.245392</td>
-      <td>1.029619</td>
-      <td>-0.043694</td>
-      <td>0.044168</td>
-      <td>0.099788</td>
-      <td>0.049271</td>
-      <td>0.038491</td>
-      <td>0.021934</td>
+      <td>-0.002492</td>
+      <td>0.049178</td>
+      <td>0.049924</td>
+      <td>0.000746</td>
+      <td>1.757575</td>
+      <td>0.972571</td>
+      <td>0.043856</td>
+      <td>0.044313</td>
+      <td>0.099849</td>
+      <td>0.049297</td>
+      <td>0.038514</td>
+      <td>0.021950</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>1234.355511</td>
-      <td>1234.353722</td>
-      <td>-0.011591</td>
-      <td>0.994572</td>
+      <td>1450.870897</td>
+      <td>1450.831219</td>
+      <td>0.011607</td>
+      <td>0.994678</td>
       <td>1.0</td>
       <td>0.000271</td>
       <td>0.0565</td>
       <td>1.0</td>
       <td>0.0048</td>
       <td>0.0565</td>
-      <td>0.301488</td>
-      <td>0.044683</td>
-      <td>0.348875</td>
-      <td>1.453328</td>
-      <td>-0.029737</td>
+      <td>0.305000</td>
+      <td>0.044684</td>
+      <td>0.348874</td>
+      <td>0.545732</td>
+      <td>-0.029666</td>
       <td>0.000074</td>
-      <td>-0.002489</td>
-      <td>0.049147</td>
-      <td>0.049895</td>
-      <td>0.000747</td>
-      <td>0.245393</td>
-      <td>1.029619</td>
-      <td>-0.043694</td>
-      <td>0.044168</td>
-      <td>0.099789</td>
-      <td>0.049271</td>
-      <td>0.038491</td>
-      <td>0.021935</td>
+      <td>-0.002492</td>
+      <td>0.049178</td>
+      <td>0.049924</td>
+      <td>0.000746</td>
+      <td>1.757575</td>
+      <td>0.972571</td>
+      <td>0.043856</td>
+      <td>0.044313</td>
+      <td>0.099849</td>
+      <td>0.049297</td>
+      <td>0.038514</td>
+      <td>0.021950</td>
     </tr>
     <tr>
       <th>5</th>
-      <td>1234.355512</td>
-      <td>1234.353719</td>
-      <td>-0.011591</td>
-      <td>0.994572</td>
+      <td>1450.873011</td>
+      <td>1450.831209</td>
+      <td>-0.011606</td>
+      <td>0.994679</td>
       <td>1.0</td>
       <td>0.000271</td>
       <td>0.0565</td>
       <td>1.0</td>
       <td>0.0048</td>
       <td>0.0565</td>
-      <td>0.301487</td>
-      <td>0.044683</td>
-      <td>0.348875</td>
-      <td>1.453328</td>
-      <td>-0.029737</td>
+      <td>0.305000</td>
+      <td>0.044684</td>
+      <td>0.348874</td>
+      <td>1.454268</td>
+      <td>-0.029664</td>
       <td>0.000074</td>
-      <td>-0.002489</td>
-      <td>0.049147</td>
-      <td>0.049895</td>
-      <td>0.000747</td>
-      <td>0.245393</td>
-      <td>1.029619</td>
-      <td>-0.043694</td>
-      <td>0.044168</td>
-      <td>0.099789</td>
-      <td>0.049271</td>
-      <td>0.038491</td>
-      <td>0.021935</td>
+      <td>-0.002492</td>
+      <td>0.049180</td>
+      <td>0.049926</td>
+      <td>0.000746</td>
+      <td>0.242425</td>
+      <td>1.027429</td>
+      <td>-0.043856</td>
+      <td>0.044313</td>
+      <td>0.099851</td>
+      <td>0.049298</td>
+      <td>0.038515</td>
+      <td>0.021951</td>
     </tr>
     <tr>
       <th>6</th>
-      <td>1234.355516</td>
-      <td>1234.353722</td>
-      <td>0.011591</td>
-      <td>0.994572</td>
+      <td>1450.873011</td>
+      <td>1450.831209</td>
+      <td>-0.011606</td>
+      <td>0.994679</td>
       <td>1.0</td>
       <td>0.000271</td>
       <td>0.0565</td>
       <td>1.0</td>
       <td>0.0048</td>
       <td>0.0565</td>
-      <td>0.301488</td>
-      <td>0.044683</td>
-      <td>0.348875</td>
-      <td>0.546672</td>
-      <td>-0.029737</td>
+      <td>0.305000</td>
+      <td>0.044684</td>
+      <td>0.348874</td>
+      <td>1.454268</td>
+      <td>-0.029664</td>
       <td>0.000074</td>
-      <td>-0.002489</td>
-      <td>0.049147</td>
-      <td>0.049895</td>
-      <td>0.000747</td>
-      <td>1.754607</td>
-      <td>0.970381</td>
-      <td>0.043694</td>
-      <td>0.044168</td>
-      <td>0.099789</td>
-      <td>0.049271</td>
-      <td>0.038491</td>
-      <td>0.021935</td>
+      <td>-0.002492</td>
+      <td>0.049180</td>
+      <td>0.049926</td>
+      <td>0.000746</td>
+      <td>0.242425</td>
+      <td>1.027429</td>
+      <td>-0.043856</td>
+      <td>0.044313</td>
+      <td>0.099851</td>
+      <td>0.049298</td>
+      <td>0.038515</td>
+      <td>0.021951</td>
     </tr>
     <tr>
       <th>7</th>
-      <td>1234.355516</td>
-      <td>1234.353719</td>
-      <td>0.011591</td>
-      <td>0.994572</td>
+      <td>1450.875212</td>
+      <td>1450.831233</td>
+      <td>-0.011605</td>
+      <td>0.994679</td>
       <td>1.0</td>
       <td>0.000271</td>
       <td>0.0565</td>
       <td>1.0</td>
       <td>0.0048</td>
       <td>0.0565</td>
-      <td>0.301487</td>
-      <td>0.044683</td>
-      <td>0.348875</td>
-      <td>0.546672</td>
-      <td>-0.029737</td>
+      <td>0.305000</td>
+      <td>0.044684</td>
+      <td>0.348874</td>
+      <td>1.454269</td>
+      <td>-0.029661</td>
       <td>0.000074</td>
-      <td>-0.002489</td>
-      <td>0.049147</td>
-      <td>0.049895</td>
-      <td>0.000747</td>
-      <td>1.754607</td>
-      <td>0.970381</td>
-      <td>0.043694</td>
-      <td>0.044168</td>
-      <td>0.099789</td>
-      <td>0.049271</td>
-      <td>0.038491</td>
-      <td>0.021935</td>
+      <td>-0.002492</td>
+      <td>0.049181</td>
+      <td>0.049927</td>
+      <td>0.000746</td>
+      <td>0.242425</td>
+      <td>1.027428</td>
+      <td>-0.043856</td>
+      <td>0.044313</td>
+      <td>0.099854</td>
+      <td>0.049299</td>
+      <td>0.038516</td>
+      <td>0.021951</td>
     </tr>
     <tr>
       <th>8</th>
-      <td>1234.355527</td>
-      <td>1234.353723</td>
-      <td>-0.011591</td>
-      <td>0.994572</td>
+      <td>1450.875235</td>
+      <td>1450.831215</td>
+      <td>-0.011605</td>
+      <td>0.994679</td>
       <td>1.0</td>
       <td>0.000271</td>
       <td>0.0565</td>
       <td>1.0</td>
       <td>0.0048</td>
       <td>0.0565</td>
-      <td>0.301488</td>
-      <td>0.044683</td>
-      <td>0.348875</td>
-      <td>1.453328</td>
-      <td>-0.029737</td>
+      <td>0.305000</td>
+      <td>0.044684</td>
+      <td>0.348874</td>
+      <td>1.454268</td>
+      <td>-0.029661</td>
       <td>0.000074</td>
-      <td>-0.002489</td>
-      <td>0.049147</td>
-      <td>0.049895</td>
-      <td>0.000747</td>
-      <td>0.245393</td>
-      <td>1.029619</td>
-      <td>-0.043694</td>
-      <td>0.044168</td>
-      <td>0.099789</td>
-      <td>0.049271</td>
-      <td>0.038491</td>
-      <td>0.021935</td>
+      <td>-0.002492</td>
+      <td>0.049181</td>
+      <td>0.049927</td>
+      <td>0.000746</td>
+      <td>0.242425</td>
+      <td>1.027429</td>
+      <td>-0.043856</td>
+      <td>0.044313</td>
+      <td>0.099854</td>
+      <td>0.049299</td>
+      <td>0.038516</td>
+      <td>0.021951</td>
     </tr>
     <tr>
       <th>9</th>
-      <td>1234.356740</td>
-      <td>1234.353753</td>
-      <td>-0.011589</td>
-      <td>0.994572</td>
+      <td>1450.957056</td>
+      <td>1450.886723</td>
+      <td>-0.011609</td>
+      <td>0.994722</td>
       <td>1.0</td>
       <td>0.000271</td>
       <td>0.0565</td>
       <td>1.0</td>
       <td>0.0048</td>
       <td>0.0565</td>
-      <td>0.301488</td>
-      <td>0.044683</td>
-      <td>0.348875</td>
-      <td>1.453329</td>
-      <td>-0.029733</td>
+      <td>0.306397</td>
+      <td>0.044684</td>
+      <td>0.348874</td>
+      <td>1.454640</td>
+      <td>-0.029628</td>
       <td>0.000074</td>
-      <td>-0.002489</td>
-      <td>0.049149</td>
-      <td>0.049896</td>
-      <td>0.000747</td>
-      <td>0.245392</td>
-      <td>1.029619</td>
-      <td>-0.043694</td>
-      <td>0.044168</td>
-      <td>0.099793</td>
-      <td>0.049273</td>
-      <td>0.038493</td>
-      <td>0.021935</td>
+      <td>-0.002493</td>
+      <td>0.049195</td>
+      <td>0.049940</td>
+      <td>0.000745</td>
+      <td>0.241250</td>
+      <td>1.026557</td>
+      <td>-0.043920</td>
+      <td>0.044370</td>
+      <td>0.099881</td>
+      <td>0.049311</td>
+      <td>0.038526</td>
+      <td>0.021959</td>
     </tr>
   </tbody>
 </table>
@@ -945,8 +982,7 @@ object</p>
 </pre></div>
 </div>
 <p>The fitting of this model is rather easy and does not require a lot of
-recources since esentially only two parameters are varied.
-However, if one was to fit a more involved model with more
+recources. However, if one was to fit a more involved model with more
 parameters, it can be necessary to run the fit on an external machine,
 e.g. a server, and then transfer the result back to your local machine.
 To keep the transfer-file as small as possible it is advisable to only
@@ -957,18 +993,277 @@ The workflow would be as follows</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># On the external machine, define the model and then run</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">Model1</span><span class="o">.</span><span class="n">dimless_fit</span><span class="p">(</span><span class="n">points</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 
-<span class="c1"># Then export &#39;df&#39; to a file, e.g. a csv</span>
-<span class="c1"># Transfer this file to your local machine</span>
-<span class="c1"># Import is again as &#39;df&#39;</span>
+<span class="c1"># Then export &#39;df&#39; to a file, e.g. a csv with &#39;df.to_csv(&quot;/path_to_file/results.csv&quot;, index=False)&#39;</span>
+<span class="c1"># Transfer this file &#39;results.csv&#39; to your local machine</span>
+<span class="c1"># On your local machine, import the file as &#39;df&#39; with, e.g. &#39;df = pd.read_csv(&quot;/path_to_file/results.csv&quot;)&#39;</span>
 
-<span class="c1"># On your local machine, to add the lepton observables call</span>
+<span class="c1"># This df only contains the values of the parameters and chisquare. To add the lepton observables call</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">Model1</span><span class="o">.</span><span class="n">complete_fit</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 
 <span class="c1"># And store it in the model</span>
 <span class="n">Model1</span><span class="o">.</span><span class="n">fit_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 </pre></div>
 </div>
-</section>
+<p>Analogously we could fit our Lepton-Quark-Model with</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tmp</span> <span class="o">=</span> <span class="n">MyLeptonQuarkModel</span><span class="o">.</span><span class="n">make_fit</span><span class="p">(</span><span class="n">points</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">tmp</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: left;">
+      <th></th>
+      <th style="min-width: 120px;">chisq</th>
+      <th style="min-width: 120px;">chisq_dimless</th>
+      <th style="min-width: 40px;">Retau</th>
+      <th style="min-width: 90px;">Imtau</th>
+      <th>n_scale</th>
+      <th style="min-width: 90px;">alpha</th>
+      <th style="min-width: 70px;">beta</th>
+      <th style="min-width: 70px;">gamma</th>
+      <th style="min-width: 70px;">me/mu</th>
+      <th style="min-width: 70px;">mu/mt</th>
+      <th style="min-width: 90px;">s12^2</th>
+      <th style="min-width: 90px;">s13^2</th>
+      <th style="min-width: 90px;">s23^2</th>
+      <th style="min-width: 50px;">d/pi</th>
+      <th style="min-width: 90px;">r</th>
+      <th style="min-width: 90px;">m21^2</th>
+      <th style="min-width: 90px;">m3l^2</th>
+      <th style="min-width: 90px;">m1</th>
+      <th style="min-width: 90px;">m2</th>
+      <th style="min-width: 90px;">m3</th>
+      <th>eta1</th>
+      <th>eta2</th>
+      <th style="min-width: 120px;">J</th>
+      <th style="min-width: 90px;">Jmax</th>
+      <th style="min-width: 90px;">Sum(m_i)</th>
+      <th style="min-width: 90px;">m_b</th>
+      <th style="min-width: 90px;">m_bb</th>
+      <th style="min-width: 90px;">nscale</th>
+      <th style="min-width: 90px;">mu/mc</th>
+      <th style="min-width: 90px;">mc/mt</th>
+      <th style="min-width: 90px;">md/ms</th>
+      <th style="min-width: 90px;">ms/mb</th>
+      <th style="min-width: 90px;">t12</th>
+      <th style="min-width: 90px;">t13</th>
+      <th style="min-width: 90px;">t23</th>
+      <th style="min-width: 90px;">dq</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>29819.562345</td>
+      <td>27889.667489</td>
+      <td>-0.5</td>
+      <td>1.027139</td>
+      <td>1.0</td>
+      <td>0.000271</td>
+      <td>0.0565</td>
+      <td>1.0</td>
+      <td>0.0048</td>
+      <td>0.0565</td>
+      <td>0.632693</td>
+      <td>0.033717</td>
+      <td>0.132304</td>
+      <td>2.0</td>
+      <td>-0.791345</td>
+      <td>0.001021</td>
+      <td>-0.00129</td>
+      <td>0.023138</td>
+      <td>0.039452</td>
+      <td>0.016314</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>-8.431851e-17</td>
+      <td>0.028981</td>
+      <td>0.078904</td>
+      <td>0.043305</td>
+      <td>0.032882</td>
+      <td>0.016195</td>
+      <td>0.538355</td>
+      <td>0.822271</td>
+      <td>0.351797</td>
+      <td>0.703595</td>
+      <td>14.256250</td>
+      <td>82.076160</td>
+      <td>59.363982</td>
+      <td>180.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>29819.563629</td>
+      <td>27889.667484</td>
+      <td>-0.5</td>
+      <td>1.027168</td>
+      <td>1.0</td>
+      <td>0.000271</td>
+      <td>0.0565</td>
+      <td>1.0</td>
+      <td>0.0048</td>
+      <td>0.0565</td>
+      <td>0.632725</td>
+      <td>0.033713</td>
+      <td>0.132319</td>
+      <td>2.0</td>
+      <td>-0.791323</td>
+      <td>0.001021</td>
+      <td>-0.00129</td>
+      <td>0.023138</td>
+      <td>0.039452</td>
+      <td>0.016313</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>-2.347008e-13</td>
+      <td>0.028980</td>
+      <td>0.078904</td>
+      <td>0.043305</td>
+      <td>0.032882</td>
+      <td>0.016196</td>
+      <td>0.538348</td>
+      <td>0.822271</td>
+      <td>0.351775</td>
+      <td>0.703550</td>
+      <td>14.255616</td>
+      <td>82.076192</td>
+      <td>59.367621</td>
+      <td>180.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>29819.563667</td>
+      <td>27889.667484</td>
+      <td>-0.5</td>
+      <td>1.027169</td>
+      <td>1.0</td>
+      <td>0.000271</td>
+      <td>0.0565</td>
+      <td>1.0</td>
+      <td>0.0048</td>
+      <td>0.0565</td>
+      <td>0.632726</td>
+      <td>0.033713</td>
+      <td>0.132320</td>
+      <td>2.0</td>
+      <td>-0.791322</td>
+      <td>0.001021</td>
+      <td>-0.00129</td>
+      <td>0.023138</td>
+      <td>0.039452</td>
+      <td>0.016313</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>-2.503838e-15</td>
+      <td>0.028980</td>
+      <td>0.078904</td>
+      <td>0.043305</td>
+      <td>0.032882</td>
+      <td>0.016196</td>
+      <td>0.538347</td>
+      <td>0.822271</td>
+      <td>0.351774</td>
+      <td>0.703549</td>
+      <td>14.255597</td>
+      <td>82.076193</td>
+      <td>59.367727</td>
+      <td>180.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>29819.563687</td>
+      <td>27889.667484</td>
+      <td>-0.5</td>
+      <td>1.027170</td>
+      <td>1.0</td>
+      <td>0.000271</td>
+      <td>0.0565</td>
+      <td>1.0</td>
+      <td>0.0048</td>
+      <td>0.0565</td>
+      <td>0.632726</td>
+      <td>0.033713</td>
+      <td>0.132320</td>
+      <td>2.0</td>
+      <td>-0.791322</td>
+      <td>0.001021</td>
+      <td>-0.00129</td>
+      <td>0.023138</td>
+      <td>0.039452</td>
+      <td>0.016313</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>-1.357960e-16</td>
+      <td>0.028980</td>
+      <td>0.078904</td>
+      <td>0.043305</td>
+      <td>0.032882</td>
+      <td>0.016196</td>
+      <td>0.538347</td>
+      <td>0.822271</td>
+      <td>0.351774</td>
+      <td>0.703548</td>
+      <td>14.255587</td>
+      <td>82.076193</td>
+      <td>59.367784</td>
+      <td>180.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>29819.563694</td>
+      <td>27889.667484</td>
+      <td>-0.5</td>
+      <td>1.027170</td>
+      <td>1.0</td>
+      <td>0.000271</td>
+      <td>0.0565</td>
+      <td>1.0</td>
+      <td>0.0048</td>
+      <td>0.0565</td>
+      <td>0.632726</td>
+      <td>0.033713</td>
+      <td>0.132320</td>
+      <td>2.0</td>
+      <td>-0.791321</td>
+      <td>0.001021</td>
+      <td>-0.00129</td>
+      <td>0.023138</td>
+      <td>0.039452</td>
+      <td>0.016313</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>-1.357960e-16</td>
+      <td>0.028980</td>
+      <td>0.078904</td>
+      <td>0.043305</td>
+      <td>0.032882</td>
+      <td>0.016196</td>
+      <td>0.538347</td>
+      <td>0.822271</td>
+      <td>0.351774</td>
+      <td>0.703548</td>
+      <td>14.255584</td>
+      <td>82.076193</td>
+      <td>59.367804</td>
+      <td>180.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></section>
 <section id="analysing-results">
 <h2>Analysing results<a class="headerlink" href="#analysing-results" title="Permalink to this heading">#</a></h2>
 <p>You can now analyse the pandas.DataFrame that contains the fit results
@@ -978,54 +1273,110 @@ best fit point</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Model1</span><span class="o">.</span><span class="n">print_chisq</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
-<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;s12^2&#39;</span><span class="p">:</span> <span class="mf">0.30149014113020706</span><span class="p">,</span>   <span class="n">chisq</span><span class="p">:</span> <span class="mf">6.886414165000344e-05</span>
-<span class="s1">&#39;s13^2&#39;</span><span class="p">:</span> <span class="mf">0.04468341961654504</span><span class="p">,</span>   <span class="n">chisq</span><span class="p">:</span> <span class="mf">1158.346412249292</span>
-<span class="s1">&#39;s23^2&#39;</span><span class="p">:</span> <span class="mf">0.34887455998636124</span><span class="p">,</span>   <span class="n">chisq</span><span class="p">:</span> <span class="mf">76.00431398595319</span>
-<span class="s1">&#39;m21^2&#39;</span><span class="p">:</span> <span class="mf">7.402163061361973e-05</span><span class="p">,</span>   <span class="n">chisq</span><span class="p">:</span> <span class="mf">0.0015413501327695132</span>
-<span class="s1">&#39;m3l^2&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.002488634807977195</span><span class="p">,</span>   <span class="n">chisq</span><span class="p">:</span> <span class="mf">0.0013663894903165749</span>
-<span class="n">Total</span> <span class="n">chi</span><span class="o">-</span><span class="n">square</span><span class="p">:</span> <span class="mf">1234.3537028390099</span>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;s12^2&#39;</span><span class="p">:</span> <span class="mf">0.3049753248207408</span><span class="p">,</span>   <span class="n">chisq</span><span class="p">:</span> <span class="mf">0.0008610874231279788</span>
+<span class="s1">&#39;s13^2&#39;</span><span class="p">:</span> <span class="mf">0.04468384581156096</span><span class="p">,</span>   <span class="n">chisq</span><span class="p">:</span> <span class="mf">1371.4143830828527</span>
+<span class="s1">&#39;s23^2&#39;</span><span class="p">:</span> <span class="mf">0.3488737891713785</span><span class="p">,</span>   <span class="n">chisq</span><span class="p">:</span> <span class="mf">79.41605107231653</span>
+<span class="s1">&#39;m21^2&#39;</span><span class="p">:</span> <span class="mf">7.400113796594195e-05</span><span class="p">,</span>   <span class="n">chisq</span><span class="p">:</span> <span class="mf">0.0020254325309340816</span>
+<span class="s1">&#39;m3l^2&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.0024893256217561536</span><span class="p">,</span>   <span class="n">chisq</span><span class="p">:</span> <span class="mf">0.006839537831949735</span>
+<span class="n">Total</span> <span class="n">chi</span><span class="o">-</span><span class="n">square</span><span class="p">:</span> <span class="mf">1450.8401602129552</span>
 </pre></div>
 </div>
 <p>As also discussed in the paper, the mixing angle <span class="math notranslate nohighlight">\(\theta_{13}\)</span>
 seems not to be in agreement with the experimental data.</p>
 </section>
-<section id="exploring-a-minimum-with-markov-chain-monte-carlo-mcmc-not-yet-implemented">
-<h2>Exploring a minimum with Markov Chain Monte Carlo (MCMC) (Not yet implemented)<a class="headerlink" href="#exploring-a-minimum-with-markov-chain-monte-carlo-mcmc-not-yet-implemented" title="Permalink to this heading">#</a></h2>
+<section id="exploring-a-minimum-with-markov-chain-monte-carlo-mcmc">
+<h2>Exploring a minimum with Markov Chain Monte Carlo (MCMC)<a class="headerlink" href="#exploring-a-minimum-with-markov-chain-monte-carlo-mcmc" title="Permalink to this heading">#</a></h2>
 <p>Using the emcee marcov chain monte carlo sampler one can conveniently
 explore the neighborhood and hence the confidence level contours of a
-specific minimum. This then also yields nice pictures ;)</p>
-<p>Unfortunately this is yet to come and still has to be implemented into
-the modelfitting module.
-So, stay tuned for future development of FlavorPy!</p>
-</section>
-</section>
-<section id="documentation">
-<h1>Documentation<a class="headerlink" href="#documentation" title="Permalink to this heading">#</a></h1>
-<p>The code of FlavorPy is documented here:
-<a class="reference internal" href="../index.html"><span class="doc">FlavorPy documentation</span></a>.</p>
-<p>But of course, as always you can access the documentation inside python with</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">mf</span><span class="o">.</span><span class="n">LeptonModel</span><span class="o">.</span><span class="n">make_fit</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
+specific minimum. FlavorPy uses the emcee
+(<a class="reference external" href="https://emcee.readthedocs.io/en/stable/">https://emcee.readthedocs.io/en/stable/</a>) MCMC sampler. To sample with a
+given amount x of mcmc_steps around one or multiple minima of a
+FlavorModel, simply call FlavorModel.mcmc_fit(df, mcmc_steps=x). You can
+also pass down keyword arguments to the underlying lmfit.Minimizer.emcee
+and emcee.EnsembleSampler.run_mcmc, see
+<a class="reference external" href="https://lmfit.github.io/lmfit-py/fitting.html#lmfit.minimizer.Minimizer.emcee">https://lmfit.github.io/lmfit-py/fitting.html#lmfit.minimizer.Minimizer.emcee</a>
+and
+<a class="reference external" href="https://emcee.readthedocs.io/en/stable/user/sampler/#emcee.EnsembleSampler.run_mcmc">https://emcee.readthedocs.io/en/stable/user/sampler/#emcee.EnsembleSampler.run_mcmc</a>
+there are several interesting options like adjusting the number of
+ranodm walkers of parallelizing the job using several workers. Calling
+the function yields the flatchain containing all sampled points in
+parameter space. The observables and chisq can the easily be added with
+FlavorModel.complete_fit(df).</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mcmc_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;nwalkers&#39;</span><span class="p">:</span><span class="mi">60</span><span class="p">,</span> <span class="s1">&#39;thin&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;workers&#39;</span><span class="p">:</span><span class="mi">5</span><span class="p">}</span>
+<span class="n">df_mcmc</span> <span class="o">=</span> <span class="n">Model1</span><span class="o">.</span><span class="n">mcmc_fit</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="mi">0</span><span class="p">]],</span> <span class="n">mcmc_steps</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="o">**</span><span class="n">mcmc_kwargs</span><span class="p">)</span>
+<span class="n">df_mcmc</span> <span class="o">=</span> <span class="n">Model1</span><span class="o">.</span><span class="n">complete_fit</span><span class="p">(</span><span class="n">df_mcmc</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">Does</span> <span class="n">the</span> <span class="n">fit</span> <span class="k">for</span> <span class="n">a</span> <span class="n">specific</span> <span class="n">number</span> <span class="n">of</span> <span class="n">random</span> <span class="n">points</span> <span class="ow">in</span> <span class="n">parameterspace</span><span class="o">.</span>
-
-<span class="p">:</span><span class="n">param</span> <span class="n">points</span><span class="p">:</span> <span class="n">The</span> <span class="n">number</span> <span class="n">of</span> <span class="n">random</span> <span class="n">points</span> <span class="ow">in</span> <span class="n">parameter</span> <span class="n">space</span> <span class="n">you</span> <span class="n">want</span> <span class="n">to</span> <span class="n">fit</span><span class="o">.</span>
-    <span class="n">If</span> <span class="n">you</span> <span class="n">want</span> <span class="n">to</span> <span class="n">fit</span> <span class="n">a</span> <span class="n">specific</span> <span class="n">starting</span> <span class="n">point</span> <span class="ow">in</span> <span class="n">parameter</span> <span class="n">space</span><span class="p">,</span> <span class="n">adjust</span> <span class="n">the</span> <span class="s1">&#39;sampling_fct&#39;</span> <span class="ow">in</span> <span class="n">your</span>
-    <span class="n">ParameterSpace</span><span class="o">.</span>
-<span class="p">:</span><span class="nb">type</span> <span class="n">points</span><span class="p">:</span> <span class="nb">int</span>
-
-<span class="p">:</span><span class="n">param</span> <span class="n">fitting_kwargs</span><span class="p">:</span> <span class="n">properties</span> <span class="n">of</span> <span class="n">the</span> <span class="n">Fit</span> <span class="n">class</span><span class="o">.</span>
-    <span class="n">You</span> <span class="n">can</span> <span class="n">add</span> <span class="n">keyword</span> <span class="n">arguments</span> <span class="n">that</span> <span class="n">will</span> <span class="n">be</span> <span class="n">passed</span> <span class="n">down</span> <span class="n">to</span> <span class="n">the</span> <span class="n">Fit</span> <span class="nb">object</span> <span class="n">used</span> <span class="n">to</span> <span class="n">make</span> <span class="n">the</span> <span class="n">fit</span><span class="o">.</span>
-    <span class="n">Please</span> <span class="n">see</span> <span class="n">the</span> <span class="n">documentation</span> <span class="n">of</span> <span class="n">the</span> <span class="n">Fit</span> <span class="k">class</span> <span class="nc">for</span> <span class="n">the</span> <span class="n">specific</span> <span class="n">keyword</span> <span class="n">arguments</span><span class="o">.</span> <span class="n">Of</span> <span class="n">course</span><span class="p">,</span> <span class="n">the</span> <span class="n">keywords</span>
-    <span class="s1">&#39;model&#39;</span> <span class="ow">and</span> <span class="s1">&#39;params&#39;</span> <span class="n">can</span> <span class="ow">not</span> <span class="n">be</span> <span class="n">passed</span> <span class="n">down</span> <span class="n">to</span> <span class="n">Fit</span><span class="o">.</span>
-
-<span class="p">:</span><span class="k">return</span><span class="p">:</span> <span class="n">The</span> <span class="n">result</span> <span class="n">of</span> <span class="n">the</span> <span class="n">fit</span> <span class="ow">is</span> <span class="n">returned</span> <span class="ow">in</span> <span class="n">form</span> <span class="n">of</span> <span class="n">a</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span>
-    <span class="n">Note</span> <span class="n">that</span> <span class="n">several</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span><span class="mi">4</span><span class="p">)</span> <span class="n">minimization</span> <span class="n">algorithms</span> <span class="n">are</span> <span class="n">applied</span> <span class="n">consecutively</span> <span class="n">to</span> <span class="n">one</span> <span class="n">random</span> <span class="n">point</span><span class="o">.</span> <span class="n">Since</span>
-    <span class="n">the</span> <span class="n">results</span> <span class="n">of</span> <span class="n">the</span> <span class="n">intermediate</span> <span class="n">steps</span> <span class="n">are</span> <span class="n">also</span> <span class="n">written</span> <span class="n">into</span> <span class="n">the</span> <span class="n">resulting</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">it</span> <span class="n">has</span> <span class="n">more</span> <span class="n">rows</span> <span class="n">than</span>
-    <span class="n">the</span> <span class="n">number</span> <span class="n">entered</span> <span class="k">as</span> <span class="s1">&#39;points&#39;</span><span class="o">.</span>
-<span class="p">:</span><span class="n">rtype</span><span class="p">:</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="mi">0</span> <span class="p">:</span>
 </pre></div>
 </div>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span>100%|██████████| 2000/2000 [01:03&lt;00:00, 31.39it/s]
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mf</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_mcmc</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;Retau&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Imtau&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;viridis_r&#39;</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">df_mcmc</span><span class="p">[</span><span class="s1">&#39;chisq&#39;</span><span class="p">])</span><span class="o">+</span><span class="mi">25</span><span class="p">);</span>
+</pre></div>
+</div>
+<img alt="../_images/detailedexample_modelfitting_modulispace.png" src="../_images/detailedexample_modelfitting_modulispace.png" />
+<p>This method is especially usefull if you want to sample around multiple
+minima. Alternatively with FlavorPy you can directly define a
+lmfit.Minimizer object, on which you can call .emcee(). This enables you
+to use a wide range of analysis tools of lmfit
+(<a class="reference external" href="https://lmfit.github.io/lmfit-py/fitting.html#minimizerresult-the-optimization-result">https://lmfit.github.io/lmfit-py/fitting.html#minimizerresult-the-optimization-result</a>)
+and emcee
+(<a class="reference external" href="https://emcee.readthedocs.io/en/stable/tutorials/quickstart/">https://emcee.readthedocs.io/en/stable/tutorials/quickstart/</a>). However,
+you can only fit one minimum at a time. And you need to input the
+minimum in form of a lmfit.Parameters object.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">params</span> <span class="o">=</span> <span class="n">ParamSpace</span><span class="o">.</span><span class="n">random_pt</span><span class="p">()</span>  <span class="c1"># This is not a random point, but we will set it to the best fit point df.loc[0] in the next lines</span>
+<span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
+    <span class="n">params</span><span class="p">[</span><span class="n">param</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">param</span><span class="p">]</span>
+
+<span class="n">LmfitMinimizer</span> <span class="o">=</span> <span class="n">mf</span><span class="o">.</span><span class="n">LmfitMinimizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">Model1</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This has the nice feature, that you can sample a couple of points and if
+they were not sufficiently many, you can continue running the same,
+already trained, sampler with ‘reuse_sampler’.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">LmfitMinimizer</span><span class="o">.</span><span class="n">emcee</span><span class="p">(</span><span class="n">steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span>100%|██████████| 1000/1000 [00:45&lt;00:00, 21.78it/s]
+</pre></div>
+</div>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span>The chain is shorter than 50 times the integrated autocorrelation time for 2 parameter(s). Use this estimate with caution and run a longer chain!
+N/50 = 20;
+tau: [23.81724905 25.39524904]
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">flatchain</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="mi">100000</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">LmfitMinimizer</span><span class="o">.</span><span class="n">emcee</span><span class="p">(</span><span class="n">steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">reuse_sampler</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span>100%|██████████| 1000/1000 [00:45&lt;00:00, 21.96it/s]
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">flatchain</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="mi">200000</span>
+</pre></div>
+</div>
+<p>Also you can print all sorts of information about the fit results. For
+more information see
+<a class="reference external" href="https://lmfit.github.io/lmfit-py/fitting.html#lmfit.minimizer.MinimizerResult">https://lmfit.github.io/lmfit-py/fitting.html#lmfit.minimizer.MinimizerResult</a>.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span>
+</pre></div>
+</div>
+<h4>Fit Statistics</h4>
+<table><tr><td>fitting method</td><td>emcee</td><td></td></tr><tr><td># function evals</td><td>100000</td><td></td></tr><tr><td># data points</td><td>4</td><td></td></tr><tr><td># variables</td><td>2</td><td></td></tr><tr><td>chi-square</td><td> 1450.89382</td><td></td></tr><tr><td>reduced chi-square</td><td> 725.446911</td><td></td></tr><tr><td>Akaike info crit.</td><td> 27.5745629</td><td></td></tr><tr><td>Bayesian info crit.</td><td> 26.3471516</td><td></td></tr></table>
+<h4>Variables</h4>
+<table><tr><th> name </th><th> value </th><th> standard error </th><th> relative error </th><th> initial value </th><th> min </th><th> max </th><th> vary </th></tr><tr><td> Retau </td><td> -0.01163794 </td><td>  4.6109e-04 </td><td> (3.96%) </td><td> -0.0116306881653227 </td><td> -0.50000000 </td><td>  0.50000000 </td><td> True </td></tr><tr><td> Imtau </td><td>  0.99471795 </td><td>  3.7336e-04 </td><td> (0.04%) </td><td> 0.9946662946961622 </td><td>  0.86600000 </td><td>  4.00000000 </td><td> True </td></tr><tr><td> n_scale </td><td>  1.00000000 </td><td>  </td><td> (0.04%) </td><td> 1.0 </td><td>        -inf </td><td>         inf </td><td> False </td></tr><tr><td> alpha </td><td>  2.7120e-04 </td><td>  </td><td> (0.04%) </td><td> 0.0002712 </td><td>        -inf </td><td>         inf </td><td> False </td></tr><tr><td> beta </td><td>  0.05650000 </td><td>  </td><td> (0.04%) </td><td> 0.0565 </td><td>        -inf </td><td>         inf </td><td> False </td></tr><tr><td> gamma </td><td>  1.00000000 </td><td>  </td><td> (0.04%) </td><td> 1.0 </td><td>        -inf </td><td>         inf </td><td> False </td></tr></table>
+<h4>Correlations (unreported correlations are < 0.100)</h4>
+<table><tr><td>Retau</td><td>Imtau</td><td>0.2939</td></tr></table></section>
 </section>
 
 
@@ -1051,19 +1402,14 @@ So, stay tuned for future development of FlavorPy!</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Detailed example</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mass-matrices">Mass matrices</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-space">Parameter space</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experimental-data">Experimental data</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#constructing-the-model">Constructing the model</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fitting">Fitting</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysing-results">Analysing results</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exploring-a-minimum-with-markov-chain-monte-carlo-mcmc-not-yet-implemented">Exploring a minimum with Markov Chain Monte Carlo (MCMC) (Not yet implemented)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exploring-a-minimum-with-markov-chain-monte-carlo-mcmc">Exploring a minimum with Markov Chain Monte Carlo (MCMC)</a></li>
 </ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#documentation">Documentation</a></li>
-</ul>
-
   </nav></div>
 
   <div class="sidebar-secondary-item">

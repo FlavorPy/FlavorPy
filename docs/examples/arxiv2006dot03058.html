@@ -1,0 +1,2126 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>The Weinberg Operator Model of arXiv:2006.03058 &#8212; FlavorPy 0.2.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/arxiv2006dot03058';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">FlavorPy 0.2.0 documentation</p>
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../constructterms.html">
+                        ConstructTerms
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../modelfitting.html">
+                        ModelFitting
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="examples_page.html">
+                        Examples
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/flavorpy/flavorpy" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../constructterms.html">
+                        ConstructTerms
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../modelfitting.html">
+                        ModelFitting
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="examples_page.html">
+                        Examples
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/flavorpy/flavorpy" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">The Weinberg Operator Model of arXiv:2006.03058</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="the-weinberg-operator-model-of-arxiv-2006-03058">
+<h1>The Weinberg Operator Model of arXiv:2006.03058<a class="headerlink" href="#the-weinberg-operator-model-of-arxiv-2006-03058" title="Permalink to this heading">#</a></h1>
+<p>This example is based on the paper “Double Cover of Modular S4 for
+Flavour Model Building” from P. P. Novichkov, J. T. Penedo, and S. T.
+Petcov available under <a class="reference external" href="https://arxiv.org/pdf/2006.03058">https://arxiv.org/pdf/2006.03058</a>. We will study
+their Weinberg Operator Model introduced in section 6.1 of the paper
+and try to reproduce their model fitting results.</p>
+<section id="import">
+<h2>Import<a class="headerlink" href="#import" title="Permalink to this heading">#</a></h2>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import the modelfitting module of FlavorPy</span>
+<span class="kn">import</span> <span class="nn">flavorpy.modelfitting</span> <span class="k">as</span> <span class="nn">mf</span>
+
+<span class="c1"># We will also need numpy and pandas</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_columns&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>  <span class="c1"># This pandas setting allows us to see all columns</span>
+<span class="kn">import</span> <span class="nn">cmath</span>
+</pre></div>
+</div>
+</section>
+<section id="mass-matrices">
+<h2>Mass matrices<a class="headerlink" href="#mass-matrices" title="Permalink to this heading">#</a></h2>
+<p>First we need to define a lot of modular forms. See eqs. (3.3), (3.14),
+and (3.15) in the paper.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### Weight 1/2 modular forms</span>
+<span class="k">def</span> <span class="nf">theta</span><span class="p">(</span><span class="n">tau</span><span class="p">):</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">cmath</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">2</span><span class="n">j</span><span class="o">*</span><span class="n">cmath</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">tau</span><span class="o">/</span><span class="mi">4</span><span class="p">)</span>
+    <span class="k">return</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">q</span><span class="o">**</span><span class="mi">4</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">q</span><span class="o">**</span><span class="mi">16</span>
+<span class="k">def</span> <span class="nf">eps</span><span class="p">(</span><span class="n">tau</span><span class="p">):</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">cmath</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">2</span><span class="n">j</span><span class="o">*</span><span class="n">cmath</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">tau</span><span class="o">/</span><span class="mi">4</span><span class="p">)</span>
+    <span class="k">return</span> <span class="mi">2</span><span class="o">*</span><span class="n">q</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">q</span><span class="o">**</span><span class="mi">9</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">q</span><span class="o">**</span><span class="mi">25</span>
+
+<span class="c1">### Weight 3 modular forms</span>
+<span class="c1"># Weight 3, rep 1hatprime</span>
+<span class="k">def</span> <span class="nf">Y31hp1</span><span class="p">(</span><span class="n">tau</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">cmath</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">eps</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span> <span class="o">*</span> <span class="n">theta</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span><span class="o">**</span><span class="mi">5</span> <span class="o">-</span> <span class="n">eps</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span><span class="o">**</span><span class="mi">5</span> <span class="o">*</span> <span class="n">theta</span><span class="p">(</span><span class="n">tau</span><span class="p">))</span>
+<span class="c1"># Weight 3, rep 3hat</span>
+<span class="k">def</span> <span class="nf">Y33h1</span><span class="p">(</span><span class="n">tau</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">eps</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span><span class="o">**</span><span class="mi">5</span> <span class="o">*</span> <span class="n">theta</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span> <span class="o">+</span> <span class="n">eps</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span> <span class="o">*</span> <span class="n">theta</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span><span class="o">**</span><span class="mi">5</span>
+<span class="k">def</span> <span class="nf">Y33h2</span><span class="p">(</span><span class="n">tau</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">/</span><span class="n">cmath</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">5</span> <span class="o">*</span> <span class="n">eps</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">theta</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span><span class="o">**</span><span class="mi">4</span> <span class="o">-</span> <span class="n">eps</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span><span class="o">**</span><span class="mi">6</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">Y33h3</span><span class="p">(</span><span class="n">tau</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">/</span><span class="n">cmath</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">theta</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span><span class="o">**</span><span class="mi">6</span> <span class="o">-</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">eps</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span><span class="o">**</span><span class="mi">4</span> <span class="o">*</span> <span class="n">theta</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="c1"># Weight 3, rep 3hatprime</span>
+<span class="k">def</span> <span class="nf">Y33hp1</span><span class="p">(</span><span class="n">tau</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="mi">4</span> <span class="o">*</span> <span class="n">cmath</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">eps</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span><span class="o">**</span><span class="mi">3</span> <span class="o">*</span> <span class="n">theta</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">Y33hp2</span><span class="p">(</span><span class="n">tau</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">theta</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span><span class="o">**</span><span class="mi">6</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">eps</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span><span class="o">**</span><span class="mi">4</span> <span class="o">*</span> <span class="n">theta</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">Y33hp3</span><span class="p">(</span><span class="n">tau</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="mi">3</span> <span class="o">*</span> <span class="n">eps</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">theta</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span><span class="o">**</span><span class="mi">4</span> <span class="o">-</span> <span class="n">eps</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span><span class="o">**</span><span class="mi">6</span><span class="p">)</span>
+
+<span class="c1">### Weight 4 modular forms</span>
+<span class="c1"># Weight 4, rep 1</span>
+<span class="k">def</span> <span class="nf">Y411</span><span class="p">(</span><span class="n">tau</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">/</span><span class="n">cmath</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">theta</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span><span class="o">**</span><span class="mi">8</span> <span class="o">+</span> <span class="mi">14</span> <span class="o">*</span> <span class="n">eps</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span><span class="o">**</span><span class="mi">4</span> <span class="o">*</span> <span class="n">theta</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span><span class="o">**</span><span class="mi">4</span> <span class="o">+</span> <span class="n">eps</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span><span class="o">**</span><span class="mi">8</span><span class="p">)</span>
+<span class="c1"># Weight 4, rep 2</span>
+<span class="k">def</span> <span class="nf">Y421</span><span class="p">(</span><span class="n">tau</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">1</span><span class="o">/</span><span class="mi">4</span> <span class="o">*</span> <span class="p">(</span><span class="n">theta</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span><span class="o">**</span><span class="mi">8</span> <span class="o">-</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">eps</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span><span class="o">**</span><span class="mi">4</span> <span class="o">*</span> <span class="n">theta</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span><span class="o">**</span><span class="mi">4</span> <span class="o">+</span> <span class="n">eps</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span><span class="o">**</span><span class="mi">8</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">Y422</span><span class="p">(</span><span class="n">tau</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">cmath</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">eps</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">theta</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span><span class="o">**</span><span class="mi">6</span> <span class="o">+</span> <span class="n">eps</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span><span class="o">**</span><span class="mi">6</span> <span class="o">*</span> <span class="n">theta</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="c1"># Weight 4, rep 3</span>
+<span class="k">def</span> <span class="nf">Y431</span><span class="p">(</span><span class="n">tau</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">3</span><span class="o">/</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">eps</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">theta</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span><span class="o">**</span><span class="mi">6</span> <span class="o">-</span> <span class="n">eps</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span><span class="o">**</span><span class="mi">6</span> <span class="o">*</span> <span class="n">theta</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">Y432</span><span class="p">(</span><span class="n">tau</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">3</span><span class="o">/</span><span class="mi">2</span><span class="o">/</span><span class="n">cmath</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">eps</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span><span class="o">**</span><span class="mi">3</span> <span class="o">*</span> <span class="n">theta</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span><span class="o">**</span><span class="mi">5</span> <span class="o">-</span> <span class="n">eps</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span><span class="o">**</span><span class="mi">7</span> <span class="o">*</span> <span class="n">theta</span><span class="p">(</span><span class="n">tau</span><span class="p">))</span>
+<span class="k">def</span> <span class="nf">Y433</span><span class="p">(</span><span class="n">tau</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">3</span><span class="o">/</span><span class="mi">2</span><span class="o">/</span><span class="n">cmath</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="n">eps</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span> <span class="o">*</span> <span class="n">theta</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span><span class="o">**</span><span class="mi">7</span> <span class="o">+</span> <span class="n">eps</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span><span class="o">**</span><span class="mi">5</span> <span class="o">*</span> <span class="n">theta</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Then we can define the mass matrices. See eqs. (6.5), (6.6) or (6.7),
+(6.8) or Appendix E of the paper.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">Me</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;Retau&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;Imtau&#39;</span><span class="p">]</span>
+    <span class="n">Y31hp1x</span> <span class="o">=</span> <span class="n">Y31hp1</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span>
+    <span class="n">Y33h1x</span> <span class="o">=</span> <span class="n">Y33h1</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span>
+    <span class="n">Y33h2x</span> <span class="o">=</span> <span class="n">Y33h2</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span>
+    <span class="n">Y33h3x</span> <span class="o">=</span> <span class="n">Y33h3</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span>
+    <span class="n">Y33hp1x</span> <span class="o">=</span> <span class="n">Y33hp1</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span>
+    <span class="n">Y33hp2x</span> <span class="o">=</span> <span class="n">Y33hp2</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span>
+    <span class="n">Y33hp3x</span> <span class="o">=</span> <span class="n">Y33hp3</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">((</span><span class="mi">1</span><span class="o">/</span><span class="n">cmath</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">Y31hp1x</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                                                     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Y31hp1x</span><span class="p">],</span>
+                                                     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">Y31hp1x</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+                         <span class="o">+</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;a2t&#39;</span><span class="p">]</span><span class="o">/</span><span class="n">cmath</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">Y33hp2x</span><span class="p">,</span> <span class="n">Y33hp3x</span><span class="p">],</span>
+                                                                   <span class="p">[</span><span class="o">-</span><span class="n">Y33hp2x</span><span class="p">,</span> <span class="o">-</span><span class="n">Y33hp1x</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                                                                   <span class="p">[</span><span class="n">Y33hp3x</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Y33hp1x</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+                         <span class="o">+</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;a3t&#39;</span><span class="p">]</span><span class="o">/</span><span class="n">cmath</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="n">Y33h3x</span><span class="p">,</span> <span class="o">-</span><span class="n">Y33h2x</span><span class="p">],</span>
+                                                                   <span class="p">[</span><span class="o">-</span><span class="n">Y33h3x</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Y33h1x</span><span class="p">],</span>
+                                                                   <span class="p">[</span><span class="n">Y33h2x</span><span class="p">,</span> <span class="o">-</span><span class="n">Y33h1x</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+                        <span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">Mn</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;Retau&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;Imtau&#39;</span><span class="p">]</span>
+    <span class="n">Y411x</span> <span class="o">=</span> <span class="n">Y411</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span>
+    <span class="n">Y421x</span> <span class="o">=</span> <span class="n">Y421</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span>
+    <span class="n">Y422x</span> <span class="o">=</span> <span class="n">Y422</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span>
+    <span class="n">Y431x</span> <span class="o">=</span> <span class="n">Y431</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span>
+    <span class="n">Y432x</span> <span class="o">=</span> <span class="n">Y432</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span>
+    <span class="n">Y433x</span> <span class="o">=</span> <span class="n">Y433</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;n_scale&#39;</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">cmath</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">Y411x</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                                                          <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Y411x</span><span class="p">],</span>
+                                                          <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">Y411x</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+                             <span class="o">-</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;g2t&#39;</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="o">/</span><span class="n">cmath</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">2</span> <span class="o">*</span> <span class="n">Y421x</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                                                                         <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">cmath</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">Y422x</span><span class="p">,</span> <span class="o">-</span><span class="n">Y421x</span><span class="p">],</span>
+                                                                         <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">Y421x</span><span class="p">,</span> <span class="n">cmath</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="n">Y422x</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+                             <span class="o">+</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;g3t&#39;</span><span class="p">]</span><span class="o">/</span><span class="n">cmath</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">Y432x</span><span class="p">,</span> <span class="n">Y433x</span><span class="p">],</span>
+                                                                       <span class="p">[</span><span class="o">-</span><span class="n">Y432x</span><span class="p">,</span> <span class="o">-</span><span class="n">Y431x</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                                                                       <span class="p">[</span><span class="n">Y433x</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Y431x</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+                             <span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="parameter-space">
+<h2>Parameter space<a class="headerlink" href="#parameter-space" title="Permalink to this heading">#</a></h2>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Sampling functions</span>
+<span class="k">def</span> <span class="nf">lin_sampling</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">fct</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="n">low</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="n">high</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">fct</span>
+<span class="k">def</span> <span class="nf">const_sampling</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">fct</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">value</span>
+    <span class="k">return</span> <span class="n">fct</span>
+
+<span class="c1"># Constructing the parameter space</span>
+<span class="n">ParamSpace</span> <span class="o">=</span> <span class="n">mf</span><span class="o">.</span><span class="n">ParameterSpace</span><span class="p">()</span>
+<span class="n">ParamSpace</span><span class="o">.</span><span class="n">add_dim</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Retau&#39;</span><span class="p">,</span> <span class="n">sample_fct</span><span class="o">=</span><span class="n">lin_sampling</span><span class="p">(</span><span class="n">low</span><span class="o">=-</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mf">0.5</span><span class="p">),</span> <span class="nb">min</span><span class="o">=-</span><span class="mf">0.5</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">ParamSpace</span><span class="o">.</span><span class="n">add_dim</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Imtau&#39;</span><span class="p">,</span> <span class="n">sample_fct</span><span class="o">=</span><span class="n">lin_sampling</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mf">0.866</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span> <span class="nb">min</span><span class="o">=</span><span class="mf">0.866</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mf">3.5</span><span class="p">)</span>
+<span class="n">ParamSpace</span><span class="o">.</span><span class="n">add_dim</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;a2t&#39;</span><span class="p">,</span> <span class="n">sample_fct</span><span class="o">=</span><span class="n">lin_sampling</span><span class="p">(</span><span class="n">low</span><span class="o">=-</span><span class="mi">10</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span> <span class="nb">min</span><span class="o">=-</span><span class="mi">10</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">ParamSpace</span><span class="o">.</span><span class="n">add_dim</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;a3t&#39;</span><span class="p">,</span> <span class="n">sample_fct</span><span class="o">=</span><span class="n">lin_sampling</span><span class="p">(</span><span class="n">low</span><span class="o">=-</span><span class="mi">10</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span> <span class="nb">min</span><span class="o">=-</span><span class="mi">10</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">ParamSpace</span><span class="o">.</span><span class="n">add_dim</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;g2t&#39;</span><span class="p">,</span> <span class="n">sample_fct</span><span class="o">=</span><span class="n">lin_sampling</span><span class="p">(</span><span class="n">low</span><span class="o">=-</span><span class="mi">10</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span> <span class="nb">min</span><span class="o">=-</span><span class="mi">10</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">ParamSpace</span><span class="o">.</span><span class="n">add_dim</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;g3t&#39;</span><span class="p">,</span> <span class="n">sample_fct</span><span class="o">=</span><span class="n">lin_sampling</span><span class="p">(</span><span class="n">low</span><span class="o">=-</span><span class="mi">10</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span> <span class="nb">min</span><span class="o">=-</span><span class="mi">10</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">ParamSpace</span><span class="o">.</span><span class="n">add_dim</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;n_scale&#39;</span><span class="p">,</span> <span class="n">sample_fct</span><span class="o">=</span><span class="n">const_sampling</span><span class="p">(</span><span class="mf">1.</span><span class="p">),</span> <span class="n">vary</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="experimental-data">
+<h2>Experimental data<a class="headerlink" href="#experimental-data" title="Permalink to this heading">#</a></h2>
+<p>Although the paper uses the experimental data of
+<a class="reference external" href="https://arxiv.org/pdf/2003.08511">https://arxiv.org/pdf/2003.08511</a>, we will use the recent results of
+NuFit v5.3 (see <a class="reference external" href="http://www.nu-fit.org/?q=node/278">http://www.nu-fit.org/?q=node/278</a>) in the following</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ExperimentalData_NO</span> <span class="o">=</span> <span class="n">mf</span><span class="o">.</span><span class="n">NuFit53_NO</span>
+<span class="n">ExperimentalData_IO</span> <span class="o">=</span> <span class="n">mf</span><span class="o">.</span><span class="n">NuFit53_IO</span>
+</pre></div>
+</div>
+</section>
+<section id="model-construction">
+<h2>Model construction<a class="headerlink" href="#model-construction" title="Permalink to this heading">#</a></h2>
+<p>Since the paper does not consider the experimental data on the CPV angle
+‘d/pi’ when fitting the model, we will also omit it here</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">MyModel_NO</span> <span class="o">=</span> <span class="n">mf</span><span class="o">.</span><span class="n">FlavorModel</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;MyModel_NO&#39;</span><span class="p">,</span>
+                            <span class="n">mass_matrix_e</span><span class="o">=</span><span class="n">Me</span><span class="p">,</span>
+                            <span class="n">mass_matrix_n</span><span class="o">=</span><span class="n">Mn</span><span class="p">,</span>
+                            <span class="n">parameterspace</span><span class="o">=</span><span class="n">ParamSpace</span><span class="p">,</span>
+                            <span class="n">ordering</span><span class="o">=</span><span class="s1">&#39;NO&#39;</span><span class="p">,</span>
+                            <span class="n">experimental_data</span><span class="o">=</span><span class="n">ExperimentalData_NO</span><span class="p">,</span>
+                            <span class="n">fitted_observables</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;me/mu&#39;</span><span class="p">,</span><span class="s1">&#39;mu/mt&#39;</span><span class="p">,</span><span class="s1">&#39;s12^2&#39;</span><span class="p">,</span> <span class="s1">&#39;s13^2&#39;</span><span class="p">,</span> <span class="s1">&#39;s23^2&#39;</span><span class="p">,</span> <span class="s1">&#39;m21^2&#39;</span><span class="p">,</span> <span class="s1">&#39;m3l^2&#39;</span><span class="p">])</span>
+
+<span class="n">MyModel_IO</span> <span class="o">=</span> <span class="n">MyModel_NO</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">MyModel_IO</span><span class="o">.</span><span class="n">ordering</span> <span class="o">=</span> <span class="s1">&#39;IO&#39;</span>
+<span class="n">MyModel_IO</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;MyModel_IO&#39;</span>
+<span class="n">MyModel_IO</span><span class="o">.</span><span class="n">experimental_data</span> <span class="o">=</span> <span class="n">ExperimentalData_IO</span>
+</pre></div>
+</div>
+</section>
+<section id="fitting">
+<h2>Fitting<a class="headerlink" href="#fitting" title="Permalink to this heading">#</a></h2>
+<p>Let us now scan the parameter space to find some viable points in the
+parameter space that yield observables, which are in agreement with the
+experimental data.</p>
+<section id="normal-ordering">
+<h3>Normal Ordering<a class="headerlink" href="#normal-ordering" title="Permalink to this heading">#</a></h3>
+<p>Fitting around 100 random points, which takes about 5 minutes, seems
+sufficient to find a lot of minima with <span class="math notranslate nohighlight">\(\chi^2&lt;1\)</span></p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Running the fit. Takes about 5 minutes.</span>
+<span class="c1"># Don&#39;t worry about warnings that might pop up when running this command. Only valid points will be further processed.</span>
+<span class="n">df_NO</span> <span class="o">=</span> <span class="n">MyModel_NO</span><span class="o">.</span><span class="n">make_fit</span><span class="p">(</span><span class="n">points</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">df_NO</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: left;">
+      <th></th>
+      <th style="min-width: 120px;">chisq</th>
+      <th style="min-width: 120px;">chisq_dimless</th>
+      <th style="min-width: 90px;">Retau</th>
+      <th style="min-width: 90px;">Imtau</th>
+      <th style="min-width: 90px;">a2t</th>
+      <th style="min-width: 90px;">a3t</th>
+      <th style="min-width: 90px;">g2t</th>
+      <th style="min-width: 90px;">g3t</th>
+      <th>n_scale</th>
+      <th style="min-width: 90px;">me/mu</th>
+      <th style="min-width: 90px;">mu/mt</th>
+      <th style="min-width: 90px;">s12^2</th>
+      <th style="min-width: 90px;">s13^2</th>
+      <th style="min-width: 90px;">s23^2</th>
+      <th style="min-width: 50px;">d/pi</th>
+      <th style="min-width: 90px;">r</th>
+      <th style="min-width: 90px;">m21^2</th>
+      <th style="min-width: 90px;">m3l^2</th>
+      <th style="min-width: 90px;">m1</th>
+      <th style="min-width: 90px;">m2</th>
+      <th style="min-width: 90px;">m3</th>
+      <th>eta1</th>
+      <th>eta2</th>
+      <th style="min-width: 120px;">J</th>
+      <th style="min-width: 90px;">Jmax</th>
+      <th style="min-width: 90px;">Sum(m_i)</th>
+      <th style="min-width: 90px;">m_b</th>
+      <th style="min-width: 90px;">m_bb</th>
+      <th style="min-width: 90px;">nscale</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.001207</td>
+      <td>0.000735</td>
+      <td>0.026443</td>
+      <td>1.187458</td>
+      <td>1.730160</td>
+      <td>2.768355</td>
+      <td>3.080545</td>
+      <td>-1.631087</td>
+      <td>1.0</td>
+      <td>0.004801</td>
+      <td>0.056483</td>
+      <td>0.305000</td>
+      <td>0.022199</td>
+      <td>0.455049</td>
+      <td>0.318025</td>
+      <td>0.029591</td>
+      <td>0.000074</td>
+      <td>0.002506</td>
+      <td>0.014308</td>
+      <td>0.016699</td>
+      <td>0.052061</td>
+      <td>1.030516</td>
+      <td>1.995178</td>
+      <td>0.028091</td>
+      <td>0.033402</td>
+      <td>0.083068</td>
+      <td>0.016856</td>
+      <td>0.014052</td>
+      <td>0.072506</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.001711</td>
+      <td>0.001181</td>
+      <td>0.026443</td>
+      <td>1.187450</td>
+      <td>1.730158</td>
+      <td>2.768588</td>
+      <td>3.080593</td>
+      <td>-1.631214</td>
+      <td>1.0</td>
+      <td>0.004801</td>
+      <td>0.056523</td>
+      <td>0.305000</td>
+      <td>0.022196</td>
+      <td>0.455013</td>
+      <td>0.318039</td>
+      <td>0.029590</td>
+      <td>0.000074</td>
+      <td>0.002506</td>
+      <td>0.014308</td>
+      <td>0.016699</td>
+      <td>0.052061</td>
+      <td>1.030494</td>
+      <td>1.995186</td>
+      <td>0.028089</td>
+      <td>0.033399</td>
+      <td>0.083068</td>
+      <td>0.016855</td>
+      <td>0.014052</td>
+      <td>0.072504</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.002458</td>
+      <td>0.000001</td>
+      <td>-0.026727</td>
+      <td>1.192163</td>
+      <td>1.733958</td>
+      <td>2.771002</td>
+      <td>3.097690</td>
+      <td>-1.653116</td>
+      <td>1.0</td>
+      <td>0.004800</td>
+      <td>0.056499</td>
+      <td>0.309623</td>
+      <td>0.022280</td>
+      <td>0.452129</td>
+      <td>1.678225</td>
+      <td>0.029581</td>
+      <td>0.000074</td>
+      <td>0.002506</td>
+      <td>0.014550</td>
+      <td>0.016906</td>
+      <td>0.052132</td>
+      <td>0.967485</td>
+      <td>0.006005</td>
+      <td>-0.028454</td>
+      <td>0.033582</td>
+      <td>0.083588</td>
+      <td>0.017077</td>
+      <td>0.014237</td>
+      <td>0.072636</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.002458</td>
+      <td>0.000001</td>
+      <td>-0.026727</td>
+      <td>1.192163</td>
+      <td>1.733958</td>
+      <td>2.771002</td>
+      <td>3.097690</td>
+      <td>-1.653116</td>
+      <td>1.0</td>
+      <td>0.004800</td>
+      <td>0.056499</td>
+      <td>0.309623</td>
+      <td>0.022280</td>
+      <td>0.452129</td>
+      <td>1.678225</td>
+      <td>0.029581</td>
+      <td>0.000074</td>
+      <td>0.002506</td>
+      <td>0.014550</td>
+      <td>0.016906</td>
+      <td>0.052132</td>
+      <td>0.967485</td>
+      <td>0.006005</td>
+      <td>-0.028454</td>
+      <td>0.033582</td>
+      <td>0.083588</td>
+      <td>0.017077</td>
+      <td>0.014237</td>
+      <td>0.072636</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.002458</td>
+      <td>0.000001</td>
+      <td>-0.026727</td>
+      <td>1.192163</td>
+      <td>1.733958</td>
+      <td>2.771002</td>
+      <td>3.097690</td>
+      <td>-1.653116</td>
+      <td>1.0</td>
+      <td>0.004800</td>
+      <td>0.056499</td>
+      <td>0.309623</td>
+      <td>0.022280</td>
+      <td>0.452129</td>
+      <td>1.678225</td>
+      <td>0.029581</td>
+      <td>0.000074</td>
+      <td>0.002506</td>
+      <td>0.014550</td>
+      <td>0.016906</td>
+      <td>0.052132</td>
+      <td>0.967485</td>
+      <td>0.006005</td>
+      <td>-0.028454</td>
+      <td>0.033582</td>
+      <td>0.083588</td>
+      <td>0.017077</td>
+      <td>0.014237</td>
+      <td>0.072636</td>
+    </tr>
+  </tbody>
+</table>
+</div><div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### Point in the paper</span>
+<span class="n">paper_point_NO</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Retau&#39;</span><span class="p">:</span><span class="mf">0.029725</span><span class="p">,</span> <span class="s1">&#39;Imtau&#39;</span><span class="p">:</span><span class="mf">1.1181</span><span class="p">,</span> <span class="s1">&#39;n_scale&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="c1">#&#39;n_scale&#39;:0.076533,</span>
+                  <span class="s1">&#39;a2t&#39;</span><span class="p">:</span><span class="mf">1.7303</span><span class="p">,</span> <span class="s1">&#39;a3t&#39;</span><span class="p">:</span><span class="o">-</span><span class="mf">2.7706</span><span class="p">,</span> <span class="s1">&#39;g2t&#39;</span><span class="p">:</span><span class="mf">2.716</span><span class="p">,</span> <span class="s1">&#39;g3t&#39;</span><span class="p">:</span><span class="o">-</span><span class="mf">0.35786</span><span class="p">}</span>
+<span class="n">MyModel_NO</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="n">paper_point_NO</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;me/mu&#39;</span><span class="p">:</span> <span class="mf">0.0049421699542366885</span><span class="p">,</span>
+ <span class="s1">&#39;mu/mt&#39;</span><span class="p">:</span> <span class="mf">0.05648917752606122</span><span class="p">,</span>
+ <span class="s1">&#39;s12^2&#39;</span><span class="p">:</span> <span class="mf">0.3050120711014076</span><span class="p">,</span>
+ <span class="s1">&#39;s13^2&#39;</span><span class="p">:</span> <span class="mf">0.02227053474308995</span><span class="p">,</span>
+ <span class="s1">&#39;s23^2&#39;</span><span class="p">:</span> <span class="mf">0.5450767487159297</span><span class="p">,</span>
+ <span class="s1">&#39;d/pi&#39;</span><span class="p">:</span> <span class="mf">1.0487709548688628</span><span class="p">,</span>
+ <span class="s1">&#39;r&#39;</span><span class="p">:</span> <span class="mf">0.02912708311826326</span><span class="p">,</span>
+ <span class="s1">&#39;m21^2&#39;</span><span class="p">:</span> <span class="mf">7.356079868874301e-05</span><span class="p">,</span>
+ <span class="s1">&#39;m3l^2&#39;</span><span class="p">:</span> <span class="mf">0.002525512025700195</span><span class="p">,</span>
+ <span class="s1">&#39;m1&#39;</span><span class="p">:</span> <span class="mf">0.00738634326918084</span><span class="p">,</span>
+ <span class="s1">&#39;m2&#39;</span><span class="p">:</span> <span class="mf">0.011318960446035498</span><span class="p">,</span>
+ <span class="s1">&#39;m3&#39;</span><span class="p">:</span> <span class="mf">0.05079439036537764</span><span class="p">,</span>
+ <span class="s1">&#39;eta1&#39;</span><span class="p">:</span> <span class="mf">0.24865416225269987</span><span class="p">,</span>
+ <span class="s1">&#39;eta2&#39;</span><span class="p">:</span> <span class="mf">1.0042563790059496</span><span class="p">,</span>
+ <span class="s1">&#39;J&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.0051055157836726785</span><span class="p">,</span>
+ <span class="s1">&#39;Jmax&#39;</span><span class="p">:</span> <span class="mf">0.033452537478177814</span><span class="p">,</span>
+ <span class="s1">&#39;Sum(m_i)&#39;</span><span class="p">:</span> <span class="mf">0.06949969408059398</span><span class="p">,</span>
+ <span class="s1">&#39;m_b&#39;</span><span class="p">:</span> <span class="mf">0.011592155003347798</span><span class="p">,</span>
+ <span class="s1">&#39;m_bb&#39;</span><span class="p">:</span> <span class="mf">0.006559895559779271</span><span class="p">,</span>
+ <span class="s1">&#39;nscale&#39;</span><span class="p">:</span> <span class="mf">0.07660247267356302</span><span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="inverted-ordering">
+<h3>Inverted Ordering<a class="headerlink" href="#inverted-ordering" title="Permalink to this heading">#</a></h3>
+<p>Fitting around 100 random points, which takes about 5 minutes, seems
+sufficient to find a lot of minima with <span class="math notranslate nohighlight">\(\chi^2&lt;1\)</span></p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Running the fit. Takes about 5 minutes.</span>
+<span class="c1"># Don&#39;t worry about warnings that might pop up when running this command. Only valid points will be further processed.</span>
+<span class="n">df_IO</span> <span class="o">=</span> <span class="n">MyModel_IO</span><span class="o">.</span><span class="n">make_fit</span><span class="p">(</span><span class="n">points</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">df_IO</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: left;">
+      <th></th>
+      <th style="min-width: 120px;">chisq</th>
+      <th style="min-width: 120px;">chisq_dimless</th>
+      <th style="min-width: 90px;">Retau</th>
+      <th style="min-width: 90px;">Imtau</th>
+      <th style="min-width: 90px;">a2t</th>
+      <th style="min-width: 90px;">a3t</th>
+      <th style="min-width: 90px;">g2t</th>
+      <th style="min-width: 90px;">g3t</th>
+      <th>n_scale</th>
+      <th style="min-width: 90px;">me/mu</th>
+      <th style="min-width: 90px;">mu/mt</th>
+      <th style="min-width: 90px;">s12^2</th>
+      <th style="min-width: 90px;">s13^2</th>
+      <th style="min-width: 90px;">s23^2</th>
+      <th style="min-width: 50px;">d/pi</th>
+      <th style="min-width: 90px;">r</th>
+      <th style="min-width: 90px;">m21^2</th>
+      <th style="min-width: 90px;">m3l^2</th>
+      <th style="min-width: 90px;">m1</th>
+      <th style="min-width: 90px;">m2</th>
+      <th style="min-width: 90px;">m3</th>
+      <th>eta1</th>
+      <th>eta2</th>
+      <th style="min-width: 120px;">J</th>
+      <th style="min-width: 90px;">Jmax</th>
+      <th style="min-width: 90px;">Sum(m_i)</th>
+      <th style="min-width: 90px;">m_b</th>
+      <th style="min-width: 90px;">m_bb</th>
+      <th style="min-width: 90px;">nscale</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.002987</td>
+      <td>0.000443</td>
+      <td>0.468330</td>
+      <td>1.742981</td>
+      <td>2.092636</td>
+      <td>2.630521</td>
+      <td>1.918893</td>
+      <td>6.552312</td>
+      <td>1.0</td>
+      <td>0.004799</td>
+      <td>0.056543</td>
+      <td>0.309623</td>
+      <td>0.022249</td>
+      <td>0.569998</td>
+      <td>0.699973</td>
+      <td>-0.029813</td>
+      <td>0.000074</td>
+      <td>-0.002486</td>
+      <td>0.049152</td>
+      <td>0.04990</td>
+      <td>0.002066</td>
+      <td>0.163506</td>
+      <td>0.081986</td>
+      <td>0.027009</td>
+      <td>0.033383</td>
+      <td>0.101119</td>
+      <td>0.049847</td>
+      <td>0.046958</td>
+      <td>0.101288</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.002992</td>
+      <td>0.000447</td>
+      <td>0.468330</td>
+      <td>1.742981</td>
+      <td>2.092635</td>
+      <td>2.630521</td>
+      <td>1.918893</td>
+      <td>6.552312</td>
+      <td>1.0</td>
+      <td>0.004799</td>
+      <td>0.056543</td>
+      <td>0.309623</td>
+      <td>0.022250</td>
+      <td>0.569998</td>
+      <td>0.699973</td>
+      <td>-0.029813</td>
+      <td>0.000074</td>
+      <td>-0.002486</td>
+      <td>0.049152</td>
+      <td>0.04990</td>
+      <td>0.002066</td>
+      <td>0.163506</td>
+      <td>0.081986</td>
+      <td>0.027009</td>
+      <td>0.033383</td>
+      <td>0.101119</td>
+      <td>0.049847</td>
+      <td>0.046958</td>
+      <td>0.101288</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.003036</td>
+      <td>0.000503</td>
+      <td>0.468330</td>
+      <td>1.742981</td>
+      <td>2.092637</td>
+      <td>2.630519</td>
+      <td>1.918893</td>
+      <td>6.552312</td>
+      <td>1.0</td>
+      <td>0.004798</td>
+      <td>0.056543</td>
+      <td>0.309623</td>
+      <td>0.022249</td>
+      <td>0.569998</td>
+      <td>0.699975</td>
+      <td>-0.029813</td>
+      <td>0.000074</td>
+      <td>-0.002486</td>
+      <td>0.049152</td>
+      <td>0.04990</td>
+      <td>0.002066</td>
+      <td>0.163504</td>
+      <td>0.081985</td>
+      <td>0.027008</td>
+      <td>0.033382</td>
+      <td>0.101119</td>
+      <td>0.049847</td>
+      <td>0.046958</td>
+      <td>0.101288</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.003371</td>
+      <td>0.001099</td>
+      <td>0.468837</td>
+      <td>1.743138</td>
+      <td>2.092861</td>
+      <td>2.630640</td>
+      <td>1.917660</td>
+      <td>6.551518</td>
+      <td>1.0</td>
+      <td>0.004799</td>
+      <td>0.056574</td>
+      <td>0.305000</td>
+      <td>0.022200</td>
+      <td>0.570000</td>
+      <td>0.704986</td>
+      <td>-0.029764</td>
+      <td>0.000074</td>
+      <td>-0.002488</td>
+      <td>0.049173</td>
+      <td>0.04992</td>
+      <td>0.002061</td>
+      <td>0.160452</td>
+      <td>0.079565</td>
+      <td>0.026557</td>
+      <td>0.033208</td>
+      <td>0.101154</td>
+      <td>0.049871</td>
+      <td>0.047009</td>
+      <td>0.101369</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.003371</td>
+      <td>0.001099</td>
+      <td>0.468837</td>
+      <td>1.743138</td>
+      <td>2.092861</td>
+      <td>2.630640</td>
+      <td>1.917660</td>
+      <td>6.551518</td>
+      <td>1.0</td>
+      <td>0.004799</td>
+      <td>0.056574</td>
+      <td>0.305000</td>
+      <td>0.022200</td>
+      <td>0.570000</td>
+      <td>0.704986</td>
+      <td>-0.029764</td>
+      <td>0.000074</td>
+      <td>-0.002488</td>
+      <td>0.049173</td>
+      <td>0.04992</td>
+      <td>0.002061</td>
+      <td>0.160452</td>
+      <td>0.079565</td>
+      <td>0.026557</td>
+      <td>0.033208</td>
+      <td>0.101154</td>
+      <td>0.049871</td>
+      <td>0.047009</td>
+      <td>0.101369</td>
+    </tr>
+  </tbody>
+</table>
+</div><div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### Point in the paper</span>
+<span class="n">paper_point_IO</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Retau&#39;</span><span class="p">:</span><span class="mf">0.027941</span><span class="p">,</span> <span class="s1">&#39;Imtau&#39;</span><span class="p">:</span><span class="mf">1.5921</span><span class="p">,</span> <span class="s1">&#39;n_scale&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="c1">#&#39;n_scale&#39;:0.23558,</span>
+                  <span class="s1">&#39;a2t&#39;</span><span class="p">:</span><span class="mf">1.7266</span><span class="p">,</span> <span class="s1">&#39;a3t&#39;</span><span class="p">:</span><span class="o">-</span><span class="mf">2.17</span><span class="p">,</span> <span class="s1">&#39;g2t&#39;</span><span class="p">:</span><span class="mf">0.4705</span><span class="p">,</span> <span class="s1">&#39;g3t&#39;</span><span class="p">:</span><span class="o">-</span><span class="mf">1.2442</span><span class="p">}</span>
+<span class="n">MyModel_IO</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="n">paper_point_IO</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;me/mu&#39;</span><span class="p">:</span> <span class="mf">0.004830619795663459</span><span class="p">,</span>
+ <span class="s1">&#39;mu/mt&#39;</span><span class="p">:</span> <span class="mf">0.05647840159968499</span><span class="p">,</span>
+ <span class="s1">&#39;s12^2&#39;</span><span class="p">:</span> <span class="mf">0.3030936675666006</span><span class="p">,</span>
+ <span class="s1">&#39;s13^2&#39;</span><span class="p">:</span> <span class="mf">0.022267180242549808</span><span class="p">,</span>
+ <span class="s1">&#39;s23^2&#39;</span><span class="p">:</span> <span class="mf">0.5502850560474966</span><span class="p">,</span>
+ <span class="s1">&#39;d/pi&#39;</span><span class="p">:</span> <span class="mf">0.7827880069017603</span><span class="p">,</span>
+ <span class="s1">&#39;r&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.029315798940845687</span><span class="p">,</span>
+ <span class="s1">&#39;m21^2&#39;</span><span class="p">:</span> <span class="mf">7.348953808347119e-05</span><span class="p">,</span>
+ <span class="s1">&#39;m3l^2&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.0025068236493148498</span><span class="p">,</span>
+ <span class="s1">&#39;m1&#39;</span><span class="p">:</span> <span class="mf">0.052920922289185414</span><span class="p">,</span>
+ <span class="s1">&#39;m2&#39;</span><span class="p">:</span> <span class="mf">0.05361075968517395</span><span class="p">,</span>
+ <span class="s1">&#39;m3&#39;</span><span class="p">:</span> <span class="mf">0.019164809018266362</span><span class="p">,</span>
+ <span class="s1">&#39;eta1&#39;</span><span class="p">:</span> <span class="mf">0.1977278694922162</span><span class="p">,</span>
+ <span class="s1">&#39;eta2&#39;</span><span class="p">:</span> <span class="mf">0.26549338075520046</span><span class="p">,</span>
+ <span class="s1">&#39;J&#39;</span><span class="p">:</span> <span class="mf">0.02103681364336458</span><span class="p">,</span>
+ <span class="s1">&#39;Jmax&#39;</span><span class="p">:</span> <span class="mf">0.03335730544660353</span><span class="p">,</span>
+ <span class="s1">&#39;Sum(m_i)&#39;</span><span class="p">:</span> <span class="mf">0.12569649099262573</span><span class="p">,</span>
+ <span class="s1">&#39;m_b&#39;</span><span class="p">:</span> <span class="mf">0.05355715231024689</span><span class="p">,</span>
+ <span class="s1">&#39;m_bb&#39;</span><span class="p">:</span> <span class="mf">0.05137951379189798</span><span class="p">,</span>
+ <span class="s1">&#39;nscale&#39;</span><span class="p">:</span> <span class="mf">0.23580302931711378</span><span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="fitting-results">
+<h3>Fitting results<a class="headerlink" href="#fitting-results" title="Permalink to this heading">#</a></h3>
+<p>Using FlavorPy we were able to find a lot of viable <span class="math notranslate nohighlight">\(\chi^2&lt;25\)</span>
+minima for NO as well as for IO within roughly 10 minutes of computation
+time on a conventional desktop machine. We do not only find the minima
+reported in the paper, but also further minima. This might be due to the
+different experimental data used in the fit and because we scanned a
+bigger region of the parameter space.</p>
+</section>
+</section>
+<section id="exploring-minima-with-mcmc">
+<h2>Exploring minima with MCMC<a class="headerlink" href="#exploring-minima-with-mcmc" title="Permalink to this heading">#</a></h2>
+<p>Finally, let us further explore the vicinity of the minima using a
+Markov Chain Monte Carlo (MCMC) sampler.</p>
+<section id="id1">
+<h3>Normal Ordering<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Selecting the minima which will be explored with MCMC.</span>
+<span class="c1"># This still has to be done manually, in this case the distinct minima are:</span>
+<span class="n">df_NO_for_mcmc</span> <span class="o">=</span> <span class="n">df_NO</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">38</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">46</span><span class="p">,</span> <span class="mi">52</span><span class="p">,</span> <span class="mi">61</span><span class="p">]]</span>       <span class="c1"># &lt;--------- adjust this for your results!!</span>
+<span class="n">df_NO_for_mcmc</span>
+</pre></div>
+</div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: left;">
+      <th></th>
+      <th style="min-width: 120px;">chisq</th>
+      <th style="min-width: 120px;">chisq_dimless</th>
+      <th style="min-width: 90px;">Retau</th>
+      <th style="min-width: 90px;">Imtau</th>
+      <th style="min-width: 90px;">a2t</th>
+      <th style="min-width: 90px;">a3t</th>
+      <th style="min-width: 90px;">g2t</th>
+      <th style="min-width: 90px;">g3t</th>
+      <th>n_scale</th>
+      <th style="min-width: 90px;">me/mu</th>
+      <th style="min-width: 90px;">mu/mt</th>
+      <th style="min-width: 90px;">s12^2</th>
+      <th style="min-width: 90px;">s13^2</th>
+      <th style="min-width: 90px;">s23^2</th>
+      <th style="min-width: 50px;">d/pi</th>
+      <th style="min-width: 90px;">r</th>
+      <th style="min-width: 90px;">m21^2</th>
+      <th style="min-width: 90px;">m3l^2</th>
+      <th style="min-width: 90px;">m1</th>
+      <th style="min-width: 90px;">m2</th>
+      <th style="min-width: 90px;">m3</th>
+      <th>eta1</th>
+      <th>eta2</th>
+      <th style="min-width: 120px;">J</th>
+      <th style="min-width: 90px;">Jmax</th>
+      <th style="min-width: 90px;">Sum(m_i)</th>
+      <th style="min-width: 90px;">m_b</th>
+      <th style="min-width: 90px;">m_bb</th>
+      <th style="min-width: 90px;">nscale</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.001207</td>
+      <td>0.000735</td>
+      <td>0.026443</td>
+      <td>1.187458</td>
+      <td>1.730160</td>
+      <td>2.768355</td>
+      <td>3.080545</td>
+      <td>-1.631087</td>
+      <td>1.0</td>
+      <td>0.004801</td>
+      <td>0.056483</td>
+      <td>0.305000</td>
+      <td>0.022199</td>
+      <td>0.455049</td>
+      <td>0.318025</td>
+      <td>0.029591</td>
+      <td>0.000074</td>
+      <td>0.002506</td>
+      <td>0.014308</td>
+      <td>0.016699</td>
+      <td>0.052061</td>
+      <td>1.030516</td>
+      <td>1.995178</td>
+      <td>0.028091</td>
+      <td>0.033402</td>
+      <td>0.083068</td>
+      <td>0.016856</td>
+      <td>0.014052</td>
+      <td>0.072506</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.002458</td>
+      <td>0.000001</td>
+      <td>-0.026727</td>
+      <td>1.192163</td>
+      <td>1.733958</td>
+      <td>2.771002</td>
+      <td>3.097690</td>
+      <td>-1.653116</td>
+      <td>1.0</td>
+      <td>0.004800</td>
+      <td>0.056499</td>
+      <td>0.309623</td>
+      <td>0.022280</td>
+      <td>0.452129</td>
+      <td>1.678225</td>
+      <td>0.029581</td>
+      <td>0.000074</td>
+      <td>0.002506</td>
+      <td>0.014550</td>
+      <td>0.016906</td>
+      <td>0.052132</td>
+      <td>0.967485</td>
+      <td>0.006005</td>
+      <td>-0.028454</td>
+      <td>0.033582</td>
+      <td>0.083588</td>
+      <td>0.017077</td>
+      <td>0.014237</td>
+      <td>0.072636</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>1.708405</td>
+      <td>1.705966</td>
+      <td>0.044772</td>
+      <td>1.119144</td>
+      <td>1.733755</td>
+      <td>-2.772553</td>
+      <td>2.674447</td>
+      <td>-0.441267</td>
+      <td>1.0</td>
+      <td>0.004800</td>
+      <td>0.056500</td>
+      <td>0.305000</td>
+      <td>0.022280</td>
+      <td>0.564698</td>
+      <td>1.131871</td>
+      <td>0.029581</td>
+      <td>0.000074</td>
+      <td>0.002506</td>
+      <td>0.007954</td>
+      <td>0.011721</td>
+      <td>0.050688</td>
+      <td>0.258953</td>
+      <td>0.998279</td>
+      <td>-0.013410</td>
+      <td>0.033313</td>
+      <td>0.070363</td>
+      <td>0.011952</td>
+      <td>0.006009</td>
+      <td>0.077315</td>
+    </tr>
+    <tr>
+      <th>38</th>
+      <td>1.885333</td>
+      <td>1.875204</td>
+      <td>0.476922</td>
+      <td>0.877216</td>
+      <td>-3.625034</td>
+      <td>0.078474</td>
+      <td>-1.242683</td>
+      <td>-3.367152</td>
+      <td>1.0</td>
+      <td>0.004795</td>
+      <td>0.057331</td>
+      <td>0.309623</td>
+      <td>0.022110</td>
+      <td>0.483693</td>
+      <td>0.497317</td>
+      <td>0.029561</td>
+      <td>0.000074</td>
+      <td>0.002507</td>
+      <td>0.135611</td>
+      <td>0.135884</td>
+      <td>0.144559</td>
+      <td>1.849964</td>
+      <td>0.280012</td>
+      <td>0.033594</td>
+      <td>0.033595</td>
+      <td>0.416054</td>
+      <td>0.135904</td>
+      <td>0.054553</td>
+      <td>0.170925</td>
+    </tr>
+    <tr>
+      <th>40</th>
+      <td>1.937927</td>
+      <td>1.863562</td>
+      <td>0.025545</td>
+      <td>3.189923</td>
+      <td>-0.983153</td>
+      <td>1.446903</td>
+      <td>4.613140</td>
+      <td>-0.166363</td>
+      <td>1.0</td>
+      <td>0.004779</td>
+      <td>0.055446</td>
+      <td>0.309712</td>
+      <td>0.022456</td>
+      <td>0.563993</td>
+      <td>0.581216</td>
+      <td>0.029655</td>
+      <td>0.000074</td>
+      <td>0.002503</td>
+      <td>0.592886</td>
+      <td>0.592948</td>
+      <td>0.594993</td>
+      <td>0.384810</td>
+      <td>0.550164</td>
+      <td>0.032500</td>
+      <td>0.033588</td>
+      <td>1.780827</td>
+      <td>0.592953</td>
+      <td>0.528214</td>
+      <td>1.188512</td>
+    </tr>
+    <tr>
+      <th>42</th>
+      <td>1.975067</td>
+      <td>1.969849</td>
+      <td>0.019061</td>
+      <td>3.291931</td>
+      <td>-1.159061</td>
+      <td>1.771834</td>
+      <td>4.614620</td>
+      <td>-0.145069</td>
+      <td>1.0</td>
+      <td>0.004866</td>
+      <td>0.055597</td>
+      <td>0.305000</td>
+      <td>0.022280</td>
+      <td>0.570638</td>
+      <td>1.716079</td>
+      <td>0.029572</td>
+      <td>0.000074</td>
+      <td>0.002506</td>
+      <td>0.692445</td>
+      <td>0.692499</td>
+      <td>0.694253</td>
+      <td>0.193904</td>
+      <td>0.571098</td>
+      <td>-0.025886</td>
+      <td>0.033259</td>
+      <td>2.079197</td>
+      <td>0.692503</td>
+      <td>0.368505</td>
+      <td>1.387247</td>
+    </tr>
+    <tr>
+      <th>45</th>
+      <td>2.146873</td>
+      <td>2.145132</td>
+      <td>-0.150694</td>
+      <td>3.140511</td>
+      <td>-0.999689</td>
+      <td>1.387357</td>
+      <td>4.608383</td>
+      <td>-0.019511</td>
+      <td>1.0</td>
+      <td>0.004800</td>
+      <td>0.056568</td>
+      <td>0.309617</td>
+      <td>0.022206</td>
+      <td>0.487934</td>
+      <td>1.612380</td>
+      <td>0.029583</td>
+      <td>0.000074</td>
+      <td>0.002506</td>
+      <td>0.642293</td>
+      <td>0.642351</td>
+      <td>0.644241</td>
+      <td>1.430965</td>
+      <td>1.527874</td>
+      <td>-0.031596</td>
+      <td>0.033673</td>
+      <td>1.928886</td>
+      <td>0.642355</td>
+      <td>0.616305</td>
+      <td>1.288508</td>
+    </tr>
+    <tr>
+      <th>46</th>
+      <td>2.183422</td>
+      <td>2.175304</td>
+      <td>0.000015</td>
+      <td>1.120671</td>
+      <td>1.733568</td>
+      <td>-2.160260</td>
+      <td>2.735981</td>
+      <td>-0.336574</td>
+      <td>1.0</td>
+      <td>0.004800</td>
+      <td>0.056203</td>
+      <td>0.310586</td>
+      <td>0.022200</td>
+      <td>0.576002</td>
+      <td>1.000018</td>
+      <td>0.029565</td>
+      <td>0.000074</td>
+      <td>0.002507</td>
+      <td>0.007173</td>
+      <td>0.011205</td>
+      <td>0.050578</td>
+      <td>0.000170</td>
+      <td>1.000003</td>
+      <td>-0.000002</td>
+      <td>0.033316</td>
+      <td>0.068955</td>
+      <td>0.011456</td>
+      <td>0.009377</td>
+      <td>0.076122</td>
+    </tr>
+    <tr>
+      <th>52</th>
+      <td>2.423941</td>
+      <td>2.416746</td>
+      <td>0.002439</td>
+      <td>0.892098</td>
+      <td>1.733577</td>
+      <td>-2.160417</td>
+      <td>2.734927</td>
+      <td>-0.344948</td>
+      <td>1.0</td>
+      <td>0.004830</td>
+      <td>0.056174</td>
+      <td>0.307714</td>
+      <td>0.022193</td>
+      <td>0.577773</td>
+      <td>0.995984</td>
+      <td>0.029481</td>
+      <td>0.000074</td>
+      <td>0.002510</td>
+      <td>0.007231</td>
+      <td>0.011238</td>
+      <td>0.050621</td>
+      <td>1.995052</td>
+      <td>1.028522</td>
+      <td>0.000419</td>
+      <td>0.033207</td>
+      <td>0.069090</td>
+      <td>0.011485</td>
+      <td>0.009371</td>
+      <td>0.048278</td>
+    </tr>
+    <tr>
+      <th>61</th>
+      <td>2.614237</td>
+      <td>2.612816</td>
+      <td>0.246669</td>
+      <td>3.170182</td>
+      <td>-1.007332</td>
+      <td>1.395057</td>
+      <td>4.611126</td>
+      <td>-0.009006</td>
+      <td>1.0</td>
+      <td>0.004734</td>
+      <td>0.054022</td>
+      <td>0.307927</td>
+      <td>0.022271</td>
+      <td>0.488152</td>
+      <td>0.320214</td>
+      <td>0.029588</td>
+      <td>0.000074</td>
+      <td>0.002506</td>
+      <td>0.751820</td>
+      <td>0.751869</td>
+      <td>0.753484</td>
+      <td>1.576076</td>
+      <td>1.472051</td>
+      <td>0.028440</td>
+      <td>0.033670</td>
+      <td>2.257173</td>
+      <td>0.751873</td>
+      <td>0.713261</td>
+      <td>1.507008</td>
+    </tr>
+  </tbody>
+</table>
+</div><div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Sampling takes about 10 minutes for every minimum that is explored</span>
+<span class="n">df_mcmc_NO</span> <span class="o">=</span> <span class="n">MyModel_NO</span><span class="o">.</span><span class="n">mcmc_fit</span><span class="p">(</span><span class="n">df_NO_for_mcmc</span><span class="p">,</span> <span class="n">mcmc_steps</span><span class="o">=</span><span class="mi">20000</span><span class="p">,</span> <span class="n">progress</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">df_mcmc_NO</span> <span class="o">=</span> <span class="n">MyModel_NO</span><span class="o">.</span><span class="n">complete_fit</span><span class="p">(</span><span class="n">df_mcmc_NO</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h3>Inverted Ordering<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h3>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Selecting the minima which will be explored with MCMC.</span>
+<span class="c1"># This still has to be done manually, in this case the distinct minima are:</span>
+<span class="n">df_IO_for_mcmc</span> <span class="o">=</span> <span class="n">df_IO</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">38</span><span class="p">,</span> <span class="mi">41</span><span class="p">,</span> <span class="mi">56</span><span class="p">,</span> <span class="mi">66</span><span class="p">,</span> <span class="mi">69</span><span class="p">,</span> <span class="mi">74</span><span class="p">]]</span>         <span class="c1"># &lt;--------- adjust this for your results!!</span>
+<span class="n">df_IO_for_mcmc</span>
+</pre></div>
+</div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: left;">
+      <th></th>
+      <th style="min-width: 120px;">chisq</th>
+      <th style="min-width: 120px;">chisq_dimless</th>
+      <th style="min-width: 90px;">Retau</th>
+      <th style="min-width: 90px;">Imtau</th>
+      <th style="min-width: 90px;">a2t</th>
+      <th style="min-width: 90px;">a3t</th>
+      <th style="min-width: 90px;">g2t</th>
+      <th style="min-width: 90px;">g3t</th>
+      <th>n_scale</th>
+      <th style="min-width: 90px;">me/mu</th>
+      <th style="min-width: 90px;">mu/mt</th>
+      <th style="min-width: 90px;">s12^2</th>
+      <th style="min-width: 90px;">s13^2</th>
+      <th style="min-width: 90px;">s23^2</th>
+      <th style="min-width: 50px;">d/pi</th>
+      <th style="min-width: 90px;">r</th>
+      <th style="min-width: 90px;">m21^2</th>
+      <th style="min-width: 90px;">m3l^2</th>
+      <th style="min-width: 90px;">m1</th>
+      <th style="min-width: 90px;">m2</th>
+      <th style="min-width: 90px;">m3</th>
+      <th>eta1</th>
+      <th>eta2</th>
+      <th style="min-width: 120px;">J</th>
+      <th style="min-width: 90px;">Jmax</th>
+      <th style="min-width: 90px;">Sum(m_i)</th>
+      <th style="min-width: 90px;">m_b</th>
+      <th style="min-width: 90px;">m_bb</th>
+      <th style="min-width: 90px;">nscale</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.002987</td>
+      <td>0.000443</td>
+      <td>0.468330</td>
+      <td>1.742981</td>
+      <td>2.092636</td>
+      <td>2.630521</td>
+      <td>1.918893</td>
+      <td>6.552312</td>
+      <td>1.0</td>
+      <td>0.004799</td>
+      <td>0.056543</td>
+      <td>0.309623</td>
+      <td>0.022249</td>
+      <td>0.569998</td>
+      <td>0.699973</td>
+      <td>-0.029813</td>
+      <td>0.000074</td>
+      <td>-0.002486</td>
+      <td>0.049152</td>
+      <td>0.049900</td>
+      <td>0.002066</td>
+      <td>0.163506</td>
+      <td>0.081986</td>
+      <td>0.027009</td>
+      <td>0.033383</td>
+      <td>0.101119</td>
+      <td>0.049847</td>
+      <td>0.046958</td>
+      <td>0.101288</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>0.003497</td>
+      <td>0.000477</td>
+      <td>-0.029190</td>
+      <td>1.584797</td>
+      <td>1.737999</td>
+      <td>-2.762588</td>
+      <td>0.465947</td>
+      <td>-1.232394</td>
+      <td>1.0</td>
+      <td>0.004801</td>
+      <td>0.056502</td>
+      <td>0.305000</td>
+      <td>0.022199</td>
+      <td>0.570003</td>
+      <td>1.228115</td>
+      <td>-0.029809</td>
+      <td>0.000074</td>
+      <td>-0.002486</td>
+      <td>0.052730</td>
+      <td>0.053428</td>
+      <td>0.019201</td>
+      <td>1.792189</td>
+      <td>1.722532</td>
+      <td>-0.021812</td>
+      <td>0.033207</td>
+      <td>0.125360</td>
+      <td>0.053383</td>
+      <td>0.051144</td>
+      <td>0.235015</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>0.003782</td>
+      <td>0.001026</td>
+      <td>0.479808</td>
+      <td>1.470542</td>
+      <td>1.736095</td>
+      <td>2.758823</td>
+      <td>0.174569</td>
+      <td>-1.942831</td>
+      <td>1.0</td>
+      <td>0.004799</td>
+      <td>0.056518</td>
+      <td>0.305000</td>
+      <td>0.022206</td>
+      <td>0.570000</td>
+      <td>0.657815</td>
+      <td>-0.029811</td>
+      <td>0.000074</td>
+      <td>-0.002486</td>
+      <td>0.049886</td>
+      <td>0.050623</td>
+      <td>0.008770</td>
+      <td>1.375079</td>
+      <td>0.373617</td>
+      <td>0.029213</td>
+      <td>0.033212</td>
+      <td>0.109279</td>
+      <td>0.050576</td>
+      <td>0.049188</td>
+      <td>0.190790</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>0.004035</td>
+      <td>0.000005</td>
+      <td>-0.480438</td>
+      <td>1.519803</td>
+      <td>1.736815</td>
+      <td>2.759106</td>
+      <td>2.100161</td>
+      <td>5.556761</td>
+      <td>1.0</td>
+      <td>0.004800</td>
+      <td>0.056493</td>
+      <td>0.309623</td>
+      <td>0.022249</td>
+      <td>0.570000</td>
+      <td>0.246101</td>
+      <td>-0.029797</td>
+      <td>0.000074</td>
+      <td>-0.002486</td>
+      <td>0.049632</td>
+      <td>0.050373</td>
+      <td>0.007141</td>
+      <td>1.841288</td>
+      <td>0.846685</td>
+      <td>0.023314</td>
+      <td>0.033382</td>
+      <td>0.107146</td>
+      <td>0.050320</td>
+      <td>0.048881</td>
+      <td>0.088387</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>0.005189</td>
+      <td>0.002140</td>
+      <td>-0.026553</td>
+      <td>1.833640</td>
+      <td>2.095131</td>
+      <td>2.636730</td>
+      <td>1.176942</td>
+      <td>5.322656</td>
+      <td>1.0</td>
+      <td>0.004799</td>
+      <td>0.056498</td>
+      <td>0.309623</td>
+      <td>0.022248</td>
+      <td>0.569882</td>
+      <td>0.295708</td>
+      <td>-0.029809</td>
+      <td>0.000074</td>
+      <td>-0.002486</td>
+      <td>0.049303</td>
+      <td>0.050049</td>
+      <td>0.004361</td>
+      <td>1.619764</td>
+      <td>0.765459</td>
+      <td>0.026740</td>
+      <td>0.033383</td>
+      <td>0.103713</td>
+      <td>0.049996</td>
+      <td>0.044273</td>
+      <td>0.136882</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>0.018135</td>
+      <td>0.014002</td>
+      <td>-0.000370</td>
+      <td>2.048506</td>
+      <td>1.491709</td>
+      <td>2.372927</td>
+      <td>1.202105</td>
+      <td>8.054844</td>
+      <td>1.0</td>
+      <td>0.004799</td>
+      <td>0.056481</td>
+      <td>0.309623</td>
+      <td>0.022249</td>
+      <td>0.566847</td>
+      <td>0.002419</td>
+      <td>-0.029789</td>
+      <td>0.000074</td>
+      <td>-0.002487</td>
+      <td>0.049235</td>
+      <td>0.049981</td>
+      <td>0.003374</td>
+      <td>1.996806</td>
+      <td>0.997704</td>
+      <td>0.000254</td>
+      <td>0.033412</td>
+      <td>0.102590</td>
+      <td>0.049928</td>
+      <td>0.048440</td>
+      <td>0.131178</td>
+    </tr>
+    <tr>
+      <th>38</th>
+      <td>0.065400</td>
+      <td>0.064381</td>
+      <td>-0.469188</td>
+      <td>1.741474</td>
+      <td>2.087173</td>
+      <td>2.627730</td>
+      <td>1.920522</td>
+      <td>6.470264</td>
+      <td>1.0</td>
+      <td>0.004811</td>
+      <td>0.055782</td>
+      <td>0.304563</td>
+      <td>0.022184</td>
+      <td>0.564893</td>
+      <td>0.703872</td>
+      <td>-0.029853</td>
+      <td>0.000074</td>
+      <td>-0.002484</td>
+      <td>0.049129</td>
+      <td>0.049878</td>
+      <td>0.001944</td>
+      <td>0.151895</td>
+      <td>0.071217</td>
+      <td>0.026644</td>
+      <td>0.033229</td>
+      <td>0.100952</td>
+      <td>0.049831</td>
+      <td>0.046973</td>
+      <td>0.101813</td>
+    </tr>
+    <tr>
+      <th>41</th>
+      <td>0.315446</td>
+      <td>0.294528</td>
+      <td>0.028710</td>
+      <td>1.582487</td>
+      <td>1.737763</td>
+      <td>-2.754625</td>
+      <td>0.470504</td>
+      <td>-1.252939</td>
+      <td>1.0</td>
+      <td>0.004771</td>
+      <td>0.055153</td>
+      <td>0.303101</td>
+      <td>0.022290</td>
+      <td>0.563452</td>
+      <td>0.772167</td>
+      <td>-0.029952</td>
+      <td>0.000074</td>
+      <td>-0.002480</td>
+      <td>0.052532</td>
+      <td>0.053234</td>
+      <td>0.018813</td>
+      <td>0.208438</td>
+      <td>0.274170</td>
+      <td>0.021833</td>
+      <td>0.033273</td>
+      <td>0.124579</td>
+      <td>0.053190</td>
+      <td>0.051059</td>
+      <td>0.232995</td>
+    </tr>
+    <tr>
+      <th>56</th>
+      <td>0.600770</td>
+      <td>0.601285</td>
+      <td>0.128321</td>
+      <td>0.987892</td>
+      <td>1.449173</td>
+      <td>2.314813</td>
+      <td>5.107434</td>
+      <td>9.910349</td>
+      <td>1.0</td>
+      <td>0.004800</td>
+      <td>0.055444</td>
+      <td>0.309623</td>
+      <td>0.022066</td>
+      <td>0.451725</td>
+      <td>0.469631</td>
+      <td>-0.029829</td>
+      <td>0.000074</td>
+      <td>-0.002485</td>
+      <td>0.086278</td>
+      <td>0.086706</td>
+      <td>0.070943</td>
+      <td>1.503596</td>
+      <td>1.482786</td>
+      <td>0.033273</td>
+      <td>0.033425</td>
+      <td>0.243927</td>
+      <td>0.086679</td>
+      <td>0.085881</td>
+      <td>0.042222</td>
+    </tr>
+    <tr>
+      <th>66</th>
+      <td>2.730728</td>
+      <td>2.729943</td>
+      <td>-0.493160</td>
+      <td>0.895238</td>
+      <td>-3.392838</td>
+      <td>0.038645</td>
+      <td>-2.779198</td>
+      <td>-8.177446</td>
+      <td>1.0</td>
+      <td>0.004804</td>
+      <td>0.056966</td>
+      <td>0.309625</td>
+      <td>0.022250</td>
+      <td>0.501194</td>
+      <td>1.666261</td>
+      <td>-0.029756</td>
+      <td>0.000074</td>
+      <td>-0.002488</td>
+      <td>0.155547</td>
+      <td>0.155785</td>
+      <td>0.147583</td>
+      <td>0.793154</td>
+      <td>0.494171</td>
+      <td>-0.029219</td>
+      <td>0.033715</td>
+      <td>0.458915</td>
+      <td>0.155768</td>
+      <td>0.098778</td>
+      <td>0.081623</td>
+    </tr>
+    <tr>
+      <th>69</th>
+      <td>2.770719</td>
+      <td>2.767333</td>
+      <td>0.487255</td>
+      <td>0.892831</td>
+      <td>-3.521706</td>
+      <td>-0.033377</td>
+      <td>-2.111703</td>
+      <td>-6.230592</td>
+      <td>1.0</td>
+      <td>0.004800</td>
+      <td>0.056484</td>
+      <td>0.305000</td>
+      <td>0.022249</td>
+      <td>0.503370</td>
+      <td>0.207863</td>
+      <td>-0.029806</td>
+      <td>0.000074</td>
+      <td>-0.002486</td>
+      <td>0.151281</td>
+      <td>0.151526</td>
+      <td>0.143087</td>
+      <td>0.889984</td>
+      <td>0.380356</td>
+      <td>0.020398</td>
+      <td>0.033573</td>
+      <td>0.445894</td>
+      <td>0.151509</td>
+      <td>0.060304</td>
+      <td>0.103553</td>
+    </tr>
+    <tr>
+      <th>74</th>
+      <td>4.292325</td>
+      <td>4.288877</td>
+      <td>-0.496938</td>
+      <td>0.910149</td>
+      <td>2.071179</td>
+      <td>-2.610895</td>
+      <td>-1.254777</td>
+      <td>-3.837758</td>
+      <td>1.0</td>
+      <td>0.004804</td>
+      <td>0.061117</td>
+      <td>0.304999</td>
+      <td>0.022501</td>
+      <td>0.428979</td>
+      <td>1.501533</td>
+      <td>-0.029805</td>
+      <td>0.000074</td>
+      <td>-0.002486</td>
+      <td>0.112664</td>
+      <td>0.112993</td>
+      <td>0.101397</td>
+      <td>0.817087</td>
+      <td>1.224849</td>
+      <td>-0.033412</td>
+      <td>0.033412</td>
+      <td>0.327054</td>
+      <td>0.112968</td>
+      <td>0.050149</td>
+      <td>0.128636</td>
+    </tr>
+  </tbody>
+</table>
+</div><div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Sampling takes about 10 minutes for every minimum that is explored</span>
+<span class="n">df_mcmc_IO</span> <span class="o">=</span> <span class="n">MyModel_IO</span><span class="o">.</span><span class="n">mcmc_fit</span><span class="p">(</span><span class="n">df_IO_for_mcmc</span><span class="p">,</span> <span class="n">mcmc_steps</span><span class="o">=</span><span class="mi">20000</span><span class="p">,</span> <span class="n">progress</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">df_mcmc_IO</span> <span class="o">=</span> <span class="n">MyModel_IO</span><span class="o">.</span><span class="n">complete_fit</span><span class="p">(</span><span class="n">df_mcmc_IO</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="plotting-the-results">
+<h2>Plotting the results<a class="headerlink" href="#plotting-the-results" title="Permalink to this heading">#</a></h2>
+<section id="id3">
+<h3>Normal Ordering<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h3>
+<section id="moduli-space">
+<h4>Moduli space<a class="headerlink" href="#moduli-space" title="Permalink to this heading">#</a></h4>
+<p>Let us take a look on how the points are distributed over the
+modulispace, see also figure 2 of the paper</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Some more advanced plots</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+
+<span class="k">def</span> <span class="nf">RetauImtauplot</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">gridsize</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;ocean&#39;</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sizefactor</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">22</span><span class="p">,</span>
+                   <span class="n">colorbar</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">axlines</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                   <span class="n">zoom_in</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">zoom_in_loc</span><span class="o">=</span><span class="p">[</span><span class="mf">1.15</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">],</span> <span class="n">zoom_in_extent</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">0.22</span><span class="p">,</span> <span class="mf">0.22</span><span class="p">,</span> <span class="mf">2.95</span><span class="p">,</span> <span class="mf">3.45</span><span class="p">],</span>
+                   <span class="n">zoom_in_gridsize</span><span class="o">=</span><span class="mi">500</span><span class="p">):</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;font.size&#39;</span><span class="p">:</span> <span class="n">fontsize</span><span class="p">})</span>
+
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">sizefactor</span><span class="o">*</span><span class="mf">6.18</span><span class="p">,</span><span class="n">sizefactor</span><span class="o">*</span><span class="mf">3.82</span><span class="p">))</span>
+
+    <span class="n">im</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">hexbin</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Retau&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Imtau&#39;</span><span class="p">],</span> <span class="n">C</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;chisq&#39;</span><span class="p">],</span> <span class="n">reduce_C_function</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">,</span>
+                   <span class="n">gridsize</span><span class="o">=</span><span class="n">gridsize</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="n">extent</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">extent</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="n">extent</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">extent</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="n">extent</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">extent</span><span class="p">[</span><span class="mi">3</span><span class="p">]))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\mathrm</span><span class="si">{Re}</span><span class="s1">~ \tau $&#39;</span><span class="p">);</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\mathrm</span><span class="si">{Im}</span><span class="s1">~ \tau $&#39;</span><span class="p">);</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="nb">abs</span><span class="p">((</span><span class="n">extent</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">extent</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">/</span><span class="p">(</span><span class="n">extent</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">-</span><span class="n">extent</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span><span class="o">*</span><span class="p">(</span><span class="mf">3.82</span><span class="o">/</span><span class="mf">6.18</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">axlines</span><span class="o">==</span><span class="kc">True</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;lightgray&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">);</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;lightgray&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">);</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;lightgray&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">);</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">Circle</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="n">radius</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;lightgray&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;lightgray&#39;</span><span class="p">));</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">axvspan</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;lightgray&#39;</span><span class="p">);</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axvspan</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;lightgray&#39;</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="n">zoom_in</span><span class="o">==</span><span class="kc">True</span><span class="p">:</span>
+        <span class="n">axins</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">inset_axes</span><span class="p">(</span><span class="n">zoom_in_loc</span><span class="p">)</span>
+        <span class="n">axins</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">Circle</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="n">radius</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.35</span><span class="p">));</span>
+        <span class="n">axins</span><span class="o">.</span><span class="n">hexbin</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Retau&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Imtau&#39;</span><span class="p">],</span> <span class="n">C</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;chisq&#39;</span><span class="p">],</span> <span class="n">reduce_C_function</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">,</span>
+               <span class="n">gridsize</span><span class="o">=</span><span class="n">zoom_in_gridsize</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="n">zoom_in_extent</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+        <span class="n">axins</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;lightgray&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">);</span>
+
+        <span class="c1"># sub region of the original image</span>
+        <span class="p">[</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">y2</span><span class="p">]</span> <span class="o">=</span> <span class="n">zoom_in_extent</span>
+        <span class="n">axins</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">)</span>
+        <span class="n">axins</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">y1</span><span class="p">,</span> <span class="n">y2</span><span class="p">)</span>
+        <span class="n">axins</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\mathrm</span><span class="si">{Re}</span><span class="s1">~ \tau$&#39;</span><span class="p">);</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">indicate_inset_zoom</span><span class="p">(</span><span class="n">axins</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+
+        <span class="n">axins</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="nb">abs</span><span class="p">((</span><span class="n">zoom_in_extent</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">zoom_in_extent</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">/</span><span class="p">(</span><span class="n">zoom_in_extent</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">-</span><span class="n">zoom_in_extent</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span><span class="o">*</span><span class="p">(</span><span class="mf">3.82</span><span class="o">/</span><span class="mf">6.18</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">colorbar</span><span class="o">==</span><span class="kc">True</span><span class="p">:</span>
+        <span class="n">cax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span><span class="p">([</span><span class="mf">0.62</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">])</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">cax</span><span class="o">=</span><span class="n">cax</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s1">&#39;horizontal&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\chi^2$&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">);</span><span class="c1">#, labelpad=10);</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plotargs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;cmap&#39;</span><span class="p">:</span><span class="n">mf</span><span class="o">.</span><span class="n">flavorpy_cmap</span><span class="p">(),</span>  <span class="s1">&#39;gridsize&#39;</span><span class="p">:</span><span class="mi">400</span><span class="p">,</span>
+            <span class="s1">&#39;zoom_in&#39;</span><span class="p">:</span><span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;zoom_in_gridsize&#39;</span><span class="p">:</span><span class="mi">800</span><span class="p">,</span> <span class="s1">&#39;zoom_in_extent&#39;</span><span class="p">:[</span><span class="o">-</span><span class="mf">0.13</span><span class="p">,</span> <span class="mf">0.13</span><span class="p">,</span> <span class="mf">0.85</span><span class="p">,</span> <span class="mf">1.22</span><span class="p">]}</span>
+<span class="n">RetauImtauplot</span><span class="p">(</span><span class="n">df_mcmc_NO</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">0.55</span><span class="p">,</span><span class="mf">0.55</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">3.5</span><span class="p">],</span> <span class="o">**</span><span class="n">plotargs</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../_images/arxiv2006dot03058_NO_modulispace.png" src="../_images/arxiv2006dot03058_NO_modulispace.png" />
+</section>
+<section id="s23-2-d-pi">
+<h4>s23^2 - d/pi<a class="headerlink" href="#s23-2-d-pi" title="Permalink to this heading">#</a></h4>
+<p>Let us try to reproduce the first panel of figure 3 of the paper</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">mf</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_mcmc_NO</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;d/pi&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;s23^2&#39;</span><span class="p">,</span> <span class="n">show_exp</span><span class="o">=</span><span class="s1">&#39;2dim&#39;</span><span class="p">,</span> <span class="n">gridsize</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">25</span><span class="p">);</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+</pre></div>
+</div>
+<img alt="../_images/arxiv2006dot03058_NO_s23_dpi.png" src="../_images/arxiv2006dot03058_NO_s23_dpi.png" />
+</section>
+<section id="retau-d-pi">
+<h4>Retau - d/pi<a class="headerlink" href="#retau-d-pi" title="Permalink to this heading">#</a></h4>
+<p>Let us see whether we can reproduce the left panel of figure 5 of the
+paper:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">mf</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_mcmc_NO</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;Retau&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;d/pi&#39;</span><span class="p">,</span> <span class="n">gridsize</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">25</span><span class="p">);</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">);</span>
+</pre></div>
+</div>
+<img alt="../_images/arxiv2006dot03058_NO_Retau_dpi.png" src="../_images/arxiv2006dot03058_NO_Retau_dpi.png" />
+</section>
+</section>
+<section id="id4">
+<h3>Inverted Ordering<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h3>
+<section id="id5">
+<h4>Moduli space<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h4>
+<p>Let us take a look on how the points are distributed over the
+modulispace, see also figure 2 of the paper</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plotargs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;cmap&#39;</span><span class="p">:</span><span class="n">mf</span><span class="o">.</span><span class="n">flavorpy_cmap</span><span class="p">(),</span>  <span class="s1">&#39;gridsize&#39;</span><span class="p">:</span><span class="mi">400</span><span class="p">,</span>
+            <span class="s1">&#39;zoom_in&#39;</span><span class="p">:</span><span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;zoom_in_gridsize&#39;</span><span class="p">:</span><span class="mi">300</span><span class="p">,</span> <span class="s1">&#39;zoom_in_extent&#39;</span><span class="p">:[</span><span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mf">1.48</span><span class="p">,</span> <span class="mf">1.72</span><span class="p">]}</span>
+<span class="n">RetauImtauplot</span><span class="p">(</span><span class="n">df_mcmc_IO</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">0.55</span><span class="p">,</span><span class="mf">0.55</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">3.5</span><span class="p">],</span> <span class="o">**</span><span class="n">plotargs</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../_images/arxiv2006dot03058_IO_modulispace.png" src="../_images/arxiv2006dot03058_IO_modulispace.png" />
+<p>Appart from many additional viable regions, also the shape of the minima
+reported in the paper look a bit different here due to the more recent
+experimental data.</p>
+</section>
+<section id="id6">
+<h4>s23^2 - d/pi<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h4>
+<p>Let us try to reproduce the first panel of figure 4 of the paper</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">mf</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_mcmc_IO</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;d/pi&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;s23^2&#39;</span><span class="p">,</span> <span class="n">show_exp</span><span class="o">=</span><span class="s1">&#39;2dim&#39;</span><span class="p">,</span> <span class="n">gridsize</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">25</span><span class="p">);</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+</pre></div>
+</div>
+<img alt="../_images/arxiv2006dot03058_IO_s23_dpi.png" src="../_images/arxiv2006dot03058_IO_s23_dpi.png" />
+</section>
+<section id="id7">
+<h4>Retau - d/pi<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h4>
+<p>Let us see whether we can reproduce the right panel of figure 5 of the
+paper:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mf</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_mcmc_IO</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;Retau&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;d/pi&#39;</span><span class="p">,</span> <span class="n">gridsize</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">25</span><span class="p">);</span>
+</pre></div>
+</div>
+<img alt="../_images/arxiv2006dot03058_IO_Retau_dpi.png" src="../_images/arxiv2006dot03058_IO_Retau_dpi.png" />
+</section>
+</section>
+</section>
+<section id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this heading">#</a></h2>
+<p>We were able to reproduce the results of the Weinberg Operator Model of
+the paper with around 30 minutes of computation time on a conventional
+desktop machine. Further investing some 3-4 hours of computation time,
+we could also find and explore additional experimentally viable regions in
+the parameterspace of this model.</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import">Import</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mass-matrices">Mass matrices</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-space">Parameter space</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experimental-data">Experimental data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-construction">Model construction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fitting">Fitting</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#normal-ordering">Normal Ordering</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inverted-ordering">Inverted Ordering</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fitting-results">Fitting results</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exploring-minima-with-mcmc">Exploring minima with MCMC</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Normal Ordering</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Inverted Ordering</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-the-results">Plotting the results</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Normal Ordering</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#moduli-space">Moduli space</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#s23-2-d-pi">s23^2 - d/pi</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#retau-d-pi">Retau - d/pi</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Inverted Ordering</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Moduli space</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">s23^2 - d/pi</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Retau - d/pi</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">Conclusion</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="../_sources/examples/arxiv2006dot03058.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            <div class="bd-footer-content__inner"></div>
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2024, Alexander Baur.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://sphinx-doc.org/">Sphinx</a> 6.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

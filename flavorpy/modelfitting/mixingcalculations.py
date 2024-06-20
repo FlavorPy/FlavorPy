@@ -209,7 +209,7 @@ def get_standard_parameters_ckm(CKM) -> dict:
          (np.cos(t12) * np.power(np.cos(t13), 2) * np.cos(t23) * np.sin(t13)) + np.cos(t12) * np.cos(t23) * np.sin(
                     t13)) /
         (np.sin(t12) * np.sin(t23))) / np.pi, 2) * 180
-    return {'t12': t12 * 180 / np.pi, 't13': t13 * 180 / np.pi, 't23': t23 * 180 / np.pi, 'd': d}
+    return {'t12': t12 * 180 / np.pi, 't13': t13 * 180 / np.pi, 't23': t23 * 180 / np.pi, 'dq': d}
 
 
 def get_standard_parameters_pmns(PMNS) -> dict:

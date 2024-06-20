@@ -1,6 +1,7 @@
 # FlavorPy
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.11060597.svg)](https://doi.org/10.5281/zenodo.11060597)
+[![PyPI Latest Release](https://img.shields.io/pypi/v/flavorpy.svg)](https://pypi.org/project/flavorpy/)
 
 
 What is FlavorPy?
@@ -51,14 +52,9 @@ This site also contains examples of how to use the code.
 Current development
 -------------------
 
-The goal of current development is to bring the two parts together, integrate GAP, have quark models, and extend the modelfitting with a MCMC method to study the vicinity of minima.
+The goal of current development is bringing the two parts together and integrating GAP or SageMath to ConstructTerms.
 If you want to contribute, please feel free to contact [Alexander Baur](mailto:alexander.baur@tum.de)
 
-
-Credit
-------
-
-This package uses experimental data obtained by NuFit published in [JHEP 09 (2020) 178](http://dx.doi.org/10.1007/JHEP09(2020)178), [arXiv:2007.14792](http://arxiv.org/abs/2007.14792), and their website [www.nu-fit.org](http://www.nu-fit.org/).
 
 Citing FlavorPy
 ---------------
@@ -84,4 +80,10 @@ Here is an example of a BibTex entry:
 When using the NuFit experimental data, please also cite 
 
 [I. Esteban, M. C. González-García, M. Maltoni, T. Schwetz, and A. Zhou, The fate of hints: updated global analysis of three-flavor neutrino oscillations, JHEP 09 (2020), 178, arXiv:2007.14792 [hep-ph], https://www.nu-fit.org](https://link.springer.com/article/10.1007/JHEP09(2020)178).
+
+
+Credit
+------
+
+This package uses experimental data obtained by NuFit published in [JHEP 09 (2020) 178](http://dx.doi.org/10.1007/JHEP09(2020)178), [arXiv:2007.14792](http://arxiv.org/abs/2007.14792), and their website [www.nu-fit.org](http://www.nu-fit.org/).
 

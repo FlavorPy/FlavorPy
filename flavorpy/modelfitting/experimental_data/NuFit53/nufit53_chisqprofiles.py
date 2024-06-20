@@ -72,7 +72,7 @@ chisqdcpSpline_IO = scipy.interpolate.make_interp_spline(expdcp_IO['d/pi'], expd
 chisqm21Spline_IO = scipy.interpolate.make_interp_spline(expm21_IO['m21'], expm21_IO['Delta_chi^2'])
 chisqm3lSpline_IO = scipy.interpolate.make_interp_spline(expm3l_IO['m3l'], expm3l_IO['Delta_chi^2'])
 
-### Extend the chisq profiles at their ends, i.e. where the dataset of nufit is trucated, by a gaussian chisq profile
+### Extend the chisq profiles at their ends by a gaussian chisq profile that will not confuse the minimizer
 # Gaussian data
 Lexpdata_NO = pd.DataFrame(np.array([
     [0.0048, 0.0565, 0.307, 0.02224, 0.454, 0.0741/2.505, 1.289, 7.41e-05, 2.505e-03],
@@ -98,70 +98,70 @@ def chisq_simple(value: float, data, name: str) -> float:
 
 # Extension
 def s12_profile_NO(value: float) -> float:
-    if value < 0.17 or value > 0.8:
+    if value < 0.17 or value > 0.48:
         return chisq_simple(value, Lexpdata_NO, "s12^2")
     else:
         return chisqs12Spline_NO(value)
 
 
 def s13_profile_NO(value: float) -> float:
-    if value > 0.07:
+    if value < 0.0085 or value > 0.04:
         return chisq_simple(value, Lexpdata_NO, "s13^2")
     else:
         return chisqs13Spline_NO(value)
 
 
 def s23_profile_NO(value: float) -> float:
-    if value < 0.25 or value > 0.7:
-        return chisq_simple(value, Lexpdata_NO, "s23^2")
+    if value < 0.35 or value > 0.7:
+        return chisq_simple(value, Lexpdata_NO, "s23^2") + 43
     else:
         return chisqs23Spline_NO(value)
 
 
 def m21_profile_NO(value: float) -> float:
-    if value < 0.000001 or value > 0.01:
+    if value < 1.2e-05 or value > 1e-04:
         return chisq_simple(value, Lexpdata_NO, "m21^2")
     else:
         return chisqm21Spline_NO(value)
 
 
 def m3l_profile_NO(value: float) -> float:
-    if value < 0.0002 or value > 0.007:
+    if value < 0.0002 or value > 0.004:
         return chisq_simple(value, Lexpdata_NO, "m3l^2")
     else:
         return chisqm3lSpline_NO(value)
 
 
 def s12_profile_IO(value: float) -> float:
-    if value < 0.17 or value > 0.8:
+    if value < 0.17 or value > 0.48:
         return chisq_simple(value, Lexpdata_IO, "s12^2")
     else:
         return chisqs12Spline_IO(value)
 
 
 def s13_profile_IO(value: float) -> float:
-    if value > 0.07:
-        return chisq_simple(value, Lexpdata_IO, "s13^2")
+    if value < 0.0085 or value > 0.04:
+        return chisq_simple(value, Lexpdata_IO, "s13^2") + 100
     else:
         return chisqs13Spline_IO(value)
 
 
 def s23_profile_IO(value: float) -> float:
-    if value < 0.25 or value > 0.7:
-        return chisq_simple(value, Lexpdata_IO, "s23^2")
+    if value < 0.27 or value > 0.7:
+        return chisq_simple(value, Lexpdata_IO, "s23^2") + 100
     else:
         return chisqs23Spline_IO(value)
 
 
 def m21_profile_IO(value: float) -> float:
-    if value < 0.000001 or value > 0.01:
+    if value < 1.2e-05 or value > 1e-04:
         return chisq_simple(value, Lexpdata_IO, "m21^2")
     else:
         return chisqm21Spline_IO(value)
 
 
 def m3l_profile_IO(value: float) -> float:
-    if value > -0.0002 or value < -0.007:
+    if value > -0.0002 or value < -0.004:
         return chisq_simple(value, Lexpdata_IO, "m3l^2")
     else:
         return chisqm3lSpline_IO(value)

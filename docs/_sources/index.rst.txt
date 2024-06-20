@@ -84,9 +84,71 @@ Alternatively, you can:
 Examples
 --------
 
-Take a look at these 
-:doc:`examples/examples_page` 
-to get an overview of the usage and capabilities of FlavorPy.
+Introductory examples
+~~~~~~~~~~~~~~~~~~~~~
+
+.. grid:: 2
+   :gutter: 4
+   :padding: 2
+   
+   .. grid-item-card:: Getting started with ConstructTerms
+      
+      .. button-ref:: examples/simpleexample_constructterms
+         :click-parent:
+         :color: muted
+         :align: center
+         
+         Quick start ConstructTerms
+         
+         
+   .. grid-item-card:: Getting started with ModelFitting
+      
+      .. button-ref:: examples/simpleexample_modelfitting
+         :click-parent:
+         :color: muted
+         :align: center
+         
+         Quick start ModelFitting
+      
+      
+   .. grid-item-card:: Some more features of ConstructTerms
+      
+      .. button-ref:: examples/detailedexample_constructterms
+         :click-parent:
+         :color: muted
+         :align: center
+         
+         Advanced features of ConstructTerms
+         
+   .. grid-item-card:: Some more features of ModelFitting
+      
+      .. button-ref:: examples/detailedexample_modelfitting
+         :click-parent:
+         :color: muted
+         :align: center
+         
+         Advanced features of ModelFitting
+         
+         
+Further examples
+~~~~~~~~~~~~~~~~
+
+.. grid:: 2
+   :gutter: 4
+   :padding: 2
+   
+   .. grid-item-card:: arXiv:2006.03058
+      
+      Reproduce the model fitting results of the paper 
+      "Double Cover of Modular S4 for Flavour Model Building"
+      by P. P. Novichkov, J. T. Penedo, and S. T. Petcov
+      
+      .. button-ref:: examples/arxiv2006dot03058
+         :click-parent:
+         :color: muted
+         :align: center
+         
+         Go to 2006.03058 Example
 
 
 Development
@@ -95,18 +157,11 @@ Development
 This project is under active development! 
 The objectives of current development are:
 
-* extending ModelFitting by a MCMC method to study the vicinity of minima
-* implementing quark models in ModelFitting
 * bringing the two parts, ConstructTerms and ModelFitting, together
 * integrating `GAP <https://www.gap-system.org/>`_ and its `SmallGroups` library
 
 If you want to contribute, please feel free to contact `Alexander Baur <alexander.baur@tum.de>`_.
 
-
-Credit
-------
-
-FlavorPy makes use of experimental data obtained by NuFit published in `JHEP 09 (2020) 178 <http://dx.doi.org/10.1007/JHEP09(2020)178>`_, `arXiv:2007.14792 <http://arxiv.org/abs/2007.14792>`_, and their website `www.nu-fit.org <http://www.nu-fit.org/>`_. Please cite NuFit if you use their experimental data.
 
 Citing FlavorPy
 ---------------
@@ -132,6 +187,14 @@ Here is an example of a BibTex entry:
 When using the NuFit experimental data, please also cite:
 
 `I. Esteban, M. C. González-García, M. Maltoni, T. Schwetz, and A. Zhou, The fate of hints: updated global analysis of three-flavor neutrino oscillations, JHEP 09 (2020), 178, arXiv:2007.14792 [hep-ph], https://www.nu-fit.org <https://link.springer.com/article/10.1007/JHEP09(2020)178>`_.
+
+
+Credit
+------
+
+FlavorPy makes use of experimental data obtained by NuFit published in `JHEP 09 (2020) 178 <http://dx.doi.org/10.1007/JHEP09(2020)178>`_, `arXiv:2007.14792 <http://arxiv.org/abs/2007.14792>`_, and their website `www.nu-fit.org <http://www.nu-fit.org/>`_. Please cite NuFit if you use their experimental data.
+
+
 
 Indices and tables
 ------------------

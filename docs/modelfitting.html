@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>ModelFitting &#8212; FlavorPy 0.1.0 documentation</title>
+    <title>ModelFitting &#8212; FlavorPy 0.2.0 documentation</title>
   
   
   
@@ -106,7 +106,7 @@
   
   
   
-    <p class="title logo__title">FlavorPy 0.1.0 documentation</p>
+    <p class="title logo__title">FlavorPy 0.2.0 documentation</p>
   
 </a></div>
     
@@ -359,18 +359,15 @@ and test its compatibility with the experimental data.</p>
 <p>For the more advanced features, consider this
 <a class="reference internal" href="examples/detailedexample_modelfitting.html"><span class="doc">Detailed example</span></a>.</p>
 <section id="module-modelfitting.model">
-<span id="the-model-classes"></span><h2>The <strong>Model</strong> classes<a class="headerlink" href="#module-modelfitting.model" title="Permalink to this heading">#</a></h2>
-<dl class="py exception">
-<dt class="sig sig-object py" id="modelfitting.model.FlavorPyError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">modelfitting.model.</span></span><span class="sig-name descname"><span class="pre">FlavorPyError</span></span><a class="reference internal" href="_modules/modelfitting/model.html#FlavorPyError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modelfitting.model.FlavorPyError" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
-</dd></dl>
-
+<span id="the-flavormodel-class"></span><h2>The <strong>Flavormodel</strong> class<a class="headerlink" href="#module-modelfitting.model" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="modelfitting.model.LeptonModel">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">modelfitting.model.</span></span><span class="sig-name descname"><span class="pre">LeptonModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mass_matrix_e=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass_matrix_n=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameterspace=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ordering='NO'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">experimental_data=NuFit</span> <span class="pre">v5.2</span> <span class="pre">NO</span> <span class="pre">with</span> <span class="pre">SK</span> <span class="pre">chisquare</span> <span class="pre">profiles</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fitted_observables='all'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name='Lepton</span> <span class="pre">Model'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comments=''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fit_results=None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modelfitting/model.html#LeptonModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modelfitting.model.LeptonModel" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="modelfitting.model.FlavorModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">modelfitting.model.</span></span><span class="sig-name descname"><span class="pre">FlavorModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mass_matrix_e=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass_matrix_n=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass_matrix_u=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass_matrix_d=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameterspace=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ordering='NO'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ckm_parameterization='standard'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">experimental_data=NuFit</span> <span class="pre">v5.3</span> <span class="pre">NO</span> <span class="pre">with</span> <span class="pre">SK</span> <span class="pre">chisquare</span> <span class="pre">profiles</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fitted_observables='all'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name='FlavorModel'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comments=''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fit_results=None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modelfitting/model.html#FlavorModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modelfitting.model.FlavorModel" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>A model of leptons with its mass matrices, parameters, ordering, and experimental data.</p>
+<p>A flavor model with its mass matrices, parameters, ordering, and experimental data. It can be a model of only
+leptons, only quarks, or a model of both lepton and quark sector, depending on which mass matrices you enter.
+If you enter e.g. only mass_matrix_n, then it will be a lepton model only lepton observables will be considered.
+The information on the sector of the model is stored in FlavorModel.sector.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -379,12 +376,12 @@ This should be a function with one argument, namely a dictionary of parameters a
 Example:</p>
 <div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">m_e</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-<span class="n">M</span> <span class="o">=</span> <span class="n">LeptonModel</span><span class="p">(</span><span class="n">mass_matrix_e</span><span class="o">=</span><span class="n">m_e</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+<span class="n">M</span> <span class="o">=</span> <span class="n">FlavorModel</span><span class="p">(</span><span class="n">mass_matrix_e</span><span class="o">=</span><span class="n">m_e</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Default is a function that returns ‘numpy.identity(3)’.
-The program in its current state only gives the dimensionless mass ratios m_e/m_mu and m_mu/m_tau. 
-For fitting, it is advisable to only use dimensionless parameters and simply ignore the overall mass scale, 
+The program in its current state only gives the dimensionless mass ratios m_e/m_mu and m_mu/m_tau.
+For fitting, it is advisable to only use dimensionless parameters and simply ignore the overall mass scale,
 as it would only confuse the fit with an additional unnecessary parameter.
 The convention Phi_left M Phi_right is used, where left and right indicates left- and right-handed chiral
 fields, respectively. I.e. L_i^c M_ij e_j, where L refers to the left-handed lepton doublet and e is the
@@ -398,45 +395,55 @@ Default is a function that returns ‘numpy.identity(3)’.
 It is !strongly! recommended to only use dimensionless parameters and one overall mass scale with the exact
 name ‘n_scale’, i.e. mass_matrix_n = params[‘n_scale’]*dimensionless_mass_matrix(params). Otherwise, the
 program will add a parameter ‘n_scale’ itself to the ParameterSpace and mass_matrix_n.</p></li>
+<li><p><strong>mass_matrix_u</strong> (<em>function</em>) – The up-type mass matrix M, for Phi_left M Phi_right.
+Should be a function with one argument, namely a dictionary of parameters.
+Default is a function that returns ‘numpy.identity(3)’.</p></li>
+<li><p><strong>mass_matrix_d</strong> (<em>function</em>) – The up-type mass matrix M, for Phi_left M Phi_right.
+Should be a function with one argument, namely a dictionary of parameters.
+Default is a function that returns ‘numpy.identity(3)’.</p></li>
 <li><p><strong>parameterspace</strong> (<a class="reference internal" href="#modelfitting.parameterspace.ParameterSpace" title="modelfitting.parameterspace.ParameterSpace"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ParameterSpace()</span></code></a>) – The parameterspace of the model. See documentation of ‘ParameterSpace’.
 Default is an empty parameter space.</p></li>
 <li><p><strong>ordering</strong> (<em>str</em>) – Specify whether the neutrino spectrum is normal or inverted ordered. Has to be either ‘NO’
 or ‘IO’.
 Default is ‘NO’.</p></li>
-<li><p><strong>experimental_data</strong> (<a class="reference internal" href="#modelfitting.experimentaldata.ExperimentalData" title="modelfitting.experimentaldata.ExperimentalData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ExperimentalData()</span></code></a>) – The experimental data used when fitting the model.
-For more information on the structure please confer the documentation of the ‘ExperimentalData’ class.
-The default is ‘NuFit52_NO’, i.e. the data of NuFit v5.2 for Normal Ordering taking into account results
-of SK. Please consider citing NuFit (www.nu-fit.org) when using this data.</p></li>
+<li><p><strong>ckm_parameterization</strong> (<em>str</em><em>, </em><em>either 'standard'</em><em> or </em><em>'wolfenstein'.</em>) – The parameterization used for the CKM matrix. Either ‘standard’ for the <a class="reference external" href="https://en.wikipedia.org/wiki/Cabibbo%E2%80%93Kobayashi%E2%80%93Maskawa_matrix#%22Standard%22_parameters">standard</a>
+and PDG convention or ‘wolfenstein’ for the <a class="reference external" href="https://en.wikipedia.org/wiki/Cabibbo%E2%80%93Kobayashi%E2%80%93Maskawa_matrix#Wolfenstein_parameters">Wolfenstein  parameterization</a>.</p></li>
+<li><p><strong>experimental_data</strong> (<a class="reference internal" href="#modelfitting.experimentaldata.ExperimentalData" title="modelfitting.experimentaldata.ExperimentalData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ExperimentalData()</span></code></a>) – The experimental data used when fitting the model. For more information on the structure
+please confer the documentation of <a class="reference internal" href="#modelfitting.experimentaldata.ExperimentalData" title="modelfitting.experimentaldata.ExperimentalData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ExperimentalData()</span></code></a>.
+The default is ‘NuFit53_NO’, i.e. the data of <a class="reference external" href="http://www.nu-fit.org/?q=node/278">NuFit v5.3</a> for Normal
+Ordering taking into account results of SK. Please consider citing NuFit (www.nu-fit.org) when using this data.</p></li>
 <li><p><strong>fitted_observables</strong> (<em>list</em><em>, </em><em>optional</em>) – A list of the observables that is considered when calculating chi-square and,
-hence, when making the fit.
-Default is ‘[‘me/mu’, ‘mu/mt’, ‘s12^2’, ‘s13^2’, ‘s23^2’, ‘d/pi’, ‘m21^2’, ‘m3l^2’]’.</p></li>
+hence, when making the fit. Possible entries are: ‘me/mu’, ‘mu/mt’, ‘s12^2’, ‘s13^2’, ‘s23^2’, ‘d/pi’,
+‘m21^2’, ‘m3l^2’, ‘mu/mc’, ‘mc/mt’, ‘md/ms’, ‘ms/mb’, ‘t12’, ‘t13’, ‘t23’, ‘dq’, ‘l’, ‘A’, ‘rhobar’, ‘etabar’.
+Default are all observables of the modeled sector, i.e. all lepton and/or quark observables.</p></li>
 <li><p><strong>name</strong> (<em>str</em><em>, </em><em>optional</em>) – If you want, you can give the model a name. This name will be used as __repr__.</p></li>
 <li><p><strong>comments</strong> (<em>str</em><em>, </em><em>optional</em>) – If you want, you can write some comments here.</p></li>
-<li><p><strong>fit_results</strong> (<em>list</em><em>, </em><em>optional</em>) – It is possible to store the results of make_fits() in this list. It is of course also
-possible to load the results from an external calculation into this list.</p></li>
+<li><p><strong>fit_results</strong> (<em>list</em><em>, </em><em>optional</em>) – A list where you can store the results of <a class="reference internal" href="#modelfitting.model.FlavorModel.make_fit" title="modelfitting.model.FlavorModel.make_fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">make_fit()</span></code></a>.
+It is of course also possible to load the results from an external calculation into this list.</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="modelfitting.model.LeptonModel.copy">
-<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/modelfitting/model.html#LeptonModel.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modelfitting.model.LeptonModel.copy" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="modelfitting.model.FlavorModel.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/modelfitting/model.html#FlavorModel.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modelfitting.model.FlavorModel.copy" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns a deepcopy of itself.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="modelfitting.model.FlavorModel.get_dimless_obs">
+<span class="sig-name descname"><span class="pre">get_dimless_obs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/modelfitting/model.html#FlavorModel.get_dimless_obs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modelfitting.model.FlavorModel.get_dimless_obs" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="modelfitting.model.LeptonModel.get_dimless_obs">
-<span class="sig-name descname"><span class="pre">get_dimless_obs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/modelfitting/model.html#LeptonModel.get_dimless_obs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modelfitting.model.LeptonModel.get_dimless_obs" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="modelfitting.model.LeptonModel.get_obs">
-<span class="sig-name descname"><span class="pre">get_obs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/modelfitting/model.html#LeptonModel.get_obs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modelfitting.model.LeptonModel.get_obs" title="Permalink to this definition">#</a></dt>
-<dd><p>Get a dictionary of all lepton observables for a point in parameterspace.</p>
+<dt class="sig sig-object py" id="modelfitting.model.FlavorModel.get_obs">
+<span class="sig-name descname"><span class="pre">get_obs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/modelfitting/model.html#FlavorModel.get_obs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modelfitting.model.FlavorModel.get_obs" title="Permalink to this definition">#</a></dt>
+<dd><p>Get a dictionary of all observables for a point in parameterspace.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>params</strong> (<em>dict</em>) – The point in parameter space.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>All lepton observables, i.e. {‘me/mu’:0.0048, …}</p>
+<dd class="field-even"><p>All observables, e.g. {‘me/mu’:0.0048, …}</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>dict</p>
@@ -445,8 +452,8 @@ possible to load the results from an external calculation into this list.</p></l
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="modelfitting.model.LeptonModel.residual">
-<span class="sig-name descname"><span class="pre">residual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="reference internal" href="_modules/modelfitting/model.html#LeptonModel.residual"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modelfitting.model.LeptonModel.residual" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="modelfitting.model.FlavorModel.residual">
+<span class="sig-name descname"><span class="pre">residual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="reference internal" href="_modules/modelfitting/model.html#FlavorModel.residual"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modelfitting.model.FlavorModel.residual" title="Permalink to this definition">#</a></dt>
 <dd><p>The residual used to make the dimensionless fit.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -463,18 +470,13 @@ being considered.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="modelfitting.model.LeptonModel.get_chisq">
-<span class="sig-name descname"><span class="pre">get_chisq</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">observables</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/modelfitting/model.html#LeptonModel.get_chisq"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modelfitting.model.LeptonModel.get_chisq" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="modelfitting.model.FlavorModel.get_chisq">
+<span class="sig-name descname"><span class="pre">get_chisq</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/modelfitting/model.html#FlavorModel.get_chisq"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modelfitting.model.FlavorModel.get_chisq" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns the value of chi-square for a given point in parameter space.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>params</strong> (<em>dict</em>) – The point in parameterspace. Alternatively, you can also insert the observables.
-Default is None.</p></li>
-<li><p><strong>observables</strong> (<em>dict</em>) – Alternatively, you can directly insert a dictionary with the observables. Note that the value of ‘params’
-is ignored one you define ‘observables’! Also you need to define either ‘params’ or ‘observables’
-Default is None.</p></li>
-</ul>
+<dd class="field-odd"><p><strong>params</strong> (<em>dict</em>) – The point in parameterspace.
+Default is None.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The value of chi-square.</p>
@@ -486,8 +488,8 @@ Default is None.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="modelfitting.model.LeptonModel.print_chisq">
-<span class="sig-name descname"><span class="pre">print_chisq</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modelfitting/model.html#LeptonModel.print_chisq"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modelfitting.model.LeptonModel.print_chisq" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="modelfitting.model.FlavorModel.print_chisq">
+<span class="sig-name descname"><span class="pre">print_chisq</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modelfitting/model.html#FlavorModel.print_chisq"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modelfitting.model.FlavorModel.print_chisq" title="Permalink to this definition">#</a></dt>
 <dd><p>Prints the value of all observables and the associated contribution to chi-square. Also prints total chi-square.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -497,19 +499,20 @@ Default is None.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="modelfitting.model.LeptonModel.make_fit">
-<span class="sig-name descname"><span class="pre">make_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">fitting_kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/modelfitting/model.html#LeptonModel.make_fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modelfitting.model.LeptonModel.make_fit" title="Permalink to this definition">#</a></dt>
-<dd><p>Does the fit for a specific number of random points in parameterspace.</p>
+<dt class="sig sig-object py" id="modelfitting.model.FlavorModel.make_fit">
+<span class="sig-name descname"><span class="pre">make_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">fitting_kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/modelfitting/model.html#FlavorModel.make_fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modelfitting.model.FlavorModel.make_fit" title="Permalink to this definition">#</a></dt>
+<dd><p>Does a fit for a specific number of random points in parameterspace.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>points</strong> (<em>int</em>) – The number of random points in parameter space you want to fit.
 If you want to fit a specific starting point in parameter space, adjust the ‘sampling_fct’ in your
 ParameterSpace.</p></li>
-<li><p><strong>fitting_kwargs</strong> – properties of the Fit class.
-You can add keyword arguments that will be passed down to the Fit object used to make the fit.
-Please see the documentation of the Fit class for the specific keyword arguments. Of course, the keywords
-‘model’ and ‘params’ can not be passed down to Fit.</p></li>
+<li><p><strong>fitting_kwargs</strong> – properties of the <a class="reference internal" href="#modelfitting.fit.Fit" title="modelfitting.fit.Fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Fit()</span></code></a> class.
+You can add keyword arguments that will be passed down to the <a class="reference internal" href="#modelfitting.fit.Fit" title="modelfitting.fit.Fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Fit()</span></code></a> object used
+to make the fit. Please see the documentation of <a class="reference internal" href="#modelfitting.fit.Fit" title="modelfitting.fit.Fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Fit()</span></code></a> for the specific keyword
+arguments. Of course, the keywords ‘model’ and ‘params’ can not be passed down to
+<a class="reference internal" href="#modelfitting.fit.Fit" title="modelfitting.fit.Fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Fit()</span></code></a>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -525,26 +528,28 @@ the number entered as ‘points’.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="modelfitting.model.LeptonModel.dimless_fit">
-<span class="sig-name descname"><span class="pre">dimless_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">fitting_kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/modelfitting/model.html#LeptonModel.dimless_fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modelfitting.model.LeptonModel.dimless_fit" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="modelfitting.model.FlavorModel.dimless_fit">
+<span class="sig-name descname"><span class="pre">dimless_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">fitting_kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/modelfitting/model.html#FlavorModel.dimless_fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modelfitting.model.FlavorModel.dimless_fit" title="Permalink to this definition">#</a></dt>
 <dd><p>Calling this function fits the dimensionless parameters of the model.
-The procedure of Model.make_fit() can be split into the fitting of dimensionless parameters
-(with Model.dimless_fit) and the fitting of the dimensionful ones (with Model.complete_fit), where
+The procedure of <a class="reference internal" href="#modelfitting.model.FlavorModel.make_fit" title="modelfitting.model.FlavorModel.make_fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">make_fit()</span></code></a> can be split into the fitting of
+dimensionless parameters (with <a class="reference internal" href="#modelfitting.model.FlavorModel.dimless_fit" title="modelfitting.model.FlavorModel.dimless_fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">dimless_fit()</span></code></a>) and the fitting of the
+dimensionful ones (with <a class="reference internal" href="#modelfitting.model.FlavorModel.complete_fit" title="modelfitting.model.FlavorModel.complete_fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">complete_fit()</span></code></a>), where
 Model.complete_fit() also adds the observables to the resulting pandas.DataFrame.
 This function comes in handy when running fits on an external machine, e.g. a cluster, since the result of
 dimless_fit() uses a smaller amount of memory when stored into a file compared to the result of
-complete_fit(). You can transfer the files from dimless_fit() to your local machine and easily run
-complete_fit() since complete_fit() does not take a lot of time compared to dimless_fit().</p>
+complete_fit(). You can more easily transfer the smaller files from dimless_fit() to your local machine and
+there run complete_fit(), which does not take a lot of time compared to dimless_fit().</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>points</strong> (<em>int</em>) – The number of random points in parameter space you want to fit.
 If you want to fit a specific starting point in parameter space, adjust the ‘sampling_fct’ in your
 ParameterSpace.</p></li>
-<li><p><strong>fitting_kwargs</strong> – properties of the Fit class.
-You can add keyword arguments that will be passed down to the Fit object used to make the fit.
-Please see the documentation of the Fit class for the specific keyword arguments. Of course, the keywords
-‘model’ and ‘params’ can not be passed down to Fit.</p></li>
+<li><p><strong>fitting_kwargs</strong> – properties of the <a class="reference internal" href="#modelfitting.fit.Fit" title="modelfitting.fit.Fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Fit()</span></code></a> class.
+You can add keyword arguments that will be passed down to the <a class="reference internal" href="#modelfitting.fit.Fit" title="modelfitting.fit.Fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Fit()</span></code></a> object used
+to make the fit. Please see the documentation of <a class="reference internal" href="#modelfitting.fit.Fit" title="modelfitting.fit.Fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Fit()</span></code></a> for the specific keyword
+arguments. Of course, the keywords ‘model’ and ‘params’ can not be passed down to
+<a class="reference internal" href="#modelfitting.fit.Fit" title="modelfitting.fit.Fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Fit()</span></code></a>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -560,13 +565,13 @@ the number entered as ‘points’.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="modelfitting.model.LeptonModel.complete_fit">
-<span class="sig-name descname"><span class="pre">complete_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/modelfitting/model.html#LeptonModel.complete_fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modelfitting.model.LeptonModel.complete_fit" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="modelfitting.model.FlavorModel.complete_fit">
+<span class="sig-name descname"><span class="pre">complete_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/modelfitting/model.html#FlavorModel.complete_fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modelfitting.model.FlavorModel.complete_fit" title="Permalink to this definition">#</a></dt>
 <dd><p>Use this function to add the observables (while simultaneously fitting the dimensionful ‘n_scale’ parameter)
 to a pandas.DataFrame containing points in parameterspace.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>df</strong> (<em>pandas.DataFrame</em>) – Points in parameterspace. E.g. the result of Model.dimless_fit().</p>
+<dd class="field-odd"><p><strong>df</strong> (<em>pandas.DataFrame</em>) – Points in parameterspace. E.g. the result of <a class="reference internal" href="#modelfitting.model.FlavorModel.dimless_fit" title="modelfitting.model.FlavorModel.dimless_fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">dimless_fit()</span></code></a>.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The as ‘df’ entered points in parameterspace plus their corresponding observables and
@@ -578,12 +583,48 @@ chi-square value.</p>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="modelfitting.model.FlavorModel.mcmc_fit">
+<span class="sig-name descname"><span class="pre">mcmc_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df_start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params_not_varied</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mcmc_steps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">burn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">300</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nwalkers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">40</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nan_policy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'omit'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">progress</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_error</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">emcee_kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/modelfitting/model.html#FlavorModel.mcmc_fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modelfitting.model.FlavorModel.mcmc_fit" title="Permalink to this definition">#</a></dt>
+<dd><p>A Markov-Chain-Monte-Carlo (MCMC) sampling is a useful method to explore the parameter space around a minimum.
+A typical workflow would be to first find a minimum using <a class="reference internal" href="#modelfitting.model.FlavorModel.make_fit" title="modelfitting.model.FlavorModel.make_fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">make_fit()</span></code></a>
+and then further explore the vicinity of this minimum with <a class="reference internal" href="#modelfitting.model.FlavorModel.mcmc_fit" title="modelfitting.model.FlavorModel.mcmc_fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">mcmc_fit()</span></code></a>
+to get an improved understanding of the probability distribution for the parameters. This method is based on
+the <a class="reference external" href="https://emcee.readthedocs.io/en/stable/">emcee</a> MCMC sampler.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df_start</strong> (<em>Two-dimensional dict-like</em><em>, </em><em>preferably a pandas.DataFrame</em>) – Contains the starting points around which further points should be sampled.</p></li>
+<li><p><strong>params_not_varied</strong> (<em>list</em><em>, </em><em>optional</em>) – The parameters of self.parameterspace that should not be varied additionally to the
+ones that are already set not to vary in self.parameterspace.</p></li>
+<li><p><strong>mcmc_steps</strong> (<em>int</em>) – The amount of points sampled.</p></li>
+<li><p><strong>burn</strong> (<em>int</em><em>, </em><em>optional</em>) – How many samples from the start of the sampling should be discarded. Default is 300.</p></li>
+<li><p><strong>thin</strong> (<em>int</em><em>, </em><em>optional</em>) – Only accept 1 in every ‘thin’ samples. Default is 10.</p></li>
+<li><p><strong>nwalkers</strong> (<em>int</em>) – Number of members of the ensemble. Make sure that ‘nwalkers’ &gt;&gt; number of varied parameters.
+Default is 40.</p></li>
+<li><p><strong>nan_policy</strong> (<em>possible are 'raise'</em><em>, </em><em>'propagate'</em><em>, </em><em>and 'omit'</em><em>, </em><em>optional</em>) – Specify how to handle it if the residual returns NaN values. Default is ‘omit’.</p></li>
+<li><p><strong>progress</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True prints a progress bar of the sampling. Default is True.</p></li>
+<li><p><strong>print_error</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True prints the index of a given row if the sampling didn’t work for this row.
+Default is False.</p></li>
+<li><p><strong>emcee_kwargs</strong> – Further keyword arguments can be passed down to
+<a class="reference external" href="https://lmfit.github.io/lmfit-py/fitting.html#lmfit.minimizer.Minimizer.emcee">lmfit.Minimizer.emcee</a></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A pandas.DataFrame containing all the sampled points.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>panda.DataFrame</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="py class">
-<dt class="sig sig-object py" id="modelfitting.model.QuarkModel">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">modelfitting.model.</span></span><span class="sig-name descname"><span class="pre">QuarkModel</span></span><a class="reference internal" href="_modules/modelfitting/model.html#QuarkModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modelfitting.model.QuarkModel" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="modelfitting.model.FlavorPyError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">modelfitting.model.</span></span><span class="sig-name descname"><span class="pre">FlavorPyError</span></span><a class="reference internal" href="_modules/modelfitting/model.html#FlavorPyError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modelfitting.model.FlavorPyError" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
 </dd></dl>
 
 </section>
@@ -607,6 +648,12 @@ chi-square value.</p>
 </ul>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="modelfitting.parameterspace.ParameterDimension.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/modelfitting/parameterspace.html#ParameterDimension.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modelfitting.parameterspace.ParameterDimension.copy" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns a deep copy.</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -620,6 +667,12 @@ chi-square value.</p>
 <dd class="field-odd"><p><strong>name</strong> (<em>str</em><em>, </em><em>optional</em>) – You can give your parameter space a name.</p>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="modelfitting.parameterspace.ParameterSpace.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/modelfitting/parameterspace.html#ParameterSpace.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modelfitting.parameterspace.ParameterSpace.copy" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns a deep copy.</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="modelfitting.parameterspace.ParameterSpace.add_dim">
 <span class="sig-name descname"><span class="pre">add_dim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_fct</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-inf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">inf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">brute_step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modelfitting/parameterspace.html#ParameterSpace.add_dim"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modelfitting.parameterspace.ParameterSpace.add_dim" title="Permalink to this definition">#</a></dt>
@@ -646,7 +699,7 @@ Default is numpy.random.uniform.</p></li>
 <dd><p>Draws a sample in your parameter space.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A lmfit.Parameters object.</p>
+<dd class="field-odd"><p>A <a class="reference external" href="https://lmfit.github.io/lmfit-py/parameters.html#the-parameters-class">lmfit.Parameters</a> object.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -690,6 +743,12 @@ functions, typically chisquare profiles. So for example:</p>
 </ul>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="modelfitting.experimentaldata.ExperimentalData.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/modelfitting/experimentaldata.html#ExperimentalData.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modelfitting.experimentaldata.ExperimentalData.copy" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns a deep copy.</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="modelfitting.experimentaldata.ExperimentalData.get_chisq">
 <span class="sig-name descname"><span class="pre">get_chisq</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">considered_obs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/modelfitting/experimentaldata.html#ExperimentalData.get_chisq"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modelfitting.experimentaldata.ExperimentalData.get_chisq" title="Permalink to this definition">#</a></dt>
@@ -749,7 +808,7 @@ The default value is ‘auto’, which will consider all keys present in ‘valu
 <dt class="sig sig-object py" id="modelfitting.fit.Fit">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">modelfitting.fit.</span></span><span class="sig-name descname"><span class="pre">Fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">methods</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nr_methods</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle_methods</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">45</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retry_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dig_deeper</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dig_deeper_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modelfitting/fit.html#Fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modelfitting.fit.Fit" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>This Class is supposed to represent the fitting of a single random point.</p>
+<p>This class is supposed to represent the fitting of a single random point.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -788,7 +847,7 @@ Default is False.</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="modelfitting.fit.Fit.fit_results_into_dataframe">
 <span class="sig-name descname"><span class="pre">fit_results_into_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fit_results</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/modelfitting/fit.html#Fit.fit_results_into_dataframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modelfitting.fit.Fit.fit_results_into_dataframe" title="Permalink to this definition">#</a></dt>
-<dd><p>Convertes the result of Fit.make_fit() into a pandas.DataFrame.</p>
+<dd><p>Converts the result of Fit.make_fit() into a pandas.DataFrame.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>fit_results</strong> (<em>list</em>) – A list that contains elements of the lmfit.MinimizerResult.</p>
@@ -803,6 +862,25 @@ the elements of fit_results.</p>
 </dl>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="modelfitting.fit.LmfitMinimizer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">modelfitting.fit.</span></span><span class="sig-name descname"><span class="pre">LmfitMinimizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nan_policy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'omit'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs_Minimizer</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modelfitting/fit.html#LmfitMinimizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modelfitting.fit.LmfitMinimizer" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Minimizer</span></code></p>
+<p>A subclass of the <a class="reference external" href="https://lmfit.github.io/lmfit-py/fitting.html#using-the-minimizer-class">lmfit.Minimizer</a>
+class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<code class="xref py py-meth docutils literal notranslate"><span class="pre">LeptonModel()</span></code>) – The Model whose parameters you want to fit</p></li>
+<li><p><strong>params</strong> (<em>lmfit.Parameters</em>) – The parameters you want to fit</p></li>
+<li><p><strong>**kwargs_Minimizer</strong> – <p>Additional keyword arguments to pass to the
+<a class="reference external" href="https://lmfit.github.io/lmfit-py/fitting.html#using-the-minimizer-class">lmfit.Minimizer</a> superclass.</p>
+</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py class">
@@ -986,6 +1064,59 @@ and l=2 for IO. Default is None, yielding 2.507e-03 for NO and -2.486e-03 for IO
 </dd></dl>
 
 </section>
+<section id="module-modelfitting.plottingutils">
+<span id="some-plotting-utils"></span><h2>Some <strong>plotting</strong> utils<a class="headerlink" href="#module-modelfitting.plottingutils" title="Permalink to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="modelfitting.plottingutils.flavorpy_cmap">
+<span class="sig-prename descclassname"><span class="pre">modelfitting.plottingutils.</span></span><span class="sig-name descname"><span class="pre">flavorpy_cmap</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Colormap</span></span></span><a class="reference internal" href="_modules/modelfitting/plottingutils.html#flavorpy_cmap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modelfitting.plottingutils.flavorpy_cmap" title="Permalink to this definition">#</a></dt>
+<dd><p>A <a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.Colormap.html#matplotlib.colors.Colormap">matplotlib.colormap</a> where the
+first 1/25 is green, the next 4/25 are yellow, the next 9/25 are orange, and the remaining 16/25 are an opaque red
+that fades out to white, i.e.</p>
+<img alt="_images/flavorpy_cmap.png" src="_images/flavorpy_cmap.png" />
+<p>Particularly useful colormap for representing values of chisq, whose square-root can be
+compared to confidence levels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><p>A <a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.Colormap.html#matplotlib.colors.Colormap">matplotlib.colormap</a></p>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="modelfitting.plottingutils.plot">
+<span class="sig-prename descclassname"><span class="pre">modelfitting.plottingutils.</span></span><span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x='me/mu'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y='mu/mt'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap=&lt;matplotlib.colors.LinearSegmentedColormap</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ordering='NO'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_exp=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xylabels=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exp_colors='gray'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**hexbin_plt_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modelfitting/plottingutils.html#plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#modelfitting.plottingutils.plot" title="Permalink to this definition">#</a></dt>
+<dd><p>Quickly plot the data resulting of a fit. Gives a hexbin plot where the color is specified by chisq. Plots can
+include the latest experimental data for charged leptons from <a class="reference external" href="http://www.nu-fit.org/?q=node/278">NuFit v5.3</a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pandas.DataFrame</em>) – The data you want to plot. E.g. the output of <a class="reference internal" href="#modelfitting.model.FlavorModel.complete_fit" title="modelfitting.model.FlavorModel.complete_fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">complete_fit()</span></code></a>.</p></li>
+<li><p><strong>x</strong> (<em>str</em>) – The column of df plotted on the x-Axis.</p></li>
+<li><p><strong>y</strong> (<em>str</em>) – The column of df plotted on the y-Axis.</p></li>
+<li><p><strong>cmap</strong> (<em>str</em><em> or </em><em>matplotlib.colormap</em>) – <p>The <a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.Colormap.html#matplotlib.colors.Colormap">matplotlib.colormap</a> or a
+<a class="reference external" href="https://matplotlib.org/stable/users/explain/colors/colormaps.html">registered colormap</a> name that will be
+used as the colormap for the hexbin plot.</p>
+</p></li>
+<li><p><strong>ordering</strong> (<em>str</em><em>, </em><em>either 'NO'</em><em> or </em><em>'IO'</em><em>, </em><em>default is 'NO'</em>) – Specify whether the neutrino spectrum is normal or inverted ordered.</p></li>
+<li><p><strong>show_exp</strong> (<em>str</em><em>, </em><em>either '1dim'</em><em> or </em><em>'2dim'</em><em>, </em><em>optional</em>) – <p>Whether to plot <a class="reference external" href="http://www.nu-fit.org/?q=node/278">NuFit v5.3</a> experimental data. Chose ‘1dim’
+for plotting the boundaries of the 1-dimensional projections of chisq or ‘2dim’ for plotting the 2-dimensional
+ones. Please consider citing <a class="reference external" href="http://www.nu-fit.org/?q=node/278">NuFit</a>, when using this data.</p>
+</p></li>
+<li><p><strong>xylabels</strong> (<em>tuple</em><em> or </em><em>list</em><em>, </em><em>optional</em>) – The labels used for x and y-axis.</p></li>
+<li><p><strong>exp_colors</strong> (<em>str</em><em>, </em><em>optional</em>) – The color of the experimental boundaries. See
+<a class="reference external" href="https://matplotlib.org/stable/gallery/color/named_colors.html">named colors in matplotlib</a>.</p></li>
+<li><p><strong>hexbin_plt_kwargs</strong> (<em>dict</em><em>, </em><em>optional</em>) – Keyword arguments that will be passed down to
+<a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.hexbin.html">matplotlib.pyplot.hexbin</a>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes">matplotlib.axes</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
 </section>
 
 
@@ -1029,26 +1160,30 @@ and l=2 for IO. Default is None, yielding 2.507e-03 for NO and -2.486e-03 for IO
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-modelfitting.model">The <strong>Model</strong> classes</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modelfitting.model.FlavorPyError"><code class="docutils literal notranslate"><span class="pre">FlavorPyError</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modelfitting.model.LeptonModel"><code class="docutils literal notranslate"><span class="pre">LeptonModel</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#modelfitting.model.LeptonModel.copy"><code class="docutils literal notranslate"><span class="pre">LeptonModel.copy()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#modelfitting.model.LeptonModel.get_dimless_obs"><code class="docutils literal notranslate"><span class="pre">LeptonModel.get_dimless_obs()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#modelfitting.model.LeptonModel.get_obs"><code class="docutils literal notranslate"><span class="pre">LeptonModel.get_obs()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#modelfitting.model.LeptonModel.residual"><code class="docutils literal notranslate"><span class="pre">LeptonModel.residual()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#modelfitting.model.LeptonModel.get_chisq"><code class="docutils literal notranslate"><span class="pre">LeptonModel.get_chisq()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#modelfitting.model.LeptonModel.print_chisq"><code class="docutils literal notranslate"><span class="pre">LeptonModel.print_chisq()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#modelfitting.model.LeptonModel.make_fit"><code class="docutils literal notranslate"><span class="pre">LeptonModel.make_fit()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#modelfitting.model.LeptonModel.dimless_fit"><code class="docutils literal notranslate"><span class="pre">LeptonModel.dimless_fit()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#modelfitting.model.LeptonModel.complete_fit"><code class="docutils literal notranslate"><span class="pre">LeptonModel.complete_fit()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-modelfitting.model">The <strong>Flavormodel</strong> class</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modelfitting.model.FlavorModel"><code class="docutils literal notranslate"><span class="pre">FlavorModel</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#modelfitting.model.FlavorModel.copy"><code class="docutils literal notranslate"><span class="pre">FlavorModel.copy()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#modelfitting.model.FlavorModel.get_dimless_obs"><code class="docutils literal notranslate"><span class="pre">FlavorModel.get_dimless_obs()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#modelfitting.model.FlavorModel.get_obs"><code class="docutils literal notranslate"><span class="pre">FlavorModel.get_obs()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#modelfitting.model.FlavorModel.residual"><code class="docutils literal notranslate"><span class="pre">FlavorModel.residual()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#modelfitting.model.FlavorModel.get_chisq"><code class="docutils literal notranslate"><span class="pre">FlavorModel.get_chisq()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#modelfitting.model.FlavorModel.print_chisq"><code class="docutils literal notranslate"><span class="pre">FlavorModel.print_chisq()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#modelfitting.model.FlavorModel.make_fit"><code class="docutils literal notranslate"><span class="pre">FlavorModel.make_fit()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#modelfitting.model.FlavorModel.dimless_fit"><code class="docutils literal notranslate"><span class="pre">FlavorModel.dimless_fit()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#modelfitting.model.FlavorModel.complete_fit"><code class="docutils literal notranslate"><span class="pre">FlavorModel.complete_fit()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#modelfitting.model.FlavorModel.mcmc_fit"><code class="docutils literal notranslate"><span class="pre">FlavorModel.mcmc_fit()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modelfitting.model.QuarkModel"><code class="docutils literal notranslate"><span class="pre">QuarkModel</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modelfitting.model.FlavorPyError"><code class="docutils literal notranslate"><span class="pre">FlavorPyError</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-modelfitting.parameterspace">The <strong>Parameterspace</strong> class</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modelfitting.parameterspace.ParameterDimension"><code class="docutils literal notranslate"><span class="pre">ParameterDimension</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modelfitting.parameterspace.ParameterDimension"><code class="docutils literal notranslate"><span class="pre">ParameterDimension</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#modelfitting.parameterspace.ParameterDimension.copy"><code class="docutils literal notranslate"><span class="pre">ParameterDimension.copy()</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modelfitting.parameterspace.ParameterSpace"><code class="docutils literal notranslate"><span class="pre">ParameterSpace</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#modelfitting.parameterspace.ParameterSpace.copy"><code class="docutils literal notranslate"><span class="pre">ParameterSpace.copy()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#modelfitting.parameterspace.ParameterSpace.add_dim"><code class="docutils literal notranslate"><span class="pre">ParameterSpace.add_dim()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#modelfitting.parameterspace.ParameterSpace.random_pt"><code class="docutils literal notranslate"><span class="pre">ParameterSpace.random_pt()</span></code></a></li>
 </ul>
@@ -1057,6 +1192,7 @@ and l=2 for IO. Default is None, yielding 2.507e-03 for NO and -2.486e-03 for IO
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-modelfitting.experimentaldata">The <strong>Experimentaldata</strong> class</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modelfitting.experimentaldata.ExperimentalData"><code class="docutils literal notranslate"><span class="pre">ExperimentalData</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#modelfitting.experimentaldata.ExperimentalData.copy"><code class="docutils literal notranslate"><span class="pre">ExperimentalData.copy()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#modelfitting.experimentaldata.ExperimentalData.get_chisq"><code class="docutils literal notranslate"><span class="pre">ExperimentalData.get_chisq()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#modelfitting.experimentaldata.ExperimentalData.get_chisq_list"><code class="docutils literal notranslate"><span class="pre">ExperimentalData.get_chisq_list()</span></code></a></li>
 </ul>
@@ -1069,6 +1205,7 @@ and l=2 for IO. Default is None, yielding 2.507e-03 for NO and -2.486e-03 for IO
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#modelfitting.fit.Fit.fit_results_into_dataframe"><code class="docutils literal notranslate"><span class="pre">Fit.fit_results_into_dataframe()</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modelfitting.fit.LmfitMinimizer"><code class="docutils literal notranslate"><span class="pre">LmfitMinimizer</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modelfitting.fit.MinimizeStopper"><code class="docutils literal notranslate"><span class="pre">MinimizeStopper</span></code></a></li>
 </ul>
 </li>
@@ -1081,6 +1218,11 @@ and l=2 for IO. Default is None, yielding 2.507e-03 for NO and -2.486e-03 for IO
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modelfitting.mixingcalculations.get_standard_parameters_pmns"><code class="docutils literal notranslate"><span class="pre">get_standard_parameters_pmns()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modelfitting.mixingcalculations.calculate_ckm"><code class="docutils literal notranslate"><span class="pre">calculate_ckm()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modelfitting.mixingcalculations.calculate_pmns"><code class="docutils literal notranslate"><span class="pre">calculate_pmns()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-modelfitting.plottingutils">Some <strong>plotting</strong> utils</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modelfitting.plottingutils.flavorpy_cmap"><code class="docutils literal notranslate"><span class="pre">flavorpy_cmap()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modelfitting.plottingutils.plot"><code class="docutils literal notranslate"><span class="pre">plot()</span></code></a></li>
 </ul>
 </li>
 </ul>

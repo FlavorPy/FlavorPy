@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>constructterms.calculations &#8212; FlavorPy 1.0 documentation</title>
+    <title>constructterms.calculations &#8212; FlavorPy 0.2.0 documentation</title>
   
   
   
@@ -103,7 +103,7 @@
   
   
   
-    <p class="title logo__title">FlavorPy 1.0 documentation</p>
+    <p class="title logo__title">FlavorPy 0.2.0 documentation</p>
   
 </a></div>
     
@@ -173,6 +173,22 @@ document.write(`
   </button>
 `);
 </script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/flavorpy/flavorpy" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
       
     </div>
     
@@ -256,6 +272,22 @@ document.write(`
 `);
 </script></div>
         
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/flavorpy/flavorpy" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+        
       </div>
     
   </div>
@@ -320,15 +352,16 @@ document.write(`
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Make a list of all combinations of fields, that contain the charges of the field &#39;allowed&#39;.</span>
 
-<span class="sd">    :param all_fields: A list that contains all fields. Fields have to be an object of the &#39;Field&#39;-class.</span>
+<span class="sd">    :param all_fields: A list that contains all fields. Fields have to be an object of the</span>
+<span class="sd">        :py:meth:`~constructterms.field.Field` class.</span>
 <span class="sd">    :type all_fields: list</span>
 <span class="sd">    :param allowed: All returned terms have to contain the representations/charges of this field.</span>
 <span class="sd">        Has to be an object of the &#39;Field&#39;-class.</span>
 <span class="sd">    :type allowed: :py:meth:`~constructterms.field.Field`</span>
 <span class="sd">    :param order: The order up to which terms are considered, i.e. how many fields are multiplied to yield a term.</span>
 <span class="sd">    :type order: int</span>
-<span class="sd">    :return: A list, whose elements are the terms whose charges coincide with &#39;allowed&#39;. Elements are object of</span>
-<span class="sd">        &#39;Field&#39;-class</span>
+<span class="sd">    :return: A list, whose elements are the terms whose charges coincide with &#39;allowed&#39;. Elements are objects of</span>
+<span class="sd">        :py:meth:`~constructterms.field.Field` class.</span>
 <span class="sd">    :rtype: list</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Generate all possible combinations</span>
@@ -389,7 +422,7 @@ document.write(`
         <div class="footer-item">
   <p class="copyright">
     
-      © Copyright 2023, Alexander Baur.
+      © Copyright 2024, Alexander Baur.
       <br/>
     
   </p>

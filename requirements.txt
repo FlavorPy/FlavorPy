@@ -3,3 +3,4 @@ lmfit>=1.0.3
 pandas>=1.5.1
 scipy>=1.9.3
 emcee>=3.0.0
+matplotlib>=3.4.3

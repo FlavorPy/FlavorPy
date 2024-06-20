@@ -65,6 +65,9 @@ class ExperimentalData:
         return self.name
 
     def copy(self):
+        """
+        Returns a deep copy.
+        """
         return deepcopy(self)
 
     def get_chisq(self, values: dict, considered_obs="auto") -> float:

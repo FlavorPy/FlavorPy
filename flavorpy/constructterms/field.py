@@ -8,8 +8,9 @@ class Field:
 
     :param name: The name of the field / representation
     :type name: str
-    :param charges: The charges / irreps under the Groups. Has the form {Group1: charge1, Group2: charge2}, where
-        'Group1' and 'Group2' have to be an Object of the :py:meth:`~constructterms.group.Group` class.
+    :param charges: The charges / irreps under the Groups. Has the form :code:`{Group1: charge1, Group2: charge2}`,
+        where :code:`Group1` and :code:`Group2` have to be an Object of the :py:meth:`~constructterms.group.Group`
+        class.
         Note that Abelian groups have integer charges, U(1) groups have integer or float charges and non-Abelian groups
         have a list of one or more irreps, e.g.::
         
@@ -37,6 +38,9 @@ class Field:
         return self.name
         
     def copy(self):
+        """
+        Returns a deep copy.
+        """
         return deepcopy(self)
 
     def times(self, other_field):
@@ -70,7 +74,7 @@ class Field:
         it checks, if 'self' contains at least one of the irreps of 'desired_field'. Use this for example to check if
         a Lagrangian-term is invariant.
 
-        :param desired_field: Compare the charges of 'self' to this field. Has to be of 'Field'-class!
+        :param desired_field: Compare the charges of 'self' to this field. Has to be an instance of the Field class!
         :type desired_field: :py:meth:`~constructterms.field.Field`
         :param ignore: List here any symmetry that you do not want to compare to the desired field.
         :type ignore: list, optional

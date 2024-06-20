@@ -1,0 +1,1766 @@
+The Weinberg Operator Model of arXiv:2006.03058
+===============================================
+
+This example is based on the paper “Double Cover of Modular S4 for
+Flavour Model Building” from P. P. Novichkov, J. T. Penedo, and S. T.
+Petcov available under https://arxiv.org/pdf/2006.03058. We will study
+their Weinberg Operator Model introduced in section 6.1 of the paper
+and try to reproduce their model fitting results.
+
+Import
+------
+
+.. code:: ipython3
+
+    # Import the modelfitting module of FlavorPy
+    import flavorpy.modelfitting as mf
+    
+    # We will also need numpy and pandas
+    import numpy as np
+    import pandas as pd
+    pd.set_option('display.max_columns', None)  # This pandas setting allows us to see all columns
+    import cmath
+
+Mass matrices
+-------------
+
+First we need to define a lot of modular forms. See eqs. (3.3), (3.14),
+and (3.15) in the paper.
+
+.. code:: ipython3
+
+    ### Weight 1/2 modular forms
+    def theta(tau):
+        q = cmath.exp(2j*cmath.pi*tau/4)
+        return 1 + 2*q**4 + 2*q**16
+    def eps(tau):
+        q = cmath.exp(2j*cmath.pi*tau/4)
+        return 2*q + 2*q**9 + 2*q**25
+    
+    ### Weight 3 modular forms
+    # Weight 3, rep 1hatprime
+    def Y31hp1(tau):
+        return cmath.sqrt(3) * (eps(tau) * theta(tau)**5 - eps(tau)**5 * theta(tau))
+    # Weight 3, rep 3hat
+    def Y33h1(tau):
+        return eps(tau)**5 * theta(tau) + eps(tau) * theta(tau)**5
+    def Y33h2(tau):
+        return 1/2/cmath.sqrt(2) * (5 * eps(tau)**2 * theta(tau)**4 - eps(tau)**6)
+    def Y33h3(tau):
+        return 1/2/cmath.sqrt(2) * (theta(tau)**6 - 5 * eps(tau)**4 * theta(tau)**2)
+    # Weight 3, rep 3hatprime
+    def Y33hp1(tau):
+        return 1/2 * (-4 * cmath.sqrt(2) * eps(tau)**3 * theta(tau)**3)
+    def Y33hp2(tau):
+        return 1/2 * (theta(tau)**6 + 3 * eps(tau)**4 * theta(tau)**2)
+    def Y33hp3(tau):
+        return 1/2 * (-3 * eps(tau)**2 * theta(tau)**4 - eps(tau)**6)
+    
+    ### Weight 4 modular forms
+    # Weight 4, rep 1
+    def Y411(tau):
+        return 1/2/cmath.sqrt(3) * (theta(tau)**8 + 14 * eps(tau)**4 * theta(tau)**4 + eps(tau)**8)
+    # Weight 4, rep 2
+    def Y421(tau):
+        return 1/4 * (theta(tau)**8 - 10 * eps(tau)**4 * theta(tau)**4 + eps(tau)**8)
+    def Y422(tau):
+        return cmath.sqrt(3) * (eps(tau)**2 * theta(tau)**6 + eps(tau)**6 * theta(tau)**2)
+    # Weight 4, rep 3
+    def Y431(tau):
+        return 3/2 * (eps(tau)**2 * theta(tau)**6 - eps(tau)**6 * theta(tau)**2)
+    def Y432(tau):
+        return 3/2/cmath.sqrt(2) * (eps(tau)**3 * theta(tau)**5 - eps(tau)**7 * theta(tau))
+    def Y433(tau):
+        return 3/2/cmath.sqrt(2) * (-eps(tau) * theta(tau)**7 + eps(tau)**5 * theta(tau)**3)
+
+Then we can define the mass matrices. See eqs. (6.5), (6.6) or (6.7),
+(6.8) or Appendix E of the paper.
+
+.. code:: ipython3
+
+    def Me(params):
+        tau = params['Retau'] + 1j * params['Imtau']
+        Y31hp1x = Y31hp1(tau)
+        Y33h1x = Y33h1(tau)
+        Y33h2x = Y33h2(tau)
+        Y33h3x = Y33h3(tau)
+        Y33hp1x = Y33hp1(tau)
+        Y33hp2x = Y33hp2(tau)
+        Y33hp3x = Y33hp3(tau)
+        return np.transpose((1/cmath.sqrt(3) * np.array([[Y31hp1x, 0, 0],
+                                                         [0, 0, Y31hp1x],
+                                                         [0, Y31hp1x, 0]], dtype=complex)
+                             + params['a2t']/cmath.sqrt(6) * np.array([[0, -Y33hp2x, Y33hp3x], 
+                                                                       [-Y33hp2x, -Y33hp1x, 0], 
+                                                                       [Y33hp3x, 0, Y33hp1x]], dtype=complex)
+                             + params['a3t']/cmath.sqrt(6) * np.array([[0, Y33h3x, -Y33h2x], 
+                                                                       [-Y33h3x, 0, Y33h1x],
+                                                                       [Y33h2x, -Y33h1x, 0]], dtype=complex)
+                            ))
+    
+    def Mn(params):
+        tau = params['Retau'] + 1j * params['Imtau']
+        Y411x = Y411(tau)
+        Y421x = Y421(tau)
+        Y422x = Y422(tau)
+        Y431x = Y431(tau)
+        Y432x = Y432(tau)
+        Y433x = Y433(tau)
+        return params['n_scale']*(1/cmath.sqrt(3) * np.array([[Y411x, 0, 0],
+                                                              [0, 0, Y411x],
+                                                              [0, Y411x, 0]], dtype=complex)
+                                 - params['g2t']/2/cmath.sqrt(3) * np.array([[2 * Y421x, 0, 0],
+                                                                             [0, cmath.sqrt(3) * Y422x, -Y421x],
+                                                                             [0, -Y421x, cmath.sqrt(3)*Y422x]], dtype=complex)
+                                 + params['g3t']/cmath.sqrt(6) * np.array([[0, -Y432x, Y433x],
+                                                                           [-Y432x, -Y431x, 0],
+                                                                           [Y433x, 0, Y431x]], dtype=complex)
+                                 )
+
+Parameter space
+---------------
+
+.. code:: ipython3
+
+    # Sampling functions
+    def lin_sampling(low=0, high=1):
+        def fct():
+            return np.random.uniform(low=low, high=high)
+        return fct
+    def const_sampling(value=0):
+        def fct():
+            return value
+        return fct
+    
+    # Constructing the parameter space
+    ParamSpace = mf.ParameterSpace()
+    ParamSpace.add_dim(name='Retau', sample_fct=lin_sampling(low=-0.5, high=0.5), min=-0.5, max=0.5)
+    ParamSpace.add_dim(name='Imtau', sample_fct=lin_sampling(low=0.866, high=2), min=0.866, max=3.5)
+    ParamSpace.add_dim(name='a2t', sample_fct=lin_sampling(low=-10, high=10), min=-10, max=10)
+    ParamSpace.add_dim(name='a3t', sample_fct=lin_sampling(low=-10, high=10), min=-10, max=10)
+    ParamSpace.add_dim(name='g2t', sample_fct=lin_sampling(low=-10, high=10), min=-10, max=10)
+    ParamSpace.add_dim(name='g3t', sample_fct=lin_sampling(low=-10, high=10), min=-10, max=10)
+    ParamSpace.add_dim(name='n_scale', sample_fct=const_sampling(1.), vary=False)
+
+Experimental data
+-----------------
+
+Although the paper uses the experimental data of
+https://arxiv.org/pdf/2003.08511, we will use the recent results of
+NuFit v5.3 (see http://www.nu-fit.org/?q=node/278) in the following
+
+.. code:: ipython3
+
+    ExperimentalData_NO = mf.NuFit53_NO
+    ExperimentalData_IO = mf.NuFit53_IO
+
+Model construction
+------------------
+
+Since the paper does not consider the experimental data on the CPV angle
+‘d/pi’ when fitting the model, we will also omit it here
+
+.. code:: ipython3
+
+    MyModel_NO = mf.FlavorModel(name='MyModel_NO', 
+                                mass_matrix_e=Me,
+                                mass_matrix_n=Mn,
+                                parameterspace=ParamSpace,
+                                ordering='NO',
+                                experimental_data=ExperimentalData_NO,
+                                fitted_observables=['me/mu','mu/mt','s12^2', 's13^2', 's23^2', 'm21^2', 'm3l^2'])
+    
+    MyModel_IO = MyModel_NO.copy()
+    MyModel_IO.ordering = 'IO'
+    MyModel_IO.name = 'MyModel_IO'
+    MyModel_IO.experimental_data = ExperimentalData_IO
+
+Fitting
+-------
+
+Let us now scan the parameter space to find some viable points in the
+parameter space that yield observables, which are in agreement with the
+experimental data.
+
+Normal Ordering
+~~~~~~~~~~~~~~~
+
+Fitting around 100 random points, which takes about 5 minutes, seems
+sufficient to find a lot of minima with :math:`\chi^2<1`
+
+.. code:: ipython3
+
+    # Running the fit. Takes about 5 minutes. 
+    # Don't worry about warnings that might pop up when running this command. Only valid points will be further processed.
+    df_NO = MyModel_NO.make_fit(points=100)
+    df_NO.head(5)
+
+
+
+.. raw:: html
+
+    <div>
+    <style scoped>
+        .dataframe tbody tr th:only-of-type {
+            vertical-align: middle;
+        }
+    
+        .dataframe tbody tr th {
+            vertical-align: top;
+        }
+    
+        .dataframe thead th {
+            text-align: left;
+        }
+    </style>
+    <table border="1" class="dataframe">
+      <thead>
+        <tr style="text-align: left;">
+          <th></th>
+          <th style="min-width: 120px;">chisq</th>
+          <th style="min-width: 120px;">chisq_dimless</th>
+          <th style="min-width: 90px;">Retau</th>
+          <th style="min-width: 90px;">Imtau</th>
+          <th style="min-width: 90px;">a2t</th>
+          <th style="min-width: 90px;">a3t</th>
+          <th style="min-width: 90px;">g2t</th>
+          <th style="min-width: 90px;">g3t</th>
+          <th>n_scale</th>
+          <th style="min-width: 90px;">me/mu</th>
+          <th style="min-width: 90px;">mu/mt</th>
+          <th style="min-width: 90px;">s12^2</th>
+          <th style="min-width: 90px;">s13^2</th>
+          <th style="min-width: 90px;">s23^2</th>
+          <th style="min-width: 50px;">d/pi</th>
+          <th style="min-width: 90px;">r</th>
+          <th style="min-width: 90px;">m21^2</th>
+          <th style="min-width: 90px;">m3l^2</th>
+          <th style="min-width: 90px;">m1</th>
+          <th style="min-width: 90px;">m2</th>
+          <th style="min-width: 90px;">m3</th>
+          <th>eta1</th>
+          <th>eta2</th>
+          <th style="min-width: 120px;">J</th>
+          <th style="min-width: 90px;">Jmax</th>
+          <th style="min-width: 90px;">Sum(m_i)</th>
+          <th style="min-width: 90px;">m_b</th>
+          <th style="min-width: 90px;">m_bb</th>
+          <th style="min-width: 90px;">nscale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>0</th>
+          <td>0.001207</td>
+          <td>0.000735</td>
+          <td>0.026443</td>
+          <td>1.187458</td>
+          <td>1.730160</td>
+          <td>2.768355</td>
+          <td>3.080545</td>
+          <td>-1.631087</td>
+          <td>1.0</td>
+          <td>0.004801</td>
+          <td>0.056483</td>
+          <td>0.305000</td>
+          <td>0.022199</td>
+          <td>0.455049</td>
+          <td>0.318025</td>
+          <td>0.029591</td>
+          <td>0.000074</td>
+          <td>0.002506</td>
+          <td>0.014308</td>
+          <td>0.016699</td>
+          <td>0.052061</td>
+          <td>1.030516</td>
+          <td>1.995178</td>
+          <td>0.028091</td>
+          <td>0.033402</td>
+          <td>0.083068</td>
+          <td>0.016856</td>
+          <td>0.014052</td>
+          <td>0.072506</td>
+        </tr>
+        <tr>
+          <th>1</th>
+          <td>0.001711</td>
+          <td>0.001181</td>
+          <td>0.026443</td>
+          <td>1.187450</td>
+          <td>1.730158</td>
+          <td>2.768588</td>
+          <td>3.080593</td>
+          <td>-1.631214</td>
+          <td>1.0</td>
+          <td>0.004801</td>
+          <td>0.056523</td>
+          <td>0.305000</td>
+          <td>0.022196</td>
+          <td>0.455013</td>
+          <td>0.318039</td>
+          <td>0.029590</td>
+          <td>0.000074</td>
+          <td>0.002506</td>
+          <td>0.014308</td>
+          <td>0.016699</td>
+          <td>0.052061</td>
+          <td>1.030494</td>
+          <td>1.995186</td>
+          <td>0.028089</td>
+          <td>0.033399</td>
+          <td>0.083068</td>
+          <td>0.016855</td>
+          <td>0.014052</td>
+          <td>0.072504</td>
+        </tr>
+        <tr>
+          <th>2</th>
+          <td>0.002458</td>
+          <td>0.000001</td>
+          <td>-0.026727</td>
+          <td>1.192163</td>
+          <td>1.733958</td>
+          <td>2.771002</td>
+          <td>3.097690</td>
+          <td>-1.653116</td>
+          <td>1.0</td>
+          <td>0.004800</td>
+          <td>0.056499</td>
+          <td>0.309623</td>
+          <td>0.022280</td>
+          <td>0.452129</td>
+          <td>1.678225</td>
+          <td>0.029581</td>
+          <td>0.000074</td>
+          <td>0.002506</td>
+          <td>0.014550</td>
+          <td>0.016906</td>
+          <td>0.052132</td>
+          <td>0.967485</td>
+          <td>0.006005</td>
+          <td>-0.028454</td>
+          <td>0.033582</td>
+          <td>0.083588</td>
+          <td>0.017077</td>
+          <td>0.014237</td>
+          <td>0.072636</td>
+        </tr>
+        <tr>
+          <th>3</th>
+          <td>0.002458</td>
+          <td>0.000001</td>
+          <td>-0.026727</td>
+          <td>1.192163</td>
+          <td>1.733958</td>
+          <td>2.771002</td>
+          <td>3.097690</td>
+          <td>-1.653116</td>
+          <td>1.0</td>
+          <td>0.004800</td>
+          <td>0.056499</td>
+          <td>0.309623</td>
+          <td>0.022280</td>
+          <td>0.452129</td>
+          <td>1.678225</td>
+          <td>0.029581</td>
+          <td>0.000074</td>
+          <td>0.002506</td>
+          <td>0.014550</td>
+          <td>0.016906</td>
+          <td>0.052132</td>
+          <td>0.967485</td>
+          <td>0.006005</td>
+          <td>-0.028454</td>
+          <td>0.033582</td>
+          <td>0.083588</td>
+          <td>0.017077</td>
+          <td>0.014237</td>
+          <td>0.072636</td>
+        </tr>
+        <tr>
+          <th>4</th>
+          <td>0.002458</td>
+          <td>0.000001</td>
+          <td>-0.026727</td>
+          <td>1.192163</td>
+          <td>1.733958</td>
+          <td>2.771002</td>
+          <td>3.097690</td>
+          <td>-1.653116</td>
+          <td>1.0</td>
+          <td>0.004800</td>
+          <td>0.056499</td>
+          <td>0.309623</td>
+          <td>0.022280</td>
+          <td>0.452129</td>
+          <td>1.678225</td>
+          <td>0.029581</td>
+          <td>0.000074</td>
+          <td>0.002506</td>
+          <td>0.014550</td>
+          <td>0.016906</td>
+          <td>0.052132</td>
+          <td>0.967485</td>
+          <td>0.006005</td>
+          <td>-0.028454</td>
+          <td>0.033582</td>
+          <td>0.083588</td>
+          <td>0.017077</td>
+          <td>0.014237</td>
+          <td>0.072636</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+
+
+.. code:: ipython3
+
+    ### Point in the paper
+    paper_point_NO = {'Retau':0.029725, 'Imtau':1.1181, 'n_scale':1, #'n_scale':0.076533,
+                      'a2t':1.7303, 'a3t':-2.7706, 'g2t':2.716, 'g3t':-0.35786}
+    MyModel_NO.get_obs(paper_point_NO)
+
+
+
+
+.. parsed-literal::
+
+    {'me/mu': 0.0049421699542366885,
+     'mu/mt': 0.05648917752606122,
+     's12^2': 0.3050120711014076,
+     's13^2': 0.02227053474308995,
+     's23^2': 0.5450767487159297,
+     'd/pi': 1.0487709548688628,
+     'r': 0.02912708311826326,
+     'm21^2': 7.356079868874301e-05,
+     'm3l^2': 0.002525512025700195,
+     'm1': 0.00738634326918084,
+     'm2': 0.011318960446035498,
+     'm3': 0.05079439036537764,
+     'eta1': 0.24865416225269987,
+     'eta2': 1.0042563790059496,
+     'J': -0.0051055157836726785,
+     'Jmax': 0.033452537478177814,
+     'Sum(m_i)': 0.06949969408059398,
+     'm_b': 0.011592155003347798,
+     'm_bb': 0.006559895559779271,
+     'nscale': 0.07660247267356302}
+
+
+
+Inverted Ordering
+~~~~~~~~~~~~~~~~~
+
+Fitting around 100 random points, which takes about 5 minutes, seems
+sufficient to find a lot of minima with :math:`\chi^2<1`
+
+.. code:: ipython3
+
+    # Running the fit. Takes about 5 minutes. 
+    # Don't worry about warnings that might pop up when running this command. Only valid points will be further processed.
+    df_IO = MyModel_IO.make_fit(points=100)
+    df_IO.head(5)
+
+
+.. raw:: html
+
+    <div>
+    <style scoped>
+        .dataframe tbody tr th:only-of-type {
+            vertical-align: middle;
+        }
+    
+        .dataframe tbody tr th {
+            vertical-align: top;
+        }
+    
+        .dataframe thead th {
+            text-align: left;
+        }
+    </style>
+    <table border="1" class="dataframe">
+      <thead>
+        <tr style="text-align: left;">
+          <th></th>
+          <th style="min-width: 120px;">chisq</th>
+          <th style="min-width: 120px;">chisq_dimless</th>
+          <th style="min-width: 90px;">Retau</th>
+          <th style="min-width: 90px;">Imtau</th>
+          <th style="min-width: 90px;">a2t</th>
+          <th style="min-width: 90px;">a3t</th>
+          <th style="min-width: 90px;">g2t</th>
+          <th style="min-width: 90px;">g3t</th>
+          <th>n_scale</th>
+          <th style="min-width: 90px;">me/mu</th>
+          <th style="min-width: 90px;">mu/mt</th>
+          <th style="min-width: 90px;">s12^2</th>
+          <th style="min-width: 90px;">s13^2</th>
+          <th style="min-width: 90px;">s23^2</th>
+          <th style="min-width: 50px;">d/pi</th>
+          <th style="min-width: 90px;">r</th>
+          <th style="min-width: 90px;">m21^2</th>
+          <th style="min-width: 90px;">m3l^2</th>
+          <th style="min-width: 90px;">m1</th>
+          <th style="min-width: 90px;">m2</th>
+          <th style="min-width: 90px;">m3</th>
+          <th>eta1</th>
+          <th>eta2</th>
+          <th style="min-width: 120px;">J</th>
+          <th style="min-width: 90px;">Jmax</th>
+          <th style="min-width: 90px;">Sum(m_i)</th>
+          <th style="min-width: 90px;">m_b</th>
+          <th style="min-width: 90px;">m_bb</th>
+          <th style="min-width: 90px;">nscale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>0</th>
+          <td>0.002987</td>
+          <td>0.000443</td>
+          <td>0.468330</td>
+          <td>1.742981</td>
+          <td>2.092636</td>
+          <td>2.630521</td>
+          <td>1.918893</td>
+          <td>6.552312</td>
+          <td>1.0</td>
+          <td>0.004799</td>
+          <td>0.056543</td>
+          <td>0.309623</td>
+          <td>0.022249</td>
+          <td>0.569998</td>
+          <td>0.699973</td>
+          <td>-0.029813</td>
+          <td>0.000074</td>
+          <td>-0.002486</td>
+          <td>0.049152</td>
+          <td>0.04990</td>
+          <td>0.002066</td>
+          <td>0.163506</td>
+          <td>0.081986</td>
+          <td>0.027009</td>
+          <td>0.033383</td>
+          <td>0.101119</td>
+          <td>0.049847</td>
+          <td>0.046958</td>
+          <td>0.101288</td>
+        </tr>
+        <tr>
+          <th>1</th>
+          <td>0.002992</td>
+          <td>0.000447</td>
+          <td>0.468330</td>
+          <td>1.742981</td>
+          <td>2.092635</td>
+          <td>2.630521</td>
+          <td>1.918893</td>
+          <td>6.552312</td>
+          <td>1.0</td>
+          <td>0.004799</td>
+          <td>0.056543</td>
+          <td>0.309623</td>
+          <td>0.022250</td>
+          <td>0.569998</td>
+          <td>0.699973</td>
+          <td>-0.029813</td>
+          <td>0.000074</td>
+          <td>-0.002486</td>
+          <td>0.049152</td>
+          <td>0.04990</td>
+          <td>0.002066</td>
+          <td>0.163506</td>
+          <td>0.081986</td>
+          <td>0.027009</td>
+          <td>0.033383</td>
+          <td>0.101119</td>
+          <td>0.049847</td>
+          <td>0.046958</td>
+          <td>0.101288</td>
+        </tr>
+        <tr>
+          <th>2</th>
+          <td>0.003036</td>
+          <td>0.000503</td>
+          <td>0.468330</td>
+          <td>1.742981</td>
+          <td>2.092637</td>
+          <td>2.630519</td>
+          <td>1.918893</td>
+          <td>6.552312</td>
+          <td>1.0</td>
+          <td>0.004798</td>
+          <td>0.056543</td>
+          <td>0.309623</td>
+          <td>0.022249</td>
+          <td>0.569998</td>
+          <td>0.699975</td>
+          <td>-0.029813</td>
+          <td>0.000074</td>
+          <td>-0.002486</td>
+          <td>0.049152</td>
+          <td>0.04990</td>
+          <td>0.002066</td>
+          <td>0.163504</td>
+          <td>0.081985</td>
+          <td>0.027008</td>
+          <td>0.033382</td>
+          <td>0.101119</td>
+          <td>0.049847</td>
+          <td>0.046958</td>
+          <td>0.101288</td>
+        </tr>
+        <tr>
+          <th>3</th>
+          <td>0.003371</td>
+          <td>0.001099</td>
+          <td>0.468837</td>
+          <td>1.743138</td>
+          <td>2.092861</td>
+          <td>2.630640</td>
+          <td>1.917660</td>
+          <td>6.551518</td>
+          <td>1.0</td>
+          <td>0.004799</td>
+          <td>0.056574</td>
+          <td>0.305000</td>
+          <td>0.022200</td>
+          <td>0.570000</td>
+          <td>0.704986</td>
+          <td>-0.029764</td>
+          <td>0.000074</td>
+          <td>-0.002488</td>
+          <td>0.049173</td>
+          <td>0.04992</td>
+          <td>0.002061</td>
+          <td>0.160452</td>
+          <td>0.079565</td>
+          <td>0.026557</td>
+          <td>0.033208</td>
+          <td>0.101154</td>
+          <td>0.049871</td>
+          <td>0.047009</td>
+          <td>0.101369</td>
+        </tr>
+        <tr>
+          <th>4</th>
+          <td>0.003371</td>
+          <td>0.001099</td>
+          <td>0.468837</td>
+          <td>1.743138</td>
+          <td>2.092861</td>
+          <td>2.630640</td>
+          <td>1.917660</td>
+          <td>6.551518</td>
+          <td>1.0</td>
+          <td>0.004799</td>
+          <td>0.056574</td>
+          <td>0.305000</td>
+          <td>0.022200</td>
+          <td>0.570000</td>
+          <td>0.704986</td>
+          <td>-0.029764</td>
+          <td>0.000074</td>
+          <td>-0.002488</td>
+          <td>0.049173</td>
+          <td>0.04992</td>
+          <td>0.002061</td>
+          <td>0.160452</td>
+          <td>0.079565</td>
+          <td>0.026557</td>
+          <td>0.033208</td>
+          <td>0.101154</td>
+          <td>0.049871</td>
+          <td>0.047009</td>
+          <td>0.101369</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+
+
+.. code:: ipython3
+
+    ### Point in the paper
+    paper_point_IO = {'Retau':0.027941, 'Imtau':1.5921, 'n_scale':1, #'n_scale':0.23558,
+                      'a2t':1.7266, 'a3t':-2.17, 'g2t':0.4705, 'g3t':-1.2442}
+    MyModel_IO.get_obs(paper_point_IO)
+
+
+
+
+.. parsed-literal::
+
+    {'me/mu': 0.004830619795663459,
+     'mu/mt': 0.05647840159968499,
+     's12^2': 0.3030936675666006,
+     's13^2': 0.022267180242549808,
+     's23^2': 0.5502850560474966,
+     'd/pi': 0.7827880069017603,
+     'r': -0.029315798940845687,
+     'm21^2': 7.348953808347119e-05,
+     'm3l^2': -0.0025068236493148498,
+     'm1': 0.052920922289185414,
+     'm2': 0.05361075968517395,
+     'm3': 0.019164809018266362,
+     'eta1': 0.1977278694922162,
+     'eta2': 0.26549338075520046,
+     'J': 0.02103681364336458,
+     'Jmax': 0.03335730544660353,
+     'Sum(m_i)': 0.12569649099262573,
+     'm_b': 0.05355715231024689,
+     'm_bb': 0.05137951379189798,
+     'nscale': 0.23580302931711378}
+
+
+
+Fitting results
+~~~~~~~~~~~~~~~
+
+Using FlavorPy we were able to find a lot of viable :math:`\chi^2<25`
+minima for NO as well as for IO within roughly 10 minutes of computation
+time on a conventional desktop machine. We do not only find the minima
+reported in the paper, but also further minima. This might be due to the
+different experimental data used in the fit and because we scanned a
+bigger region of the parameter space.
+
+Exploring minima with MCMC
+--------------------------
+
+Finally, let us further explore the vicinity of the minima using a
+Markov Chain Monte Carlo (MCMC) sampler.
+
+Normal Ordering
+~~~~~~~~~~~~~~~
+
+.. code:: ipython3
+
+    # Selecting the minima which will be explored with MCMC.
+    # This still has to be done manually, in this case the distinct minima are:
+    df_NO_for_mcmc = df_NO.loc[[0, 2, 30, 38, 40, 42, 45, 46, 52, 61]]       # <--------- adjust this for your results!!
+    df_NO_for_mcmc
+
+
+
+
+.. raw:: html
+
+    <div>
+    <style scoped>
+        .dataframe tbody tr th:only-of-type {
+            vertical-align: middle;
+        }
+    
+        .dataframe tbody tr th {
+            vertical-align: top;
+        }
+    
+        .dataframe thead th {
+            text-align: left;
+        }
+    </style>
+    <table border="1" class="dataframe">
+      <thead>
+        <tr style="text-align: left;">
+          <th></th>
+          <th style="min-width: 120px;">chisq</th>
+          <th style="min-width: 120px;">chisq_dimless</th>
+          <th style="min-width: 90px;">Retau</th>
+          <th style="min-width: 90px;">Imtau</th>
+          <th style="min-width: 90px;">a2t</th>
+          <th style="min-width: 90px;">a3t</th>
+          <th style="min-width: 90px;">g2t</th>
+          <th style="min-width: 90px;">g3t</th>
+          <th>n_scale</th>
+          <th style="min-width: 90px;">me/mu</th>
+          <th style="min-width: 90px;">mu/mt</th>
+          <th style="min-width: 90px;">s12^2</th>
+          <th style="min-width: 90px;">s13^2</th>
+          <th style="min-width: 90px;">s23^2</th>
+          <th style="min-width: 50px;">d/pi</th>
+          <th style="min-width: 90px;">r</th>
+          <th style="min-width: 90px;">m21^2</th>
+          <th style="min-width: 90px;">m3l^2</th>
+          <th style="min-width: 90px;">m1</th>
+          <th style="min-width: 90px;">m2</th>
+          <th style="min-width: 90px;">m3</th>
+          <th>eta1</th>
+          <th>eta2</th>
+          <th style="min-width: 120px;">J</th>
+          <th style="min-width: 90px;">Jmax</th>
+          <th style="min-width: 90px;">Sum(m_i)</th>
+          <th style="min-width: 90px;">m_b</th>
+          <th style="min-width: 90px;">m_bb</th>
+          <th style="min-width: 90px;">nscale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>0</th>
+          <td>0.001207</td>
+          <td>0.000735</td>
+          <td>0.026443</td>
+          <td>1.187458</td>
+          <td>1.730160</td>
+          <td>2.768355</td>
+          <td>3.080545</td>
+          <td>-1.631087</td>
+          <td>1.0</td>
+          <td>0.004801</td>
+          <td>0.056483</td>
+          <td>0.305000</td>
+          <td>0.022199</td>
+          <td>0.455049</td>
+          <td>0.318025</td>
+          <td>0.029591</td>
+          <td>0.000074</td>
+          <td>0.002506</td>
+          <td>0.014308</td>
+          <td>0.016699</td>
+          <td>0.052061</td>
+          <td>1.030516</td>
+          <td>1.995178</td>
+          <td>0.028091</td>
+          <td>0.033402</td>
+          <td>0.083068</td>
+          <td>0.016856</td>
+          <td>0.014052</td>
+          <td>0.072506</td>
+        </tr>
+        <tr>
+          <th>2</th>
+          <td>0.002458</td>
+          <td>0.000001</td>
+          <td>-0.026727</td>
+          <td>1.192163</td>
+          <td>1.733958</td>
+          <td>2.771002</td>
+          <td>3.097690</td>
+          <td>-1.653116</td>
+          <td>1.0</td>
+          <td>0.004800</td>
+          <td>0.056499</td>
+          <td>0.309623</td>
+          <td>0.022280</td>
+          <td>0.452129</td>
+          <td>1.678225</td>
+          <td>0.029581</td>
+          <td>0.000074</td>
+          <td>0.002506</td>
+          <td>0.014550</td>
+          <td>0.016906</td>
+          <td>0.052132</td>
+          <td>0.967485</td>
+          <td>0.006005</td>
+          <td>-0.028454</td>
+          <td>0.033582</td>
+          <td>0.083588</td>
+          <td>0.017077</td>
+          <td>0.014237</td>
+          <td>0.072636</td>
+        </tr>
+        <tr>
+          <th>30</th>
+          <td>1.708405</td>
+          <td>1.705966</td>
+          <td>0.044772</td>
+          <td>1.119144</td>
+          <td>1.733755</td>
+          <td>-2.772553</td>
+          <td>2.674447</td>
+          <td>-0.441267</td>
+          <td>1.0</td>
+          <td>0.004800</td>
+          <td>0.056500</td>
+          <td>0.305000</td>
+          <td>0.022280</td>
+          <td>0.564698</td>
+          <td>1.131871</td>
+          <td>0.029581</td>
+          <td>0.000074</td>
+          <td>0.002506</td>
+          <td>0.007954</td>
+          <td>0.011721</td>
+          <td>0.050688</td>
+          <td>0.258953</td>
+          <td>0.998279</td>
+          <td>-0.013410</td>
+          <td>0.033313</td>
+          <td>0.070363</td>
+          <td>0.011952</td>
+          <td>0.006009</td>
+          <td>0.077315</td>
+        </tr>
+        <tr>
+          <th>38</th>
+          <td>1.885333</td>
+          <td>1.875204</td>
+          <td>0.476922</td>
+          <td>0.877216</td>
+          <td>-3.625034</td>
+          <td>0.078474</td>
+          <td>-1.242683</td>
+          <td>-3.367152</td>
+          <td>1.0</td>
+          <td>0.004795</td>
+          <td>0.057331</td>
+          <td>0.309623</td>
+          <td>0.022110</td>
+          <td>0.483693</td>
+          <td>0.497317</td>
+          <td>0.029561</td>
+          <td>0.000074</td>
+          <td>0.002507</td>
+          <td>0.135611</td>
+          <td>0.135884</td>
+          <td>0.144559</td>
+          <td>1.849964</td>
+          <td>0.280012</td>
+          <td>0.033594</td>
+          <td>0.033595</td>
+          <td>0.416054</td>
+          <td>0.135904</td>
+          <td>0.054553</td>
+          <td>0.170925</td>
+        </tr>
+        <tr>
+          <th>40</th>
+          <td>1.937927</td>
+          <td>1.863562</td>
+          <td>0.025545</td>
+          <td>3.189923</td>
+          <td>-0.983153</td>
+          <td>1.446903</td>
+          <td>4.613140</td>
+          <td>-0.166363</td>
+          <td>1.0</td>
+          <td>0.004779</td>
+          <td>0.055446</td>
+          <td>0.309712</td>
+          <td>0.022456</td>
+          <td>0.563993</td>
+          <td>0.581216</td>
+          <td>0.029655</td>
+          <td>0.000074</td>
+          <td>0.002503</td>
+          <td>0.592886</td>
+          <td>0.592948</td>
+          <td>0.594993</td>
+          <td>0.384810</td>
+          <td>0.550164</td>
+          <td>0.032500</td>
+          <td>0.033588</td>
+          <td>1.780827</td>
+          <td>0.592953</td>
+          <td>0.528214</td>
+          <td>1.188512</td>
+        </tr>
+        <tr>
+          <th>42</th>
+          <td>1.975067</td>
+          <td>1.969849</td>
+          <td>0.019061</td>
+          <td>3.291931</td>
+          <td>-1.159061</td>
+          <td>1.771834</td>
+          <td>4.614620</td>
+          <td>-0.145069</td>
+          <td>1.0</td>
+          <td>0.004866</td>
+          <td>0.055597</td>
+          <td>0.305000</td>
+          <td>0.022280</td>
+          <td>0.570638</td>
+          <td>1.716079</td>
+          <td>0.029572</td>
+          <td>0.000074</td>
+          <td>0.002506</td>
+          <td>0.692445</td>
+          <td>0.692499</td>
+          <td>0.694253</td>
+          <td>0.193904</td>
+          <td>0.571098</td>
+          <td>-0.025886</td>
+          <td>0.033259</td>
+          <td>2.079197</td>
+          <td>0.692503</td>
+          <td>0.368505</td>
+          <td>1.387247</td>
+        </tr>
+        <tr>
+          <th>45</th>
+          <td>2.146873</td>
+          <td>2.145132</td>
+          <td>-0.150694</td>
+          <td>3.140511</td>
+          <td>-0.999689</td>
+          <td>1.387357</td>
+          <td>4.608383</td>
+          <td>-0.019511</td>
+          <td>1.0</td>
+          <td>0.004800</td>
+          <td>0.056568</td>
+          <td>0.309617</td>
+          <td>0.022206</td>
+          <td>0.487934</td>
+          <td>1.612380</td>
+          <td>0.029583</td>
+          <td>0.000074</td>
+          <td>0.002506</td>
+          <td>0.642293</td>
+          <td>0.642351</td>
+          <td>0.644241</td>
+          <td>1.430965</td>
+          <td>1.527874</td>
+          <td>-0.031596</td>
+          <td>0.033673</td>
+          <td>1.928886</td>
+          <td>0.642355</td>
+          <td>0.616305</td>
+          <td>1.288508</td>
+        </tr>
+        <tr>
+          <th>46</th>
+          <td>2.183422</td>
+          <td>2.175304</td>
+          <td>0.000015</td>
+          <td>1.120671</td>
+          <td>1.733568</td>
+          <td>-2.160260</td>
+          <td>2.735981</td>
+          <td>-0.336574</td>
+          <td>1.0</td>
+          <td>0.004800</td>
+          <td>0.056203</td>
+          <td>0.310586</td>
+          <td>0.022200</td>
+          <td>0.576002</td>
+          <td>1.000018</td>
+          <td>0.029565</td>
+          <td>0.000074</td>
+          <td>0.002507</td>
+          <td>0.007173</td>
+          <td>0.011205</td>
+          <td>0.050578</td>
+          <td>0.000170</td>
+          <td>1.000003</td>
+          <td>-0.000002</td>
+          <td>0.033316</td>
+          <td>0.068955</td>
+          <td>0.011456</td>
+          <td>0.009377</td>
+          <td>0.076122</td>
+        </tr>
+        <tr>
+          <th>52</th>
+          <td>2.423941</td>
+          <td>2.416746</td>
+          <td>0.002439</td>
+          <td>0.892098</td>
+          <td>1.733577</td>
+          <td>-2.160417</td>
+          <td>2.734927</td>
+          <td>-0.344948</td>
+          <td>1.0</td>
+          <td>0.004830</td>
+          <td>0.056174</td>
+          <td>0.307714</td>
+          <td>0.022193</td>
+          <td>0.577773</td>
+          <td>0.995984</td>
+          <td>0.029481</td>
+          <td>0.000074</td>
+          <td>0.002510</td>
+          <td>0.007231</td>
+          <td>0.011238</td>
+          <td>0.050621</td>
+          <td>1.995052</td>
+          <td>1.028522</td>
+          <td>0.000419</td>
+          <td>0.033207</td>
+          <td>0.069090</td>
+          <td>0.011485</td>
+          <td>0.009371</td>
+          <td>0.048278</td>
+        </tr>
+        <tr>
+          <th>61</th>
+          <td>2.614237</td>
+          <td>2.612816</td>
+          <td>0.246669</td>
+          <td>3.170182</td>
+          <td>-1.007332</td>
+          <td>1.395057</td>
+          <td>4.611126</td>
+          <td>-0.009006</td>
+          <td>1.0</td>
+          <td>0.004734</td>
+          <td>0.054022</td>
+          <td>0.307927</td>
+          <td>0.022271</td>
+          <td>0.488152</td>
+          <td>0.320214</td>
+          <td>0.029588</td>
+          <td>0.000074</td>
+          <td>0.002506</td>
+          <td>0.751820</td>
+          <td>0.751869</td>
+          <td>0.753484</td>
+          <td>1.576076</td>
+          <td>1.472051</td>
+          <td>0.028440</td>
+          <td>0.033670</td>
+          <td>2.257173</td>
+          <td>0.751873</td>
+          <td>0.713261</td>
+          <td>1.507008</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+
+
+.. code:: ipython3
+
+    # Sampling takes about 10 minutes for every minimum that is explored
+    df_mcmc_NO = MyModel_NO.mcmc_fit(df_NO_for_mcmc, mcmc_steps=20000, progress=False)
+    df_mcmc_NO = MyModel_NO.complete_fit(df_mcmc_NO)
+
+
+
+Inverted Ordering
+~~~~~~~~~~~~~~~~~
+
+.. code:: ipython3
+
+    # Selecting the minima which will be explored with MCMC.
+    # This still has to be done manually, in this case the distinct minima are:
+    df_IO_for_mcmc = df_IO.loc[[0, 6, 8, 18, 27, 35, 38, 41, 56, 66, 69, 74]]         # <--------- adjust this for your results!!
+    df_IO_for_mcmc
+
+
+
+
+.. raw:: html
+
+    <div>
+    <style scoped>
+        .dataframe tbody tr th:only-of-type {
+            vertical-align: middle;
+        }
+    
+        .dataframe tbody tr th {
+            vertical-align: top;
+        }
+    
+        .dataframe thead th {
+            text-align: left;
+        }
+    </style>
+    <table border="1" class="dataframe">
+      <thead>
+        <tr style="text-align: left;">
+          <th></th>
+          <th style="min-width: 120px;">chisq</th>
+          <th style="min-width: 120px;">chisq_dimless</th>
+          <th style="min-width: 90px;">Retau</th>
+          <th style="min-width: 90px;">Imtau</th>
+          <th style="min-width: 90px;">a2t</th>
+          <th style="min-width: 90px;">a3t</th>
+          <th style="min-width: 90px;">g2t</th>
+          <th style="min-width: 90px;">g3t</th>
+          <th>n_scale</th>
+          <th style="min-width: 90px;">me/mu</th>
+          <th style="min-width: 90px;">mu/mt</th>
+          <th style="min-width: 90px;">s12^2</th>
+          <th style="min-width: 90px;">s13^2</th>
+          <th style="min-width: 90px;">s23^2</th>
+          <th style="min-width: 50px;">d/pi</th>
+          <th style="min-width: 90px;">r</th>
+          <th style="min-width: 90px;">m21^2</th>
+          <th style="min-width: 90px;">m3l^2</th>
+          <th style="min-width: 90px;">m1</th>
+          <th style="min-width: 90px;">m2</th>
+          <th style="min-width: 90px;">m3</th>
+          <th>eta1</th>
+          <th>eta2</th>
+          <th style="min-width: 120px;">J</th>
+          <th style="min-width: 90px;">Jmax</th>
+          <th style="min-width: 90px;">Sum(m_i)</th>
+          <th style="min-width: 90px;">m_b</th>
+          <th style="min-width: 90px;">m_bb</th>
+          <th style="min-width: 90px;">nscale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>0</th>
+          <td>0.002987</td>
+          <td>0.000443</td>
+          <td>0.468330</td>
+          <td>1.742981</td>
+          <td>2.092636</td>
+          <td>2.630521</td>
+          <td>1.918893</td>
+          <td>6.552312</td>
+          <td>1.0</td>
+          <td>0.004799</td>
+          <td>0.056543</td>
+          <td>0.309623</td>
+          <td>0.022249</td>
+          <td>0.569998</td>
+          <td>0.699973</td>
+          <td>-0.029813</td>
+          <td>0.000074</td>
+          <td>-0.002486</td>
+          <td>0.049152</td>
+          <td>0.049900</td>
+          <td>0.002066</td>
+          <td>0.163506</td>
+          <td>0.081986</td>
+          <td>0.027009</td>
+          <td>0.033383</td>
+          <td>0.101119</td>
+          <td>0.049847</td>
+          <td>0.046958</td>
+          <td>0.101288</td>
+        </tr>
+        <tr>
+          <th>6</th>
+          <td>0.003497</td>
+          <td>0.000477</td>
+          <td>-0.029190</td>
+          <td>1.584797</td>
+          <td>1.737999</td>
+          <td>-2.762588</td>
+          <td>0.465947</td>
+          <td>-1.232394</td>
+          <td>1.0</td>
+          <td>0.004801</td>
+          <td>0.056502</td>
+          <td>0.305000</td>
+          <td>0.022199</td>
+          <td>0.570003</td>
+          <td>1.228115</td>
+          <td>-0.029809</td>
+          <td>0.000074</td>
+          <td>-0.002486</td>
+          <td>0.052730</td>
+          <td>0.053428</td>
+          <td>0.019201</td>
+          <td>1.792189</td>
+          <td>1.722532</td>
+          <td>-0.021812</td>
+          <td>0.033207</td>
+          <td>0.125360</td>
+          <td>0.053383</td>
+          <td>0.051144</td>
+          <td>0.235015</td>
+        </tr>
+        <tr>
+          <th>8</th>
+          <td>0.003782</td>
+          <td>0.001026</td>
+          <td>0.479808</td>
+          <td>1.470542</td>
+          <td>1.736095</td>
+          <td>2.758823</td>
+          <td>0.174569</td>
+          <td>-1.942831</td>
+          <td>1.0</td>
+          <td>0.004799</td>
+          <td>0.056518</td>
+          <td>0.305000</td>
+          <td>0.022206</td>
+          <td>0.570000</td>
+          <td>0.657815</td>
+          <td>-0.029811</td>
+          <td>0.000074</td>
+          <td>-0.002486</td>
+          <td>0.049886</td>
+          <td>0.050623</td>
+          <td>0.008770</td>
+          <td>1.375079</td>
+          <td>0.373617</td>
+          <td>0.029213</td>
+          <td>0.033212</td>
+          <td>0.109279</td>
+          <td>0.050576</td>
+          <td>0.049188</td>
+          <td>0.190790</td>
+        </tr>
+        <tr>
+          <th>18</th>
+          <td>0.004035</td>
+          <td>0.000005</td>
+          <td>-0.480438</td>
+          <td>1.519803</td>
+          <td>1.736815</td>
+          <td>2.759106</td>
+          <td>2.100161</td>
+          <td>5.556761</td>
+          <td>1.0</td>
+          <td>0.004800</td>
+          <td>0.056493</td>
+          <td>0.309623</td>
+          <td>0.022249</td>
+          <td>0.570000</td>
+          <td>0.246101</td>
+          <td>-0.029797</td>
+          <td>0.000074</td>
+          <td>-0.002486</td>
+          <td>0.049632</td>
+          <td>0.050373</td>
+          <td>0.007141</td>
+          <td>1.841288</td>
+          <td>0.846685</td>
+          <td>0.023314</td>
+          <td>0.033382</td>
+          <td>0.107146</td>
+          <td>0.050320</td>
+          <td>0.048881</td>
+          <td>0.088387</td>
+        </tr>
+        <tr>
+          <th>27</th>
+          <td>0.005189</td>
+          <td>0.002140</td>
+          <td>-0.026553</td>
+          <td>1.833640</td>
+          <td>2.095131</td>
+          <td>2.636730</td>
+          <td>1.176942</td>
+          <td>5.322656</td>
+          <td>1.0</td>
+          <td>0.004799</td>
+          <td>0.056498</td>
+          <td>0.309623</td>
+          <td>0.022248</td>
+          <td>0.569882</td>
+          <td>0.295708</td>
+          <td>-0.029809</td>
+          <td>0.000074</td>
+          <td>-0.002486</td>
+          <td>0.049303</td>
+          <td>0.050049</td>
+          <td>0.004361</td>
+          <td>1.619764</td>
+          <td>0.765459</td>
+          <td>0.026740</td>
+          <td>0.033383</td>
+          <td>0.103713</td>
+          <td>0.049996</td>
+          <td>0.044273</td>
+          <td>0.136882</td>
+        </tr>
+        <tr>
+          <th>35</th>
+          <td>0.018135</td>
+          <td>0.014002</td>
+          <td>-0.000370</td>
+          <td>2.048506</td>
+          <td>1.491709</td>
+          <td>2.372927</td>
+          <td>1.202105</td>
+          <td>8.054844</td>
+          <td>1.0</td>
+          <td>0.004799</td>
+          <td>0.056481</td>
+          <td>0.309623</td>
+          <td>0.022249</td>
+          <td>0.566847</td>
+          <td>0.002419</td>
+          <td>-0.029789</td>
+          <td>0.000074</td>
+          <td>-0.002487</td>
+          <td>0.049235</td>
+          <td>0.049981</td>
+          <td>0.003374</td>
+          <td>1.996806</td>
+          <td>0.997704</td>
+          <td>0.000254</td>
+          <td>0.033412</td>
+          <td>0.102590</td>
+          <td>0.049928</td>
+          <td>0.048440</td>
+          <td>0.131178</td>
+        </tr>
+        <tr>
+          <th>38</th>
+          <td>0.065400</td>
+          <td>0.064381</td>
+          <td>-0.469188</td>
+          <td>1.741474</td>
+          <td>2.087173</td>
+          <td>2.627730</td>
+          <td>1.920522</td>
+          <td>6.470264</td>
+          <td>1.0</td>
+          <td>0.004811</td>
+          <td>0.055782</td>
+          <td>0.304563</td>
+          <td>0.022184</td>
+          <td>0.564893</td>
+          <td>0.703872</td>
+          <td>-0.029853</td>
+          <td>0.000074</td>
+          <td>-0.002484</td>
+          <td>0.049129</td>
+          <td>0.049878</td>
+          <td>0.001944</td>
+          <td>0.151895</td>
+          <td>0.071217</td>
+          <td>0.026644</td>
+          <td>0.033229</td>
+          <td>0.100952</td>
+          <td>0.049831</td>
+          <td>0.046973</td>
+          <td>0.101813</td>
+        </tr>
+        <tr>
+          <th>41</th>
+          <td>0.315446</td>
+          <td>0.294528</td>
+          <td>0.028710</td>
+          <td>1.582487</td>
+          <td>1.737763</td>
+          <td>-2.754625</td>
+          <td>0.470504</td>
+          <td>-1.252939</td>
+          <td>1.0</td>
+          <td>0.004771</td>
+          <td>0.055153</td>
+          <td>0.303101</td>
+          <td>0.022290</td>
+          <td>0.563452</td>
+          <td>0.772167</td>
+          <td>-0.029952</td>
+          <td>0.000074</td>
+          <td>-0.002480</td>
+          <td>0.052532</td>
+          <td>0.053234</td>
+          <td>0.018813</td>
+          <td>0.208438</td>
+          <td>0.274170</td>
+          <td>0.021833</td>
+          <td>0.033273</td>
+          <td>0.124579</td>
+          <td>0.053190</td>
+          <td>0.051059</td>
+          <td>0.232995</td>
+        </tr>
+        <tr>
+          <th>56</th>
+          <td>0.600770</td>
+          <td>0.601285</td>
+          <td>0.128321</td>
+          <td>0.987892</td>
+          <td>1.449173</td>
+          <td>2.314813</td>
+          <td>5.107434</td>
+          <td>9.910349</td>
+          <td>1.0</td>
+          <td>0.004800</td>
+          <td>0.055444</td>
+          <td>0.309623</td>
+          <td>0.022066</td>
+          <td>0.451725</td>
+          <td>0.469631</td>
+          <td>-0.029829</td>
+          <td>0.000074</td>
+          <td>-0.002485</td>
+          <td>0.086278</td>
+          <td>0.086706</td>
+          <td>0.070943</td>
+          <td>1.503596</td>
+          <td>1.482786</td>
+          <td>0.033273</td>
+          <td>0.033425</td>
+          <td>0.243927</td>
+          <td>0.086679</td>
+          <td>0.085881</td>
+          <td>0.042222</td>
+        </tr>
+        <tr>
+          <th>66</th>
+          <td>2.730728</td>
+          <td>2.729943</td>
+          <td>-0.493160</td>
+          <td>0.895238</td>
+          <td>-3.392838</td>
+          <td>0.038645</td>
+          <td>-2.779198</td>
+          <td>-8.177446</td>
+          <td>1.0</td>
+          <td>0.004804</td>
+          <td>0.056966</td>
+          <td>0.309625</td>
+          <td>0.022250</td>
+          <td>0.501194</td>
+          <td>1.666261</td>
+          <td>-0.029756</td>
+          <td>0.000074</td>
+          <td>-0.002488</td>
+          <td>0.155547</td>
+          <td>0.155785</td>
+          <td>0.147583</td>
+          <td>0.793154</td>
+          <td>0.494171</td>
+          <td>-0.029219</td>
+          <td>0.033715</td>
+          <td>0.458915</td>
+          <td>0.155768</td>
+          <td>0.098778</td>
+          <td>0.081623</td>
+        </tr>
+        <tr>
+          <th>69</th>
+          <td>2.770719</td>
+          <td>2.767333</td>
+          <td>0.487255</td>
+          <td>0.892831</td>
+          <td>-3.521706</td>
+          <td>-0.033377</td>
+          <td>-2.111703</td>
+          <td>-6.230592</td>
+          <td>1.0</td>
+          <td>0.004800</td>
+          <td>0.056484</td>
+          <td>0.305000</td>
+          <td>0.022249</td>
+          <td>0.503370</td>
+          <td>0.207863</td>
+          <td>-0.029806</td>
+          <td>0.000074</td>
+          <td>-0.002486</td>
+          <td>0.151281</td>
+          <td>0.151526</td>
+          <td>0.143087</td>
+          <td>0.889984</td>
+          <td>0.380356</td>
+          <td>0.020398</td>
+          <td>0.033573</td>
+          <td>0.445894</td>
+          <td>0.151509</td>
+          <td>0.060304</td>
+          <td>0.103553</td>
+        </tr>
+        <tr>
+          <th>74</th>
+          <td>4.292325</td>
+          <td>4.288877</td>
+          <td>-0.496938</td>
+          <td>0.910149</td>
+          <td>2.071179</td>
+          <td>-2.610895</td>
+          <td>-1.254777</td>
+          <td>-3.837758</td>
+          <td>1.0</td>
+          <td>0.004804</td>
+          <td>0.061117</td>
+          <td>0.304999</td>
+          <td>0.022501</td>
+          <td>0.428979</td>
+          <td>1.501533</td>
+          <td>-0.029805</td>
+          <td>0.000074</td>
+          <td>-0.002486</td>
+          <td>0.112664</td>
+          <td>0.112993</td>
+          <td>0.101397</td>
+          <td>0.817087</td>
+          <td>1.224849</td>
+          <td>-0.033412</td>
+          <td>0.033412</td>
+          <td>0.327054</td>
+          <td>0.112968</td>
+          <td>0.050149</td>
+          <td>0.128636</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+
+
+.. code:: ipython3
+
+    # Sampling takes about 10 minutes for every minimum that is explored
+    df_mcmc_IO = MyModel_IO.mcmc_fit(df_IO_for_mcmc, mcmc_steps=20000, progress=False)
+    df_mcmc_IO = MyModel_IO.complete_fit(df_mcmc_IO)
+
+Plotting the results
+--------------------
+
+Normal Ordering
+~~~~~~~~~~~~~~~
+
+Moduli space
+^^^^^^^^^^^^
+
+Let us take a look on how the points are distributed over the
+modulispace, see also figure 2 of the paper
+
+.. code:: ipython3
+
+    # Some more advanced plots
+    import matplotlib.pyplot as plt
+    
+    
+    def RetauImtauplot(df, gridsize=200, cmap='ocean', extent=None, sizefactor=1.5, fontsize=22,
+                       colorbar=True, axlines=True, 
+                       zoom_in=False, zoom_in_loc=[1.15, 0, 1., 1.], zoom_in_extent=[-0.22, 0.22, 2.95, 3.45], 
+                       zoom_in_gridsize=500):
+        
+        plt.rcParams.update({'font.size': fontsize})
+        
+        fig, ax = plt.subplots(figsize=(sizefactor*6.18,sizefactor*3.82))
+        
+        im = ax.hexbin(df['Retau'], df['Imtau'], C=df['chisq'], reduce_C_function=np.min,
+                       gridsize=gridsize, cmap=cmap, extent=extent, vmin=0, vmax=25)
+        if not extent==None:
+            ax.set(xlim=(extent[0], extent[1]), ylim=(extent[2], extent[3]))
+        ax.set_xlabel(r'$\mathrm{Re}~ \tau $');
+        ax.set_ylabel(r'$\mathrm{Im}~ \tau $');
+        
+        ax.set_aspect(abs((extent[1]-extent[0])/(extent[3]-extent[2]))*(3.82/6.18))
+        
+        if axlines==True:
+            ax.axvline(0, color='lightgray', lw=1, zorder=0);
+            ax.axvline(0.5, color='lightgray', lw=1, zorder=0);
+            ax.axvline(-0.5, color='lightgray', lw=1, zorder=0);
+        
+            ax.add_patch(plt.Circle((0,0), radius=1, facecolor='lightgray', edgecolor='lightgray'));
+            
+            ax.axvspan(0.5,10, facecolor='lightgray');
+            ax.axvspan(-0.5,-10, facecolor='lightgray');
+            
+        if zoom_in==True:
+            axins = ax.inset_axes(zoom_in_loc)
+            axins.add_patch(plt.Circle((0,0), radius=1, facecolor='gray', edgecolor='gray', alpha=0.35));
+            axins.hexbin(df['Retau'], df['Imtau'], C=df['chisq'], reduce_C_function=np.min,
+                   gridsize=zoom_in_gridsize, cmap=cmap, extent=zoom_in_extent, vmin=0, vmax=25)
+            axins.axvline(0, color='lightgray', lw=1, zorder=0);
+            
+            # sub region of the original image
+            [x1, x2, y1, y2] = zoom_in_extent
+            axins.set_xlim(x1, x2)
+            axins.set_ylim(y1, y2)
+            axins.set_xlabel(r'$\mathrm{Re}~ \tau$');
+        
+            ax.indicate_inset_zoom(axins, edgecolor="black")
+            
+            axins.set_aspect(abs((zoom_in_extent[1]-zoom_in_extent[0])/(zoom_in_extent[3]-zoom_in_extent[2]))*(3.82/6.18))
+        
+        if colorbar==True:
+            cax = fig.add_axes([0.62, -0.1, 0.6, 0.05])
+            fig.colorbar(im, cax=cax, orientation='horizontal').set_label(r'$\chi^2$', rotation=0);#, labelpad=10);
+
+.. code:: ipython3
+
+    plotargs = {'cmap':mf.flavorpy_cmap(),  'gridsize':400, 
+                'zoom_in':True, 'zoom_in_gridsize':800, 'zoom_in_extent':[-0.13, 0.13, 0.85, 1.22]}
+    RetauImtauplot(df_mcmc_NO, extent=[-0.55,0.55,0.5,3.5], **plotargs)
+
+
+
+.. image:: arxiv2006dot03058_NO_modulispace.png
+
+
+s23^2 - d/pi
+^^^^^^^^^^^^
+
+Let us try to reproduce the first panel of figure 3 of the paper
+
+.. code:: ipython3
+
+    ax = mf.plot(df_mcmc_NO, x='d/pi', y='s23^2', show_exp='2dim', gridsize=400, vmin=0, vmax=25);
+    ax.set_xlim(0, 2);
+
+
+
+.. image:: arxiv2006dot03058_NO_s23_dpi.png
+
+
+Retau - d/pi
+^^^^^^^^^^^^
+
+Let us see whether we can reproduce the left panel of figure 5 of the
+paper:
+
+.. code:: ipython3
+
+    ax = mf.plot(df_mcmc_NO, x='Retau', y='d/pi', gridsize=400, vmin=0, vmax=25);
+    ax.set_xlim(-0.5, 0.5);
+
+
+
+.. image:: arxiv2006dot03058_NO_Retau_dpi.png
+
+
+Inverted Ordering
+~~~~~~~~~~~~~~~~~
+
+Moduli space
+^^^^^^^^^^^^
+
+Let us take a look on how the points are distributed over the
+modulispace, see also figure 2 of the paper
+
+.. code:: ipython3
+
+    plotargs = {'cmap':mf.flavorpy_cmap(),  'gridsize':400, 
+                'zoom_in':True, 'zoom_in_gridsize':300, 'zoom_in_extent':[-0.05, 0.05, 1.48, 1.72]}
+    RetauImtauplot(df_mcmc_IO, extent=[-0.55,0.55,0.5,3.5], **plotargs)
+
+
+
+.. image:: arxiv2006dot03058_IO_modulispace.png
+
+
+Appart from many additional viable regions, also the shape of the minima
+reported in the paper look a bit different here due to the more recent
+experimental data.
+
+s23^2 - d/pi
+^^^^^^^^^^^^
+
+Let us try to reproduce the first panel of figure 4 of the paper
+
+.. code:: ipython3
+
+    ax = mf.plot(df_mcmc_IO, x='d/pi', y='s23^2', show_exp='2dim', gridsize=400, vmin=0, vmax=25);
+    ax.set_xlim(0, 2);
+
+
+
+.. image:: arxiv2006dot03058_IO_s23_dpi.png
+
+
+Retau - d/pi
+^^^^^^^^^^^^
+
+Let us see whether we can reproduce the right panel of figure 5 of the
+paper:
+
+.. code:: ipython3
+
+    mf.plot(df_mcmc_IO, x='Retau', y='d/pi', gridsize=300, vmin=0, vmax=25);
+
+
+
+.. image:: arxiv2006dot03058_IO_Retau_dpi.png
+
+
+Conclusion
+----------
+
+We were able to reproduce the results of the Weinberg Operator Model of
+the paper with around 30 minutes of computation time on a conventional
+desktop machine. Further investing some 3-4 hours of computation time,
+we could also find and explore additional experimentally viable regions in
+the parameterspace of this model.

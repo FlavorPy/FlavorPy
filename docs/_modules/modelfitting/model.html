@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>modelfitting.model &#8212; FlavorPy 1.0 documentation</title>
+    <title>modelfitting.model &#8212; FlavorPy 0.2.0 documentation</title>
   
   
   
@@ -103,7 +103,7 @@
   
   
   
-    <p class="title logo__title">FlavorPy 1.0 documentation</p>
+    <p class="title logo__title">FlavorPy 0.2.0 documentation</p>
   
 </a></div>
     
@@ -173,6 +173,22 @@ document.write(`
   </button>
 `);
 </script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/flavorpy/flavorpy" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
       
     </div>
     
@@ -256,6 +272,22 @@ document.write(`
 `);
 </script></div>
         
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/flavorpy/flavorpy" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+        
       </div>
     
   </div>
@@ -315,33 +347,32 @@ document.write(`
   <h1>Source code for modelfitting.model</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">.experimental_data.NuFit52.nufit52_chisqprofiles</span> <span class="kn">import</span> <span class="n">NuFit52_NO</span>
-<span class="kn">from</span> <span class="nn">.parameterspace</span> <span class="kn">import</span> <span class="n">ParameterSpace</span>
-<span class="kn">from</span> <span class="nn">.mixingcalculations</span> <span class="kn">import</span> <span class="n">calculate_lepton_dimensionless_observables</span><span class="p">,</span> <span class="n">calculate_lepton_observables</span>
-<span class="kn">from</span> <span class="nn">.fit</span> <span class="kn">import</span> <span class="n">Fit</span>
 <span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">from</span> <span class="nn">.experimental_data.NuFit53.nufit53_chisqprofiles</span> <span class="kn">import</span> <span class="n">NuFit53_NO</span>
+<span class="kn">from</span> <span class="nn">.parameterspace</span> <span class="kn">import</span> <span class="n">ParameterSpace</span>
+<span class="kn">from</span> <span class="nn">.mixingcalculations</span> <span class="kn">import</span> <span class="p">(</span><span class="n">calculate_lepton_dimensionless_observables</span><span class="p">,</span> <span class="n">calculate_lepton_observables</span><span class="p">,</span>
+                                 <span class="n">calculate_quark_observables</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.fit</span> <span class="kn">import</span> <span class="n">Fit</span><span class="p">,</span> <span class="n">LmfitMinimizer</span>
 
 
-<div class="viewcode-block" id="FlavorPyError"><a class="viewcode-back" href="../../modelfitting.html#modelfitting.model.FlavorPyError">[docs]</a><span class="k">class</span> <span class="nc">FlavorPyError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-    <span class="c1"># Raises an Exception</span>
-    <span class="k">pass</span></div>
-
-
-<div class="viewcode-block" id="LeptonModel"><a class="viewcode-back" href="../../modelfitting.html#modelfitting.model.LeptonModel">[docs]</a><span class="k">class</span> <span class="nc">LeptonModel</span><span class="p">:</span>
+<div class="viewcode-block" id="FlavorModel"><a class="viewcode-back" href="../../modelfitting.html#modelfitting.model.FlavorModel">[docs]</a><span class="k">class</span> <span class="nc">FlavorModel</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A model of leptons with its mass matrices, parameters, ordering, and experimental data.</span>
+<span class="sd">    A flavor model with its mass matrices, parameters, ordering, and experimental data. It can be a model of only</span>
+<span class="sd">    leptons, only quarks, or a model of both lepton and quark sector, depending on which mass matrices you enter.</span>
+<span class="sd">    If you enter e.g. only mass_matrix_n, then it will be a lepton model only lepton observables will be considered.</span>
+<span class="sd">    The information on the sector of the model is stored in FlavorModel.sector.</span>
 
 <span class="sd">    :param mass_matrix_e: The charged lepton mass matrix M, for Phi_left M Phi_right.</span>
 <span class="sd">        This should be a function with one argument, namely a dictionary of parameters and the corresponding value.</span>
 <span class="sd">        Example::</span>
-<span class="sd">            </span>
+
 <span class="sd">            def m_e(params):</span>
 <span class="sd">                return params[&#39;c&#39;] * numpy.identity(3)</span>
-<span class="sd">            M = LeptonModel(mass_matrix_e=m_e, ...)</span>
-<span class="sd">        </span>
+<span class="sd">            M = FlavorModel(mass_matrix_e=m_e, ...)</span>
+
 <span class="sd">        Default is a function that returns \&#39;numpy.identity(3)\&#39;.</span>
-<span class="sd">        The program in its current state only gives the dimensionless mass ratios m_e/m_mu and m_mu/m_tau. </span>
-<span class="sd">        For fitting, it is advisable to only use dimensionless parameters and simply ignore the overall mass scale, </span>
+<span class="sd">        The program in its current state only gives the dimensionless mass ratios m_e/m_mu and m_mu/m_tau.</span>
+<span class="sd">        For fitting, it is advisable to only use dimensionless parameters and simply ignore the overall mass scale,</span>
 <span class="sd">        as it would only confuse the fit with an additional unnecessary parameter.</span>
 <span class="sd">        The convention Phi_left M Phi_right is used, where left and right indicates left- and right-handed chiral</span>
 <span class="sd">        fields, respectively. I.e. L_i^c M_ij e_j, where L refers to the left-handed lepton doublet and e is the</span>
@@ -356,6 +387,14 @@ document.write(`
 <span class="sd">        name \&#39;n_scale\&#39;, i.e. mass_matrix_n = params[\&#39;n_scale\&#39;]*dimensionless_mass_matrix(params). Otherwise, the</span>
 <span class="sd">        program will add a parameter \&#39;n_scale\&#39; itself to the ParameterSpace and mass_matrix_n.</span>
 <span class="sd">    :type mass_matrix_n: function</span>
+<span class="sd">    :param mass_matrix_u: The up-type mass matrix M, for Phi_left M Phi_right.</span>
+<span class="sd">        Should be a function with one argument, namely a dictionary of parameters.</span>
+<span class="sd">        Default is a function that returns \&#39;numpy.identity(3)\&#39;.</span>
+<span class="sd">    :type mass_matrix_u: function</span>
+<span class="sd">    :param mass_matrix_d: The up-type mass matrix M, for Phi_left M Phi_right.</span>
+<span class="sd">        Should be a function with one argument, namely a dictionary of parameters.</span>
+<span class="sd">        Default is a function that returns \&#39;numpy.identity(3)\&#39;.</span>
+<span class="sd">    :type mass_matrix_d: function</span>
 <span class="sd">    :param parameterspace: The parameterspace of the model. See documentation of \&#39;ParameterSpace\&#39;.</span>
 <span class="sd">        Default is an empty parameter space.</span>
 <span class="sd">    :type parameterspace: :py:meth:`~modelfitting.parameterspace.ParameterSpace`</span>
@@ -363,41 +402,87 @@ document.write(`
 <span class="sd">        or \&#39;IO\&#39;.</span>
 <span class="sd">        Default is \&#39;NO\&#39;.</span>
 <span class="sd">    :type ordering: str</span>
-<span class="sd">    :param experimental_data: The experimental data used when fitting the model.</span>
-<span class="sd">        For more information on the structure please confer the documentation of the \&#39;ExperimentalData\&#39; class.</span>
-<span class="sd">        The default is \&#39;NuFit52_NO\&#39;, i.e. the data of NuFit v5.2 for Normal Ordering taking into account results</span>
-<span class="sd">        of SK. Please consider citing NuFit (www.nu-fit.org) when using this data.</span>
+<span class="sd">    :param ckm_parameterization: The parameterization used for the CKM matrix. Either &#39;standard&#39; for the `standard</span>
+<span class="sd">        &lt;https://en.wikipedia.org/wiki/Cabibbo%E2%80%93Kobayashi%E2%80%93Maskawa_matrix#%22Standard%22_parameters&gt;`_</span>
+<span class="sd">        and PDG convention or &#39;wolfenstein&#39; for the `Wolfenstein  parameterization</span>
+<span class="sd">        &lt;https://en.wikipedia.org/wiki/Cabibbo%E2%80%93Kobayashi%E2%80%93Maskawa_matrix#Wolfenstein_parameters&gt;`_.</span>
+<span class="sd">    :type ckm_parameterization: str, either &#39;standard&#39; or &#39;wolfenstein&#39;.</span>
+<span class="sd">    :param experimental_data: The experimental data used when fitting the model. For more information on the structure</span>
+<span class="sd">        please confer the documentation of :py:meth:`~modelfitting.experimentaldata.ExperimentalData`.</span>
+<span class="sd">        The default is \&#39;NuFit53_NO\&#39;, i.e. the data of `NuFit v5.3 &lt;http://www.nu-fit.org/?q=node/278&gt;`_ for Normal</span>
+<span class="sd">        Ordering taking into account results of SK. Please consider citing NuFit (www.nu-fit.org) when using this data.</span>
 <span class="sd">    :type experimental_data: :py:meth:`~modelfitting.experimentaldata.ExperimentalData`</span>
 <span class="sd">    :param fitted_observables:  A list of the observables that is considered when calculating chi-square and,</span>
-<span class="sd">        hence, when making the fit.</span>
-<span class="sd">        Default is \&#39;[&#39;me/mu&#39;, &#39;mu/mt&#39;, &#39;s12^2&#39;, &#39;s13^2&#39;, &#39;s23^2&#39;, &#39;d/pi&#39;, &#39;m21^2&#39;, &#39;m3l^2&#39;]\&#39;.</span>
+<span class="sd">        hence, when making the fit. Possible entries are: &#39;me/mu&#39;, &#39;mu/mt&#39;, &#39;s12^2&#39;, &#39;s13^2&#39;, &#39;s23^2&#39;, &#39;d/pi&#39;,</span>
+<span class="sd">        &#39;m21^2&#39;, &#39;m3l^2&#39;, &#39;mu/mc&#39;, &#39;mc/mt&#39;, &#39;md/ms&#39;, &#39;ms/mb&#39;, &#39;t12&#39;, &#39;t13&#39;, &#39;t23&#39;, &#39;dq&#39;, &#39;l&#39;, &#39;A&#39;, &#39;rhobar&#39;, &#39;etabar&#39;.</span>
+<span class="sd">        Default are all observables of the modeled sector, i.e. all lepton and/or quark observables.</span>
 <span class="sd">    :type fitted_observables: list, optional</span>
 <span class="sd">    :param name: If you want, you can give the model a name. This name will be used as __repr__.</span>
 <span class="sd">    :type name: str, optional</span>
 <span class="sd">    :param comments: If you want, you can write some comments here.</span>
 <span class="sd">    :type comments: str, optional</span>
-<span class="sd">    :param fit_results: It is possible to store the results of make_fits() in this list. It is of course also</span>
-<span class="sd">        possible to load the results from an external calculation into this list.</span>
+<span class="sd">    :param fit_results: A list where you can store the results of :py:meth:`~modelfitting.model.FlavorModel.make_fit`.</span>
+<span class="sd">        It is of course also possible to load the results from an external calculation into this list.</span>
 <span class="sd">    :type fit_results: list, optional</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mass_matrix_e</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mass_matrix_n</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parameterspace</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">ordering</span><span class="o">=</span><span class="s1">&#39;NO&#39;</span><span class="p">,</span> <span class="n">experimental_data</span><span class="o">=</span><span class="n">NuFit52_NO</span><span class="p">,</span> <span class="n">fitted_observables</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">,</span>
-                 <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Lepton Model&#39;</span><span class="p">,</span> <span class="n">comments</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">fit_results</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mass_matrix_e</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mass_matrix_n</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">mass_matrix_u</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mass_matrix_d</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">parameterspace</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">ordering</span><span class="o">=</span><span class="s1">&#39;NO&#39;</span><span class="p">,</span> <span class="n">ckm_parameterization</span><span class="o">=</span><span class="s1">&#39;standard&#39;</span><span class="p">,</span>
+                 <span class="n">experimental_data</span><span class="o">=</span><span class="n">NuFit53_NO</span><span class="p">,</span> <span class="n">fitted_observables</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">,</span>
+                 <span class="n">name</span><span class="o">=</span><span class="s1">&#39;FlavorModel&#39;</span><span class="p">,</span> <span class="n">comments</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">fit_results</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
+        <span class="c1"># Determine which sector this model represents</span>
+        <span class="k">if</span> <span class="n">mass_matrix_e</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">mass_matrix_n</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">mass_matrix_u</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">mass_matrix_d</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">sector</span> <span class="o">=</span> <span class="s1">&#39;lepton&#39;</span>   <span class="c1"># or maybe raise an error that says please define at least one of the mass matrices</span>
+        <span class="k">elif</span> <span class="n">mass_matrix_u</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">mass_matrix_d</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">sector</span> <span class="o">=</span> <span class="s1">&#39;lepton&#39;</span>
+        <span class="k">elif</span> <span class="n">mass_matrix_e</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">mass_matrix_n</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">sector</span> <span class="o">=</span> <span class="s1">&#39;quark&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sector</span> <span class="o">=</span> <span class="s1">&#39;quark and lepton&#39;</span>
+
+        <span class="c1"># Replace all not defined mass matrices with an identity matrix</span>
         <span class="k">def</span> <span class="nf">triv_mat</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">mass_matrix_e</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">mass_matrix_e</span> <span class="o">=</span> <span class="n">triv_mat</span>
         <span class="k">if</span> <span class="n">mass_matrix_n</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">mass_matrix_n</span> <span class="o">=</span> <span class="n">triv_mat</span>
+        <span class="k">if</span> <span class="n">mass_matrix_u</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">mass_matrix_u</span> <span class="o">=</span> <span class="n">triv_mat</span>
+        <span class="k">if</span> <span class="n">mass_matrix_d</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">mass_matrix_d</span> <span class="o">=</span> <span class="n">triv_mat</span>
+
+        <span class="c1"># Check if the arguments entered are valid</span>
+        <span class="k">if</span> <span class="n">ckm_parameterization</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;standard&#39;</span><span class="p">,</span> <span class="s1">&#39;wolfenstein&#39;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;The value of </span><span class="se">\&#39;</span><span class="s1">parameterization</span><span class="se">\&#39;</span><span class="s1"> has to be either </span>
+<span class="s1">                                      </span><span class="se">\&#39;</span><span class="s1">wolfenstein</span><span class="se">\&#39;</span><span class="s1"> or </span><span class="se">\&#39;</span><span class="s1">standard</span><span class="se">\&#39;</span><span class="s1">.&#39;&#39;&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ordering</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;NO&#39;</span><span class="p">,</span> <span class="s1">&#39;IO&#39;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;The value of </span><span class="se">\&#39;</span><span class="s1">ordering</span><span class="se">\&#39;</span><span class="s1"> has to be either </span><span class="se">\&#39;</span><span class="s1">NO</span><span class="se">\&#39;</span><span class="s1"> or </span><span class="se">\&#39;</span><span class="s1">IO</span><span class="se">\&#39;</span><span class="s1">.&#39;&#39;&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Assign default values</span>
         <span class="k">if</span> <span class="n">parameterspace</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">parameterspace</span> <span class="o">=</span> <span class="n">ParameterSpace</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">fitted_observables</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="s1">&#39;full&#39;</span><span class="p">,</span> <span class="s1">&#39;everything&#39;</span><span class="p">]:</span>
-            <span class="n">fitted_observables</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;me/mu&#39;</span><span class="p">,</span> <span class="s1">&#39;mu/mt&#39;</span><span class="p">,</span> <span class="s1">&#39;s12^2&#39;</span><span class="p">,</span> <span class="s1">&#39;s13^2&#39;</span><span class="p">,</span> <span class="s1">&#39;s23^2&#39;</span><span class="p">,</span> <span class="s1">&#39;d/pi&#39;</span><span class="p">,</span> <span class="s1">&#39;m21^2&#39;</span><span class="p">,</span> <span class="s1">&#39;m3l^2&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">sector</span> <span class="o">==</span> <span class="s1">&#39;lepton&#39;</span><span class="p">:</span>
+                <span class="n">fitted_observables</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;me/mu&#39;</span><span class="p">,</span> <span class="s1">&#39;mu/mt&#39;</span><span class="p">,</span> <span class="s1">&#39;s12^2&#39;</span><span class="p">,</span> <span class="s1">&#39;s13^2&#39;</span><span class="p">,</span> <span class="s1">&#39;s23^2&#39;</span><span class="p">,</span> <span class="s1">&#39;d/pi&#39;</span><span class="p">,</span> <span class="s1">&#39;m21^2&#39;</span><span class="p">,</span> <span class="s1">&#39;m3l^2&#39;</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">sector</span> <span class="o">==</span> <span class="s1">&#39;quark&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">ckm_parameterization</span> <span class="o">==</span> <span class="s1">&#39;standard&#39;</span><span class="p">:</span>
+                    <span class="n">fitted_observables</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;mu/mc&#39;</span><span class="p">,</span> <span class="s1">&#39;mc/mt&#39;</span><span class="p">,</span> <span class="s1">&#39;md/ms&#39;</span><span class="p">,</span> <span class="s1">&#39;ms/mb&#39;</span><span class="p">,</span> <span class="s1">&#39;t12&#39;</span><span class="p">,</span> <span class="s1">&#39;t13&#39;</span><span class="p">,</span> <span class="s1">&#39;t23&#39;</span><span class="p">,</span> <span class="s1">&#39;dq&#39;</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="n">ckm_parameterization</span> <span class="o">==</span> <span class="s1">&#39;wolfenstein&#39;</span><span class="p">:</span>
+                    <span class="n">fitted_observables</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;mu/mc&#39;</span><span class="p">,</span> <span class="s1">&#39;mc/mt&#39;</span><span class="p">,</span> <span class="s1">&#39;md/ms&#39;</span><span class="p">,</span> <span class="s1">&#39;ms/mb&#39;</span><span class="p">,</span> <span class="s1">&#39;l&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;rhobar&#39;</span><span class="p">,</span> <span class="s1">&#39;etabar&#39;</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">sector</span> <span class="o">==</span> <span class="s1">&#39;quark and lepton&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">ckm_parameterization</span> <span class="o">==</span> <span class="s1">&#39;standard&#39;</span><span class="p">:</span>
+                    <span class="n">fitted_observables</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;me/mu&#39;</span><span class="p">,</span> <span class="s1">&#39;mu/mt&#39;</span><span class="p">,</span> <span class="s1">&#39;s12^2&#39;</span><span class="p">,</span> <span class="s1">&#39;s13^2&#39;</span><span class="p">,</span> <span class="s1">&#39;s23^2&#39;</span><span class="p">,</span> <span class="s1">&#39;d/pi&#39;</span><span class="p">,</span> <span class="s1">&#39;m21^2&#39;</span><span class="p">,</span> <span class="s1">&#39;m3l^2&#39;</span><span class="p">,</span>
+                                          <span class="s1">&#39;mu/mc&#39;</span><span class="p">,</span> <span class="s1">&#39;mc/mt&#39;</span><span class="p">,</span> <span class="s1">&#39;md/ms&#39;</span><span class="p">,</span> <span class="s1">&#39;ms/mb&#39;</span><span class="p">,</span> <span class="s1">&#39;t12&#39;</span><span class="p">,</span> <span class="s1">&#39;t13&#39;</span><span class="p">,</span> <span class="s1">&#39;t23&#39;</span><span class="p">,</span> <span class="s1">&#39;dq&#39;</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="n">ckm_parameterization</span> <span class="o">==</span> <span class="s1">&#39;wolfenstein&#39;</span><span class="p">:</span>
+                    <span class="n">fitted_observables</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;me/mu&#39;</span><span class="p">,</span> <span class="s1">&#39;mu/mt&#39;</span><span class="p">,</span> <span class="s1">&#39;s12^2&#39;</span><span class="p">,</span> <span class="s1">&#39;s13^2&#39;</span><span class="p">,</span> <span class="s1">&#39;s23^2&#39;</span><span class="p">,</span> <span class="s1">&#39;d/pi&#39;</span><span class="p">,</span> <span class="s1">&#39;m21^2&#39;</span><span class="p">,</span> <span class="s1">&#39;m3l^2&#39;</span><span class="p">,</span>
+                                          <span class="s1">&#39;mu/mc&#39;</span><span class="p">,</span> <span class="s1">&#39;mc/mt&#39;</span><span class="p">,</span> <span class="s1">&#39;md/ms&#39;</span><span class="p">,</span> <span class="s1">&#39;ms/mb&#39;</span><span class="p">,</span> <span class="s1">&#39;l&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;rhobar&#39;</span><span class="p">,</span> <span class="s1">&#39;etabar&#39;</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">fit_results</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">fit_results</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="c1"># Create the dimensionless fitted observables</span>
+        <span class="c1"># Create the dimensionless fitted observables for neutrinos</span>
         <span class="k">if</span> <span class="s1">&#39;m21^2&#39;</span> <span class="ow">in</span> <span class="n">fitted_observables</span><span class="p">:</span>
             <span class="k">if</span> <span class="s1">&#39;m3l^2&#39;</span> <span class="ow">in</span> <span class="n">fitted_observables</span><span class="p">:</span>
                 <span class="k">if</span> <span class="s1">&#39;r&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">experimental_data</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
@@ -413,75 +498,107 @@ document.write(`
         <span class="k">else</span><span class="p">:</span>
             <span class="n">fitted_observables_dimless</span> <span class="o">=</span> <span class="n">fitted_observables</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">parameterspace</span> <span class="o">=</span> <span class="n">parameterspace</span>
+        <span class="c1"># Assign as attributes</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mass_matrix_e</span> <span class="o">=</span> <span class="n">mass_matrix_e</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mass_matrix_n</span> <span class="o">=</span> <span class="n">mass_matrix_n</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mass_matrix_u</span> <span class="o">=</span> <span class="n">mass_matrix_u</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mass_matrix_d</span> <span class="o">=</span> <span class="n">mass_matrix_d</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameterspace</span> <span class="o">=</span> <span class="n">parameterspace</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ordering</span> <span class="o">=</span> <span class="n">ordering</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ckm_parameterization</span> <span class="o">=</span> <span class="n">ckm_parameterization</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">experimental_data</span> <span class="o">=</span> <span class="n">experimental_data</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fitted_observables</span> <span class="o">=</span> <span class="n">fitted_observables</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fitted_observables_dimless</span> <span class="o">=</span> <span class="n">fitted_observables_dimless</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">comments</span> <span class="o">=</span> <span class="n">comments</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fit_results</span> <span class="o">=</span> <span class="n">fit_results</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sector</span> <span class="o">=</span> <span class="n">sector</span>
 
         <span class="c1"># Add a scale to the neutrino mass matrix, if there is not already one.</span>
-        <span class="k">if</span> <span class="s1">&#39;n_scale&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameterspace</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sector</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;lepton&#39;</span><span class="p">,</span> <span class="s1">&#39;quark and lepton&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="s1">&#39;n_scale&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameterspace</span><span class="p">:</span>
             <span class="c1"># add &#39;n_scale&#39; to parameterspace</span>
             <span class="k">def</span> <span class="nf">const_fct</span><span class="p">():</span>
                 <span class="k">return</span> <span class="mi">1</span>
-
             <span class="bp">self</span><span class="o">.</span><span class="n">parameterspace</span><span class="o">.</span><span class="n">add_dim</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;n_scale&#39;</span><span class="p">,</span> <span class="n">sample_fct</span><span class="o">=</span><span class="n">const_fct</span><span class="p">,</span> <span class="n">vary</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
-            <span class="c1"># add the scale to the mass matrix</span>
+            <span class="c1"># add the scale to the neutrino mass matrix</span>
             <span class="k">def</span> <span class="nf">new_mass_matrix</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;n_scale&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">mass_matrix_n</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
-
             <span class="bp">self</span><span class="o">.</span><span class="n">mass_matrix_n</span> <span class="o">=</span> <span class="n">new_mass_matrix</span>
-
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">parameterspace</span><span class="p">[</span><span class="s1">&#39;n_scale&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">vary</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># don&#39;t worry we are going to fit it, just</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameterspace</span><span class="p">[</span><span class="s1">&#39;n_scale&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">vary</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># don&#39;t worry we are going to fit it, just not in dimless_fit</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
 
-<div class="viewcode-block" id="LeptonModel.copy"><a class="viewcode-back" href="../../modelfitting.html#modelfitting.model.LeptonModel.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="FlavorModel.copy"><a class="viewcode-back" href="../../modelfitting.html#modelfitting.model.FlavorModel.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a deepcopy of itself.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="LeptonModel.get_dimless_obs"><a class="viewcode-back" href="../../modelfitting.html#modelfitting.model.LeptonModel.get_dimless_obs">[docs]</a>    <span class="k">def</span> <span class="nf">get_dimless_obs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-        <span class="n">obs</span> <span class="o">=</span> <span class="n">calculate_lepton_dimensionless_observables</span><span class="p">(</span><span class="n">mass_matrix_e</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mass_matrix_e</span><span class="p">(</span><span class="n">params</span><span class="p">),</span>
-                                                         <span class="n">mass_matrix_n</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mass_matrix_n</span><span class="p">(</span><span class="n">params</span><span class="p">),</span>
-                                                         <span class="n">ordering</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ordering</span><span class="p">)</span>
+<div class="viewcode-block" id="FlavorModel.get_dimless_obs"><a class="viewcode-back" href="../../modelfitting.html#modelfitting.model.FlavorModel.get_dimless_obs">[docs]</a>    <span class="k">def</span> <span class="nf">get_dimless_obs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sector</span> <span class="o">==</span> <span class="s1">&#39;lepton&#39;</span><span class="p">:</span>
+            <span class="n">obs</span> <span class="o">=</span> <span class="n">calculate_lepton_dimensionless_observables</span><span class="p">(</span><span class="n">mass_matrix_e</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mass_matrix_e</span><span class="p">(</span><span class="n">params</span><span class="p">),</span>
+                                                             <span class="n">mass_matrix_n</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mass_matrix_n</span><span class="p">(</span><span class="n">params</span><span class="p">),</span>
+                                                             <span class="n">ordering</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ordering</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">sector</span> <span class="o">==</span> <span class="s1">&#39;quark&#39;</span><span class="p">:</span>
+            <span class="n">obs</span> <span class="o">=</span> <span class="n">calculate_quark_observables</span><span class="p">(</span><span class="n">mass_matrix_u</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mass_matrix_u</span><span class="p">(</span><span class="n">params</span><span class="p">),</span>
+                                              <span class="n">mass_matrix_d</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mass_matrix_d</span><span class="p">(</span><span class="n">params</span><span class="p">),</span>
+                                              <span class="n">parameterization</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ckm_parameterization</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">sector</span> <span class="o">==</span> <span class="s1">&#39;quark and lepton&#39;</span><span class="p">:</span>
+            <span class="n">obs_lepton</span> <span class="o">=</span> <span class="n">calculate_lepton_dimensionless_observables</span><span class="p">(</span><span class="n">mass_matrix_e</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mass_matrix_e</span><span class="p">(</span><span class="n">params</span><span class="p">),</span>
+                                                                    <span class="n">mass_matrix_n</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mass_matrix_n</span><span class="p">(</span><span class="n">params</span><span class="p">),</span>
+                                                                    <span class="n">ordering</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ordering</span><span class="p">)</span>
+            <span class="n">obs_quark</span> <span class="o">=</span> <span class="n">calculate_quark_observables</span><span class="p">(</span><span class="n">mass_matrix_u</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mass_matrix_u</span><span class="p">(</span><span class="n">params</span><span class="p">),</span>
+                                                    <span class="n">mass_matrix_d</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mass_matrix_d</span><span class="p">(</span><span class="n">params</span><span class="p">),</span>
+                                                    <span class="n">parameterization</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ckm_parameterization</span><span class="p">)</span>
+            <span class="n">obs</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">obs_lepton</span><span class="p">,</span> <span class="o">**</span><span class="n">obs_quark</span><span class="p">}</span>
         <span class="k">return</span> <span class="n">obs</span></div>
 
-<div class="viewcode-block" id="LeptonModel.get_obs"><a class="viewcode-back" href="../../modelfitting.html#modelfitting.model.LeptonModel.get_obs">[docs]</a>    <span class="k">def</span> <span class="nf">get_obs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<div class="viewcode-block" id="FlavorModel.get_obs"><a class="viewcode-back" href="../../modelfitting.html#modelfitting.model.FlavorModel.get_obs">[docs]</a>    <span class="k">def</span> <span class="nf">get_obs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get a dictionary of all lepton observables for a point in parameterspace.</span>
+<span class="sd">        Get a dictionary of all observables for a point in parameterspace.</span>
 
 <span class="sd">        :param params: The point in parameter space.</span>
 <span class="sd">        :type params: dict</span>
-<span class="sd">        :return: All lepton observables, i.e. {&#39;me/mu&#39;:0.0048, ...}</span>
+<span class="sd">        :return: All observables, e.g. {&#39;me/mu&#39;:0.0048, ...}</span>
 <span class="sd">        :rtype: dict</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Get experimental best fit value for squared neutrino mass differences m_21^2 and m_3l^2</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">m21sq_best</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">experimental_data</span><span class="o">.</span><span class="n">data_table</span><span class="p">[</span><span class="s1">&#39;m21^2&#39;</span><span class="p">][</span><span class="s1">&#39;best&#39;</span><span class="p">]</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="n">m21sq_best</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">m3lsq_best</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">experimental_data</span><span class="o">.</span><span class="n">data_table</span><span class="p">[</span><span class="s1">&#39;m3l^2&#39;</span><span class="p">][</span><span class="s1">&#39;best&#39;</span><span class="p">]</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="n">m3lsq_best</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sector</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;lepton&#39;</span><span class="p">,</span> <span class="s1">&#39;quark and lepton&#39;</span><span class="p">]:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">m21sq_best</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">experimental_data</span><span class="o">.</span><span class="n">data_table</span><span class="p">[</span><span class="s1">&#39;m21^2&#39;</span><span class="p">][</span><span class="s1">&#39;best&#39;</span><span class="p">]</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">m21sq_best</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">m3lsq_best</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">experimental_data</span><span class="o">.</span><span class="n">data_table</span><span class="p">[</span><span class="s1">&#39;m3l^2&#39;</span><span class="p">][</span><span class="s1">&#39;best&#39;</span><span class="p">]</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">m3lsq_best</span> <span class="o">=</span> <span class="kc">None</span>
 
-        <span class="k">if</span> <span class="s1">&#39;n_scale&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
-            <span class="n">params</span><span class="p">[</span><span class="s1">&#39;n_scale&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="s1">&#39;n_scale&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
+                <span class="n">params</span><span class="p">[</span><span class="s1">&#39;n_scale&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
 
-        <span class="c1"># Calculate all lepton observables (while simultaneously fitting the neutrino scale)</span>
-        <span class="n">obs</span> <span class="o">=</span> <span class="n">calculate_lepton_observables</span><span class="p">(</span><span class="n">mass_matrix_e</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mass_matrix_e</span><span class="p">(</span><span class="n">params</span><span class="p">),</span>
-                                           <span class="n">mass_matrix_n</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mass_matrix_n</span><span class="p">(</span><span class="n">params</span><span class="p">),</span>
-                                           <span class="n">ordering</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ordering</span><span class="p">,</span> <span class="n">m21sq_best</span><span class="o">=</span><span class="n">m21sq_best</span><span class="p">,</span> <span class="n">m3lsq_best</span><span class="o">=</span><span class="n">m3lsq_best</span><span class="p">)</span>
+        <span class="c1"># Calculate the observables</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sector</span> <span class="o">==</span> <span class="s1">&#39;lepton&#39;</span><span class="p">:</span>
+            <span class="c1"># Calculate all lepton observables (while simultaneously fitting the neutrino scale)</span>
+            <span class="n">obs</span> <span class="o">=</span> <span class="n">calculate_lepton_observables</span><span class="p">(</span><span class="n">mass_matrix_e</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mass_matrix_e</span><span class="p">(</span><span class="n">params</span><span class="p">),</span>
+                                               <span class="n">mass_matrix_n</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mass_matrix_n</span><span class="p">(</span><span class="n">params</span><span class="p">),</span>
+                                               <span class="n">ordering</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ordering</span><span class="p">,</span> <span class="n">m21sq_best</span><span class="o">=</span><span class="n">m21sq_best</span><span class="p">,</span> <span class="n">m3lsq_best</span><span class="o">=</span><span class="n">m3lsq_best</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">sector</span> <span class="o">==</span> <span class="s1">&#39;quark&#39;</span><span class="p">:</span>
+            <span class="n">obs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_dimless_obs</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">sector</span> <span class="o">==</span> <span class="s1">&#39;quark and lepton&#39;</span><span class="p">:</span>
+            <span class="n">obs_lep</span> <span class="o">=</span> <span class="n">calculate_lepton_observables</span><span class="p">(</span><span class="n">mass_matrix_e</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mass_matrix_e</span><span class="p">(</span><span class="n">params</span><span class="p">),</span>
+                                                   <span class="n">mass_matrix_n</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mass_matrix_n</span><span class="p">(</span><span class="n">params</span><span class="p">),</span>
+                                                   <span class="n">ordering</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ordering</span><span class="p">,</span> <span class="n">m21sq_best</span><span class="o">=</span><span class="n">m21sq_best</span><span class="p">,</span> <span class="n">m3lsq_best</span><span class="o">=</span><span class="n">m3lsq_best</span><span class="p">)</span>
+            <span class="n">obs_quark</span> <span class="o">=</span> <span class="n">calculate_quark_observables</span><span class="p">(</span><span class="n">mass_matrix_u</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mass_matrix_u</span><span class="p">(</span><span class="n">params</span><span class="p">),</span>
+                                                    <span class="n">mass_matrix_d</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mass_matrix_d</span><span class="p">(</span><span class="n">params</span><span class="p">),</span>
+                                                    <span class="n">parameterization</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ckm_parameterization</span><span class="p">)</span>
+            <span class="n">obs</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">obs_lep</span><span class="p">,</span> <span class="o">**</span><span class="n">obs_quark</span><span class="p">}</span>
+
         <span class="k">return</span> <span class="n">obs</span></div>
 
-<div class="viewcode-block" id="LeptonModel.residual"><a class="viewcode-back" href="../../modelfitting.html#modelfitting.model.LeptonModel.residual">[docs]</a>    <span class="k">def</span> <span class="nf">residual</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>  <span class="c1"># there can be no other arguments than params! Otherwise, you need to adjust fit.py!</span>
+<div class="viewcode-block" id="FlavorModel.residual"><a class="viewcode-back" href="../../modelfitting.html#modelfitting.model.FlavorModel.residual">[docs]</a>    <span class="k">def</span> <span class="nf">residual</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>  <span class="c1"># there can be no other arguments than params! Otherwise, you need to adjust fit.py!</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The residual used to make the dimensionless fit.</span>
 
@@ -491,34 +608,26 @@ document.write(`
 <span class="sd">            being considered.</span>
 <span class="sd">        :rtype: list</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># This is the residual used for the &#39;fast_fit&#39; that only fits dimensionless observables.</span>
+        <span class="c1"># This is the residual used for the &#39;dimless_fit&#39; that only fits dimensionless observables.</span>
         <span class="n">observables</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_dimless_obs</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
         <span class="n">chisq_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">experimental_data</span><span class="o">.</span><span class="n">get_chisq_list</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="n">observables</span><span class="p">,</span>
                                                            <span class="n">considered_obs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fitted_observables_dimless</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">chisq_list</span><span class="p">))</span>  <span class="c1"># The lmfit minimizer wants chi and not chi-square! It takes a list of single chi.</span></div>
 
-<div class="viewcode-block" id="LeptonModel.get_chisq"><a class="viewcode-back" href="../../modelfitting.html#modelfitting.model.LeptonModel.get_chisq">[docs]</a>    <span class="k">def</span> <span class="nf">get_chisq</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">observables</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<div class="viewcode-block" id="FlavorModel.get_chisq"><a class="viewcode-back" href="../../modelfitting.html#modelfitting.model.FlavorModel.get_chisq">[docs]</a>    <span class="k">def</span> <span class="nf">get_chisq</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the value of chi-square for a given point in parameter space.</span>
 
-<span class="sd">        :param params: The point in parameterspace. Alternatively, you can also insert the observables.</span>
+<span class="sd">        :param params: The point in parameterspace.</span>
 <span class="sd">            Default is None.</span>
 <span class="sd">        :type params: dict</span>
-<span class="sd">        :param observables: Alternatively, you can directly insert a dictionary with the observables. Note that the value of \&#39;params\&#39;</span>
-<span class="sd">            is ignored one you define \&#39;observables\&#39;! Also you need to define either \&#39;params\&#39; or \&#39;observables\&#39;</span>
-<span class="sd">            Default is None.</span>
-<span class="sd">        :type observables: dict</span>
 <span class="sd">        :return: The value of chi-square.</span>
 <span class="sd">        :rtype: float</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">observables</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;You need to define either params or observables to call LeptonModel.calc_chisq()&quot;&quot;&quot;</span><span class="p">)</span>
-            <span class="n">observables</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
-
+        <span class="n">observables</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">experimental_data</span><span class="o">.</span><span class="n">get_chisq</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="n">observables</span><span class="p">,</span> <span class="n">considered_obs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fitted_observables</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="LeptonModel.print_chisq"><a class="viewcode-back" href="../../modelfitting.html#modelfitting.model.LeptonModel.print_chisq">[docs]</a>    <span class="k">def</span> <span class="nf">print_chisq</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+<div class="viewcode-block" id="FlavorModel.print_chisq"><a class="viewcode-back" href="../../modelfitting.html#modelfitting.model.FlavorModel.print_chisq">[docs]</a>    <span class="k">def</span> <span class="nf">print_chisq</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Prints the value of all observables and the associated contribution to chi-square. Also prints total chi-square.</span>
 
@@ -532,19 +641,20 @@ document.write(`
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">obs_name</span><span class="si">}</span><span class="s2">&#39;: </span><span class="si">{</span><span class="n">observables</span><span class="p">[</span><span class="n">obs_name</span><span class="p">]</span><span class="si">}</span><span class="s2">,   chisq: </span><span class="si">{</span><span class="n">chisq_dict</span><span class="p">[</span><span class="n">obs_name</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total chi-square: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">chisq_list</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="LeptonModel.make_fit"><a class="viewcode-back" href="../../modelfitting.html#modelfitting.model.LeptonModel.make_fit">[docs]</a>    <span class="k">def</span> <span class="nf">make_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">points</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">**</span><span class="n">fitting_kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<div class="viewcode-block" id="FlavorModel.make_fit"><a class="viewcode-back" href="../../modelfitting.html#modelfitting.model.FlavorModel.make_fit">[docs]</a>    <span class="k">def</span> <span class="nf">make_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">points</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">**</span><span class="n">fitting_kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Does the fit for a specific number of random points in parameterspace.</span>
+<span class="sd">        Does a fit for a specific number of random points in parameterspace.</span>
 
 <span class="sd">        :param points: The number of random points in parameter space you want to fit.</span>
 <span class="sd">            If you want to fit a specific starting point in parameter space, adjust the \&#39;sampling_fct\&#39; in your</span>
 <span class="sd">            ParameterSpace.</span>
 <span class="sd">        :type points: int</span>
 
-<span class="sd">        :param fitting_kwargs: properties of the Fit class.</span>
-<span class="sd">            You can add keyword arguments that will be passed down to the Fit object used to make the fit.</span>
-<span class="sd">            Please see the documentation of the Fit class for the specific keyword arguments. Of course, the keywords</span>
-<span class="sd">            \&#39;model\&#39; and \&#39;params\&#39; can not be passed down to Fit.</span>
+<span class="sd">        :param fitting_kwargs: properties of the :py:meth:`~modelfitting.fit.Fit` class.</span>
+<span class="sd">            You can add keyword arguments that will be passed down to the :py:meth:`~modelfitting.fit.Fit` object used</span>
+<span class="sd">            to make the fit. Please see the documentation of :py:meth:`~modelfitting.fit.Fit` for the specific keyword</span>
+<span class="sd">            arguments. Of course, the keywords \&#39;model\&#39; and \&#39;params\&#39; can not be passed down to</span>
+<span class="sd">            :py:meth:`~modelfitting.fit.Fit`.</span>
 
 <span class="sd">        :return: The result of the fit is returned in form of a pandas.DataFrame.</span>
 <span class="sd">            Note that several (default:4) minimization algorithms are applied consecutively to one random point. Since</span>
@@ -556,33 +666,33 @@ document.write(`
         <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">complete_fit</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">df</span></div>
 
-<div class="viewcode-block" id="LeptonModel.dimless_fit"><a class="viewcode-back" href="../../modelfitting.html#modelfitting.model.LeptonModel.dimless_fit">[docs]</a>    <span class="k">def</span> <span class="nf">dimless_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">points</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">**</span><span class="n">fitting_kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<div class="viewcode-block" id="FlavorModel.dimless_fit"><a class="viewcode-back" href="../../modelfitting.html#modelfitting.model.FlavorModel.dimless_fit">[docs]</a>    <span class="k">def</span> <span class="nf">dimless_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">points</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">**</span><span class="n">fitting_kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calling this function fits the dimensionless parameters of the model.</span>
-<span class="sd">        The procedure of Model.make_fit() can be split into the fitting of dimensionless parameters</span>
-<span class="sd">        (with Model.dimless_fit) and the fitting of the dimensionful ones (with Model.complete_fit), where</span>
+<span class="sd">        The procedure of :py:meth:`~modelfitting.model.FlavorModel.make_fit` can be split into the fitting of</span>
+<span class="sd">        dimensionless parameters (with :py:meth:`~modelfitting.model.FlavorModel.dimless_fit`) and the fitting of the</span>
+<span class="sd">        dimensionful ones (with :py:meth:`~modelfitting.model.FlavorModel.complete_fit`), where</span>
 <span class="sd">        Model.complete_fit() also adds the observables to the resulting pandas.DataFrame.</span>
 <span class="sd">        This function comes in handy when running fits on an external machine, e.g. a cluster, since the result of</span>
 <span class="sd">        dimless_fit() uses a smaller amount of memory when stored into a file compared to the result of</span>
-<span class="sd">        complete_fit(). You can transfer the files from dimless_fit() to your local machine and easily run</span>
-<span class="sd">        complete_fit() since complete_fit() does not take a lot of time compared to dimless_fit().</span>
+<span class="sd">        complete_fit(). You can more easily transfer the smaller files from dimless_fit() to your local machine and</span>
+<span class="sd">        there run complete_fit(), which does not take a lot of time compared to dimless_fit().</span>
 
 <span class="sd">        :param points: The number of random points in parameter space you want to fit.</span>
 <span class="sd">            If you want to fit a specific starting point in parameter space, adjust the \&#39;sampling_fct\&#39; in your</span>
 <span class="sd">            ParameterSpace.</span>
 <span class="sd">        :type points: int</span>
-<span class="sd">        :param fitting_kwargs: properties of the Fit class.</span>
-<span class="sd">            You can add keyword arguments that will be passed down to the Fit object used to make the fit.</span>
-<span class="sd">            Please see the documentation of the Fit class for the specific keyword arguments. Of course, the keywords</span>
-<span class="sd">            \&#39;model\&#39; and \&#39;params\&#39; can not be passed down to Fit.</span>
+<span class="sd">        :param fitting_kwargs: properties of the :py:meth:`~modelfitting.fit.Fit` class.</span>
+<span class="sd">            You can add keyword arguments that will be passed down to the :py:meth:`~modelfitting.fit.Fit` object used</span>
+<span class="sd">            to make the fit. Please see the documentation of :py:meth:`~modelfitting.fit.Fit` for the specific keyword</span>
+<span class="sd">            arguments. Of course, the keywords \&#39;model\&#39; and \&#39;params\&#39; can not be passed down to</span>
+<span class="sd">            :py:meth:`~modelfitting.fit.Fit`.</span>
 <span class="sd">        :return: The result of the fit is returned in form of a pandas.DataFrame.</span>
 <span class="sd">            Note that several (default:4) minimization algorithms are applied consecutively to one random point. Since</span>
 <span class="sd">            the results of the intermediate steps are also written into the resulting DataFrame, it has more rows than</span>
 <span class="sd">            the number entered as \&#39;points\&#39;.</span>
 <span class="sd">        :rtype: pandas.DataFrame</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Fast refers to that only the dimensionless observables are fitted, and the resulting pd.DataFrame is also</span>
-        <span class="c1"># minimal in terms of memory consumption because it does not contain any redundant value.</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameterspace</span><span class="p">[</span><span class="s1">&#39;n_scale&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">vary</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;Please set ParameterSpace[</span><span class="se">\&#39;</span><span class="s2">n_scale</span><span class="se">\&#39;</span><span class="s2">].vary = False, unless you have a very good reason.</span>
@@ -596,23 +706,23 @@ document.write(`
                 <span class="n">SingleFit</span> <span class="o">=</span> <span class="n">Fit</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parameterspace</span><span class="o">.</span><span class="n">random_pt</span><span class="p">(),</span> <span class="o">**</span><span class="n">fitting_kwargs</span><span class="p">)</span>
                 <span class="n">single_result</span> <span class="o">=</span> <span class="n">SingleFit</span><span class="o">.</span><span class="n">make_fit</span><span class="p">()</span>
                 <span class="n">result_df</span> <span class="o">=</span> <span class="n">SingleFit</span><span class="o">.</span><span class="n">fit_results_into_dataframe</span><span class="p">(</span><span class="n">single_result</span><span class="p">)</span>
-                <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result_df</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df</span><span class="p">,</span> <span class="n">result_df</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="k">except</span><span class="p">:</span>
                 <span class="n">counter_exception</span> <span class="o">+=</span> <span class="mi">1</span>
                 <span class="k">pass</span>
             <span class="k">if</span> <span class="n">counter_exception</span> <span class="o">==</span> <span class="n">points</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">FlavorPyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;When calling Model.fast_fit() all fits failed. Try running </span>
+                <span class="k">raise</span> <span class="n">FlavorPyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;When calling Model.dimless_fit() all fits failed. Try running </span>
 <span class="s2">                                    res = Fit(model=&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;, params=&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;.parameterspace.random_pt(),</span>
 <span class="s2">                                              **fitting_kwargs).make_fit() and see what causes the error.</span>
 <span class="s2">                                    If this runs smoothly, try Fit(...).fit_results_into_dataframe(res).&quot;&quot;&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">df</span></div>
 
-<div class="viewcode-block" id="LeptonModel.complete_fit"><a class="viewcode-back" href="../../modelfitting.html#modelfitting.model.LeptonModel.complete_fit">[docs]</a>    <span class="k">def</span> <span class="nf">complete_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<div class="viewcode-block" id="FlavorModel.complete_fit"><a class="viewcode-back" href="../../modelfitting.html#modelfitting.model.FlavorModel.complete_fit">[docs]</a>    <span class="k">def</span> <span class="nf">complete_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Use this function to add the observables (while simultaneously fitting the dimensionful \&#39;n_scale\&#39; parameter)</span>
 <span class="sd">        to a pandas.DataFrame containing points in parameterspace.</span>
 
-<span class="sd">        :param df: Points in parameterspace. E.g. the result of Model.dimless_fit().</span>
+<span class="sd">        :param df: Points in parameterspace. E.g. the result of :py:meth:`~modelfitting.model.FlavorModel.dimless_fit`.</span>
 <span class="sd">        :type df: pandas.DataFrame</span>
 <span class="sd">        :return: The as \&#39;df\&#39; entered points in parameterspace plus their corresponding observables and</span>
 <span class="sd">            chi-square value.</span>
@@ -623,7 +733,8 @@ document.write(`
         <span class="c1">#       First, extract his step and make it a own Model.dimful_fit() without slowing down the program</span>
         <span class="c1">#       Secondly, make this fit an actual fit. Up to now its just an average.</span>
         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;me/mu&#39;</span><span class="p">,</span> <span class="s1">&#39;mu/mt&#39;</span><span class="p">,</span> <span class="s1">&#39;s12^2&#39;</span><span class="p">,</span> <span class="s1">&#39;s13^2&#39;</span><span class="p">,</span> <span class="s1">&#39;s23^2&#39;</span><span class="p">,</span> <span class="s1">&#39;d/pi&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="s1">&#39;m21^2&#39;</span><span class="p">,</span> <span class="s1">&#39;m3l^2&#39;</span><span class="p">,</span>
-                    <span class="s1">&#39;m1&#39;</span><span class="p">,</span> <span class="s1">&#39;m2&#39;</span><span class="p">,</span> <span class="s1">&#39;m3&#39;</span><span class="p">,</span> <span class="s1">&#39;eta1&#39;</span><span class="p">,</span> <span class="s1">&#39;eta2&#39;</span><span class="p">,</span> <span class="s1">&#39;J&#39;</span><span class="p">,</span> <span class="s1">&#39;Jmax&#39;</span><span class="p">,</span> <span class="s1">&#39;Sum(m_i)&#39;</span><span class="p">,</span> <span class="s1">&#39;m_b&#39;</span><span class="p">,</span> <span class="s1">&#39;m_bb&#39;</span><span class="p">,</span> <span class="s1">&#39;nscale&#39;</span><span class="p">]:</span>
+                    <span class="s1">&#39;m1&#39;</span><span class="p">,</span> <span class="s1">&#39;m2&#39;</span><span class="p">,</span> <span class="s1">&#39;m3&#39;</span><span class="p">,</span> <span class="s1">&#39;eta1&#39;</span><span class="p">,</span> <span class="s1">&#39;eta2&#39;</span><span class="p">,</span> <span class="s1">&#39;J&#39;</span><span class="p">,</span> <span class="s1">&#39;Jmax&#39;</span><span class="p">,</span> <span class="s1">&#39;Sum(m_i)&#39;</span><span class="p">,</span> <span class="s1">&#39;m_b&#39;</span><span class="p">,</span> <span class="s1">&#39;m_bb&#39;</span><span class="p">,</span> <span class="s1">&#39;nscale&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;mu/mc&#39;</span><span class="p">,</span> <span class="s1">&#39;mc/mt&#39;</span><span class="p">,</span> <span class="s1">&#39;md/ms&#39;</span><span class="p">,</span> <span class="s1">&#39;ms/mb&#39;</span><span class="p">,</span> <span class="s1">&#39;t12&#39;</span><span class="p">,</span> <span class="s1">&#39;t13&#39;</span><span class="p">,</span> <span class="s1">&#39;t23&#39;</span><span class="p">,</span> <span class="s1">&#39;dq&#39;</span><span class="p">,</span> <span class="s1">&#39;l&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;rhobar&#39;</span><span class="p">,</span> <span class="s1">&#39;etabar&#39;</span><span class="p">]:</span>
             <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
                 <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">get_obs</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">))</span>
@@ -635,37 +746,76 @@ document.write(`
                                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;chisq&#39;</span><span class="p">]))</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;chisq&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;chisq&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># put &#39;chisq&#39; at first place in df</span>
-        <span class="k">return</span> <span class="n">df</span></div></div>
+        <span class="k">return</span> <span class="n">df</span></div>
 
     <span class="c1"># def merge_fit_results(self):</span>
         <span class="c1"># merge all entries of fit_results, which should be a pd.DataFrame, into one big pd.DataFrame</span>
 
+<div class="viewcode-block" id="FlavorModel.mcmc_fit"><a class="viewcode-back" href="../../modelfitting.html#modelfitting.model.FlavorModel.mcmc_fit">[docs]</a>    <span class="k">def</span> <span class="nf">mcmc_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df_start</span><span class="p">,</span> <span class="n">params_not_varied</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mcmc_steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">burn</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">thin</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">nwalkers</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span>
+                 <span class="n">nan_policy</span><span class="o">=</span><span class="s1">&#39;omit&#39;</span><span class="p">,</span> <span class="n">progress</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">print_error</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">emcee_kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A Markov-Chain-Monte-Carlo (MCMC) sampling is a useful method to explore the parameter space around a minimum.</span>
+<span class="sd">        A typical workflow would be to first find a minimum using :py:meth:`~modelfitting.model.FlavorModel.make_fit`</span>
+<span class="sd">        and then further explore the vicinity of this minimum with :py:meth:`~modelfitting.model.FlavorModel.mcmc_fit`</span>
+<span class="sd">        to get an improved understanding of the probability distribution for the parameters. This method is based on</span>
+<span class="sd">        the `emcee &lt;https://emcee.readthedocs.io/en/stable/&gt;`_ MCMC sampler.</span>
 
-<div class="viewcode-block" id="QuarkModel"><a class="viewcode-back" href="../../modelfitting.html#modelfitting.model.QuarkModel">[docs]</a><span class="k">class</span> <span class="nc">QuarkModel</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__int__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameterspace</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mass_matrix_u</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">mass_matrix_d</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span>
-                <span class="n">parameterization</span><span class="o">=</span><span class="s1">&#39;standard&#39;</span><span class="p">,</span>
-                <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Quark Model&#39;</span><span class="p">,</span> <span class="n">comments</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">parameterspace</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">parameterspace</span> <span class="o">=</span> <span class="n">ParameterSpace</span><span class="p">()</span>
+<span class="sd">        :param df_start: Contains the starting points around which further points should be sampled.</span>
+<span class="sd">        :type df_start: Two-dimensional dict-like, preferably a pandas.DataFrame</span>
+<span class="sd">        :param params_not_varied: The parameters of self.parameterspace that should not be varied additionally to the</span>
+<span class="sd">            ones that are already set not to vary in self.parameterspace.</span>
+<span class="sd">        :type params_not_varied: list, optional</span>
+<span class="sd">        :param mcmc_steps: The amount of points sampled.</span>
+<span class="sd">        :type mcmc_steps: int</span>
+<span class="sd">        :param burn: How many samples from the start of the sampling should be discarded. Default is 300.</span>
+<span class="sd">        :type burn: int, optional</span>
+<span class="sd">        :param thin: Only accept 1 in every &#39;thin&#39; samples. Default is 10.</span>
+<span class="sd">        :type thin: int, optional</span>
+<span class="sd">        :param nwalkers: Number of members of the ensemble. Make sure that &#39;nwalkers&#39; &gt;&gt; number of varied parameters.</span>
+<span class="sd">            Default is 40.</span>
+<span class="sd">        :type nwalkers: int</span>
+<span class="sd">        :param nan_policy: Specify how to handle it if the residual returns NaN values. Default is &#39;omit&#39;.</span>
+<span class="sd">        :type nan_policy: possible are &#39;raise&#39;, &#39;propagate&#39;, and &#39;omit&#39;, optional</span>
+<span class="sd">        :param progress: If True prints a progress bar of the sampling. Default is True.</span>
+<span class="sd">        :type progress: bool, optional</span>
+<span class="sd">        :param print_error: If True prints the index of a given row if the sampling didn&#39;t work for this row.</span>
+<span class="sd">            Default is False.</span>
+<span class="sd">        :type print_error: bool, optional</span>
+<span class="sd">        :param emcee_kwargs: Further keyword arguments can be passed down to</span>
+<span class="sd">            `lmfit.Minimizer.emcee &lt;https://lmfit.github.io/lmfit-py/fitting.html#lmfit.minimizer.Minimizer.emcee&gt;`_</span>
+<span class="sd">        :return: A pandas.DataFrame containing all the sampled points.</span>
+<span class="sd">        :rtype: panda.DataFrame</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">parameterspace</span> <span class="o">=</span> <span class="n">parameterspace</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mass_matrix_u</span> <span class="o">=</span> <span class="n">mass_matrix_u</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mass_matrix_d</span> <span class="o">=</span> <span class="n">mass_matrix_d</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">parameterization</span> <span class="o">=</span> <span class="n">parameterization</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">comments</span> <span class="o">=</span> <span class="n">comments</span>
+        <span class="k">if</span> <span class="n">params_not_varied</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">params_not_varied</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">df_start</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">progress</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="s2">&quot;: &quot;</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameterspace</span><span class="o">.</span><span class="n">random_pt</span><span class="p">()</span>  <span class="c1"># The values of this &quot;random&quot; point are set in the next line</span>
+                <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
+                    <span class="n">params</span><span class="p">[</span><span class="n">param</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">df_start</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">param</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">par</span> <span class="ow">in</span> <span class="n">params_not_varied</span><span class="p">:</span>
+                    <span class="n">params</span><span class="p">[</span><span class="n">par</span><span class="p">]</span><span class="o">.</span><span class="n">vary</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="n">SingleFit</span> <span class="o">=</span> <span class="n">LmfitMinimizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">nan_policy</span><span class="o">=</span><span class="n">nan_policy</span><span class="p">)</span>
+                <span class="n">out</span> <span class="o">=</span> <span class="n">SingleFit</span><span class="o">.</span><span class="n">emcee</span><span class="p">(</span><span class="n">steps</span><span class="o">=</span><span class="n">mcmc_steps</span><span class="p">,</span> <span class="n">nwalkers</span><span class="o">=</span><span class="n">nwalkers</span><span class="p">,</span> <span class="n">burn</span><span class="o">=</span><span class="n">burn</span><span class="p">,</span> <span class="n">thin</span><span class="o">=</span><span class="n">thin</span><span class="p">,</span> <span class="n">progress</span><span class="o">=</span><span class="n">progress</span><span class="p">,</span>
+                                      <span class="o">**</span><span class="n">emcee_kwargs</span><span class="p">)</span>
+                <span class="n">flatchain</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">flatchain</span>
+                <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">params</span><span class="p">[</span><span class="n">param</span><span class="p">]</span><span class="o">.</span><span class="n">vary</span><span class="p">:</span>
+                        <span class="n">flatchain</span><span class="p">[</span><span class="n">param</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_start</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">param</span><span class="p">]</span>
+                <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df</span><span class="p">,</span> <span class="n">flatchain</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">print_error</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;error with index </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">df</span></div></div>
 
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span></div>
 
-
-<span class="c1"># class Model(QuarkModel, LeptonModel):</span>
-<span class="c1">#     def __init__(self, name, comments):</span>
-<span class="c1">#         self.name = name</span>
-<span class="c1">#         self.comments = comments</span>
-<span class="c1">#</span>
-<span class="c1">#     def __repr__(self):</span>
-<span class="c1">#         return self.name</span>
+<div class="viewcode-block" id="FlavorPyError"><a class="viewcode-back" href="../../modelfitting.html#modelfitting.model.FlavorPyError">[docs]</a><span class="k">class</span> <span class="nc">FlavorPyError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="c1"># Raises an Exception</span>
+    <span class="k">pass</span></div>
 </pre></div>
 
                 </article>
@@ -704,7 +854,7 @@ document.write(`
         <div class="footer-item">
   <p class="copyright">
     
-      © Copyright 2023, Alexander Baur.
+      © Copyright 2024, Alexander Baur.
       <br/>
     
   </p>
