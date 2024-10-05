@@ -37,8 +37,8 @@ def flavorpy_cmap() -> matplotlib.colors.Colormap:
     orangered = np.array([255 / 256, 69 / 256, 0 / 256, 1])
     redorange = np.array([253 / 256, 141 / 256, 109 / 256, 1])
 
-    nodes = [0.0, sig1 / 256, (sig1 + 1) / 256, (sig1 + sig2) / 2 / 256, sig2 / 256, (sig2 + 1) / 256, sig3 / 256,
-             (sig3 + 1) / 256, 1.0]
+    nodes = [0.0, (sig1 - 1) / 256, sig1 / 256, (sig1 + sig2) / 2 / 256, (sig2 - 1) / 256, sig2 / 256, (sig3 - 1) / 256,
+             sig3 / 256, 1.0]
     colors = ['green', greenyellow, yellowgreen, yellow, yelloworange, orangeyellow, orangered, redorange, 'white']
     cmap = LinearSegmentedColormap.from_list("flavorpy_cmap", list(zip(nodes, colors)))
     return cmap

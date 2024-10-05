@@ -55,10 +55,13 @@ class ExperimentalData:
                              The overlapping keys are: {keys_overlap}""")
         # Conversion and appending to data
         # Todo: Add option to have data_table['1sig_range'] instead of minimum and maximum
-        for key in self.data_table:
+        def make_chisq(key: str):
             def chisq(value: float) -> float:
                 return ((value - self.data_table[key]['best']) /
                         (1/2*(self.data_table[key]['1sig_max'] - self.data_table[key]['1sig_min']))) ** 2
+            return chisq
+        for key in self.data_table:
+            chisq = make_chisq(key)
             self.data[key] = chisq
 
     def __repr__(self):

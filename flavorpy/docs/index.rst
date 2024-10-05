@@ -179,7 +179,6 @@ Here is an example of a BibTex entry:
         title         = "{FlavorPy}",
         year          = {2024},
         publisher     = {Zenodo},
-        version       = {v0.1.0},
         doi           = {10.5281/zenodo.11060597},
         url           = "\url{https://doi.org/10.5281/zenodo.11060597}"
       } 
