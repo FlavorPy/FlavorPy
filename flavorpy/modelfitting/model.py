@@ -440,6 +440,20 @@ class FlavorModel:
         :rtype: panda.DataFrame
         """
 
+        # check for EMCEE
+        try:
+            import emcee
+            from emcee.autocorr import AutocorrError
+            has_emcee = int(emcee.__version__[0]) >= 3
+        except ImportError:
+            has_emcee = False
+        if not has_emcee:
+            raise ImportError('Please install \'emcee\' with a version >= 3 !')
+
+        # check if burn is not larger than the number of steps
+        if mcmc_steps < burn:
+            raise NotImplementedError('The value of \'burn\' cannot be smaller than the value of \'mcmc_steps\'!')
+
         if params_not_varied is None:
             params_not_varied = []
         df = pd.DataFrame()
@@ -452,14 +466,18 @@ class FlavorModel:
                     params[param].value = df_start.loc[i][param]
                 for par in params_not_varied:
                     params[par].vary = False
+
                 SingleFit = LmfitMinimizer(model=self, params=params, nan_policy=nan_policy)
                 out = SingleFit.emcee(steps=mcmc_steps, nwalkers=nwalkers, burn=burn, thin=thin, progress=progress,
                                       **emcee_kwargs)
                 flatchain = out.flatchain
+
                 for param in params:
                     if not params[param].vary:
                         flatchain[param] = df_start.loc[i][param]
+
                 df = pd.concat([df, flatchain], ignore_index=True)
+
             except:
                 if print_error:
                     print(f"error with index {i}")
