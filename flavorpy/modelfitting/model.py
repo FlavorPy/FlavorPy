@@ -439,6 +439,9 @@ class FlavorModel:
         :return: A pandas.DataFrame containing all the sampled points.
         :rtype: panda.DataFrame
         """
+        
+        if params_not_varied is None:
+            params_not_varied = []
 
         # check for EMCEE
         try:
@@ -453,9 +456,14 @@ class FlavorModel:
         # check if burn is not larger than the number of steps
         if mcmc_steps < burn:
             raise NotImplementedError('The value of \'burn\' cannot be smaller than the value of \'mcmc_steps\'!')
+            
+        # check if nwalkers > 2 * number of free parameters
+        if nwalkers > len([p for p in self.parameterspace 
+                           if not self.parameterspace[p].vary==False and p not in params_not_varied]):
+            raise NotImplementedError('''
+            Choose a higher value for \'nwalkers\'! 
+            The number of walkers needs to be higher than twice the number of free parameters.''')
 
-        if params_not_varied is None:
-            params_not_varied = []
         df = pd.DataFrame()
         for i in df_start.index:
             if progress:
@@ -466,7 +474,7 @@ class FlavorModel:
                     params[param].value = df_start.loc[i][param]
                 for par in params_not_varied:
                     params[par].vary = False
-
+                    
                 SingleFit = LmfitMinimizer(model=self, params=params, nan_policy=nan_policy)
                 out = SingleFit.emcee(steps=mcmc_steps, nwalkers=nwalkers, burn=burn, thin=thin, progress=progress,
                                       **emcee_kwargs)
